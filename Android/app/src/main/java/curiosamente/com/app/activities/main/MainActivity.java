@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         mBarLayout = (LinearLayout) findViewById(R.id.bar_layout);
         mLeaveBarButton = (Button) mBarLayout.findViewById(R.id.leave_bar_button);
         mBarTextView = (TextView) mBarLayout.findViewById(R.id.bar_name);
-        mGoToPrizesListButton = (Button) mBarLayout.findViewById(R.id.prize_list_button);
+        mGoToPrizesListButton = (Button) findViewById(R.id.prize_list_button);
 
         if (!BarManager.isABarSelectedAndValid(this)) {
             BarManager.getBars(this);
