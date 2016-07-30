@@ -1,0 +1,75 @@
+<style>
+
+    #plus-container {
+        padding: 25px;
+    }
+
+    tr, th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table-responsive {
+        height: 400px;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Administrar trivia</h3>
+        </div>
+        <div class="panel-content">
+            <div class="container">
+                <div id="plus-container">
+                    <a href="#trivia/register" class="btn btn-success btn-lg">
+                        <span class="glyphicon glyphicon-plus"></span> Agregar trivia
+                    </a>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Buscar" ng-model="search">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th width="5%">Id trivia</th>
+                                <th width="10%">Nombre</th>
+                                <th width="35%">Preguntas</th>
+                                <th width="10%">Categoría</th>
+                                <th width="10%">Subcategoría</th>
+                                <th width="5%">Bar</th>
+                                <th width="5%">Fecha</th>
+                                <th width="10%">Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="trivia in vm.allTrivias | filter: search">
+                                <td width="5%">{{trivia.idTrivia}}</td>
+                                <td width="10%">{{trivia.name}}</td>
+                                <td width="40%" ng-bind="vm.questions(trivia.questions)"></td>
+                                <th width="10%">{{trivia.category.name}}</th>
+                                <th width="10%">{{trivia.subcategory.name}}</th>
+                                <th width="5%">{{trivia.bar.name}}</th>
+                                <th width="5%">{{trivia.localDateTime | date : 'dd/MM/yyyy HH:mm' : '-0300'}}</th>
+                                <td width="10%">
+                                    <a href="#trivia/modify/{{trivia.idTrivia}}">Editar</a>
+                                    - <a href="#trivia" ng-click="vm.deleteTrivia(trivia.idTrivia)">Eliminar</a>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,229 @@
+<style type="text/css">
+
+    #waitingTrivia {
+        transition: width 0s ease-in-out;
+        position: absolute;
+        width: 80%;
+        left: 10%;
+        top: 35%;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 7em;
+
+        display: flex;
+        justify-content: center; /* align horizontal */
+        align-items: center;
+    }
+
+    #top {
+        position: absolute;
+        width: 100%;
+        height: 15%;
+        z-index: -1;
+
+        display: flex;
+        justify-content: center; /* align horizontal */
+        align-items: center;
+    }
+
+    #header {
+        position: absolute;
+        width: 100%;
+        top: 15%;
+        height: 20%;
+        z-index: -1;
+        background-color: #171591;
+
+        display: flex;
+        justify-content: center; /* align horizontal */
+        align-items: center;
+    }
+
+    #middle {
+        position: absolute;
+        width: 100%;
+        height: 50%;
+        top: 35%;
+
+        display: flex;
+        align-items: center;
+    }
+
+    #bottom {
+        position: absolute;
+        width: 100%;
+        top: 85%;
+        height: 15%;
+        background-color: #171591;
+
+        padding-top: 1.4em;
+        z-index: -1;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .questionNumber {
+        text-align: center;
+        font-size: 5em;
+        z-index: -1;
+    }
+
+    .questionlabel {
+        text-align: center;
+        font-size: 4em;
+        z-index: -1;
+    }
+
+    .optionsli {
+        width: 100%;
+        list-style: none;
+        font-size: 3em;
+        text-align: left;
+        z-index: -1;
+    }
+
+    li {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    /*.ng-hide {*/
+    /*height: 0;*/
+    /*width: 0;*/
+    /*background-color: transparent;*/
+    /*top: -200px;*/
+    /*left: 200px;*/
+    /*}*/
+    /*.ng-leave {*/
+    /*transition: all 1s cubic-bezier(.36,-0.64,.34,1.76);*/
+    /*position: relative;*/
+    /*display: block;*/
+    /*}*/
+    /*.ng-enter {*/
+    /*transition: all 1s cubic-bezier(.36,-0.64,.34,1.76);*/
+    /*position: relative;*/
+    /*display: block;*/
+    /*}*/
+
+    /*.ng-enter.ng-enter-active, .ng-leave {*/
+    /*left: 5px;*/
+    /*}*/
+
+    /*.ng-leave.ng-leave-active, .ng-enter {*/
+    /*left: 200px;*/
+    /*}*/
+
+    /*.animate-enter {*/
+    /*-webkit-transition: 1s linear all; !* Chrome *!*/
+    /*transition: all 1s cubic-bezier(.36,-0.64,.34,1.76);*/
+    /*opacity: 0;*/
+    /*}*/
+
+    .progress {
+        background: rgba(219, 219, 219, 1);
+        border: 2px solid rgb(23, 21, 145);
+        border-radius: 50px;
+        height: 50%;
+        width: 80%;
+        left: 10%;
+
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+
+    }
+
+    .progress-bar {
+        -webkit-transition: width 1s linear;
+        -moz-transition: width 1s linear;
+        -o-transition: width 1s linear;
+        transition: width 1s linear;
+
+        text-align: right;
+
+        box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+
+    }
+
+    .progress-value {
+        position: static;
+        font-size: 3em;
+        line-height: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
+        color: rgba(255, 255, 255, 1);
+    }
+
+    .progress-bar-info {
+        background-color: #003078;
+    }
+
+    #description {
+        position: absolute;
+        background-color: #171591;
+        top: 15%;
+        width: 60%;
+        left: 20%;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 4em;
+        height: 70%;
+
+        z-index: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    #imageBanner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        z-index: 9999;
+    }
+
+</style>
+
+<div id="waitingTrivia" ng-show="vm.statusTrivia == 'WAITING_TRIVIA'">Esperando trivia</div>
+
+<div id="top">
+    <span class="questionNumber"
+          ng-show="vm.statusTrivia == 'SHOWING_QUESTION' || vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_DESCRIPTION'"
+          ng-hide="vm.questionPosition==0 || vm.statusTrivia == 'TERMINATED'">Pregunta {{vm.questionPosition}}</span>
+</div>
+<div id="header">
+    <span class="questionlabel" ng-show="vm.statusTrivia == 'SHOWING_QUESTION' || vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_DESCRIPTION'"
+          ng-bind="vm.currentQuestion.question"></span>
+</div>
+
+<div id="middle">
+    <div id="list" ng-show="vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER'"
+         ng-hide="vm.statusTrivia == 'TERMINATED'"
+    >
+        <ul class="optionsli">
+            <li ng-repeat="option in vm.options">
+                {{option}}
+            </li>
+        </ul>
+    </div>
+    <div id="description" ng-bind="vm.currentQuestion.description" ng-show="vm.statusTrivia == 'SHOWING_DESCRIPTION'">
+
+    </div>
+
+</div>
+<div id="bottom">
+    <div class="progress" ng-show="vm.statusTrivia == 'SHOWING_OPTIONS'">
+        <div class="progress-bar progress-bar-striped progress-bar-info active animate" role="progressbar"
+             aria-valuemin="0" aria-valuemax="100" ng-style="{width: vm.progressBarValue + '%'}">
+            <span class="progress-value">{{vm.elapsedTimeToShow}}</span>
+        </div>
+    </div>
+</div>
+<div>
+    <img id="imageBanner" ng-show="vm.statusTrivia == 'SHOWING_BANNER'" src="{{vm.urlBanner}}">
+</div>
+

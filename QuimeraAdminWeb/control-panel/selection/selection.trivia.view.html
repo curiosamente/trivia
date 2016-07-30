@@ -1,0 +1,78 @@
+<style>
+    .panel-content {
+        padding-top: 25px;
+    }
+
+    tr, th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table-responsive {
+        height: 400px;
+    }
+</style>
+
+<div class="container-fluid">
+    <form class="form-horizontal" ng-submit="vm.selectTrivia()">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>Seleccionar trivia</h3>
+            </div>
+
+            <div class="panel-content">
+                <div class="container">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                                <input type="text" class="form-control" placeholder="Buscar" ng-model="search">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th width="5%">
+                                        <span><i class="glyphicon glyphicon-check"></i></span>
+                                    </th>
+                                    <th width="5%">Id trivia</th>
+                                    <th width="20%">Nombre</th>
+                                    <th width="5%">Rondas</th>
+                                    <th width="65%">Preguntas</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="trivia in vm.allTrivias | filter: search">
+                                    <td width="5%">
+                                        <div><input type="radio" name="radioTrivia" ng-click="vm.checkedTrivia()"
+                                                    class="triviaSelected" value="{{trivia}}"></div>
+                                    </td>
+                                    <td width="5%">{{trivia.idTrivia}}</td>
+                                    <td width="20%">{{trivia.name}}</td>
+                                    <td width="5%">{{trivia.rounds}}</td>
+                                    <td width="65%" ng-bind="vm.questions(trivia.questions)">{{trivia.questions}}</td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+                <div class="form-actions">
+                    <button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
+                            class="btn btn-success">
+                        Seleccionar
+                    </button>
+                    <a href="#/settings" class="btn btn-link">Volver</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

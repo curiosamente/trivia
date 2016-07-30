@@ -1,0 +1,64 @@
+<style>
+
+    tr, th {
+        vertical-align: middle;
+        text-align: center;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <div class="panel panel-primary">
+
+        <div class="panel-heading">
+            <h3>Dashboard trivia</h3>
+        </div>
+
+        <div class="panel-content">
+
+
+            <div style="padding: 10px">
+
+                <div class="panel panel-success">
+                    <table class="table table-bordered table-responsive">
+                        <div class="panel-heading">
+                            <h4>Trivias</h4>
+                            <thead>
+                            <tr>
+                                <th width="8%">Bar</th>
+                                <th width="14%">Estado</th>
+                                <th width="3%">N°</th>
+                                <th width="20%">Pregunta</th>
+                                <th width="20%">Opciones</th>
+                                <th width="10%">Respuesta correcta</th>
+                                <th width="20%">Descripción</th>
+                                <th width="5%">Acción</th>
+                            </tr>
+                            </thead>
+                        </div>
+                        <tbody>
+                        <tr ng-repeat="game in vm.games">
+                            <td>{{game.trivia.bar.name}}</td>
+                            <td>{{game.gameStatus}}</td>
+                            <td>{{game.currentQuestion.currentPosition}}</td>
+                            <td>{{game.currentQuestion.question}}</td>
+                            <td>{{game.currentQuestion.options}}</td>
+                            <td>{{game.currentQuestion.correctAnswer}}</td>
+                            <td>{{game.currentQuestion.description}}</td>
+                            <td>
+                                <button ng-click="vm.stopTrivia(game.trivia.bar.idBar)" class="btn btn-danger btn-md">
+                                    <span class="glyphicon glyphicon-stop"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>

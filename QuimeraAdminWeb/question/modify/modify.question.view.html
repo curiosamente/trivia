@@ -1,0 +1,91 @@
+<div class="col-md-3 col-md-offset-3">
+    <form class="form-horizontal" ng-submit="vm.modifyQuestion()">
+        <legend>Modificar pregunta</legend>
+
+        <div class="form-group" ng-class="{ 'has-error': form.idQuestion.$dirty && form.idQuestion.$error.required }">
+            <label for="idQuestion">Identificación</label>
+            <input type="text" id="idQuestion" class="form-control" ng-model="vm.question.idQuestion" DISABLED/>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': form.question.$dirty && form.question.$error.required }">
+            <label for="question">Pregunta</label>
+            <input type="text" id="question" class="form-control" ng-model="vm.question.question" required/>
+            <span ng-show="form.question.$dirty && form.question.$error.required" class="help-block">Pregunta es requerida</span>
+        </div>
+
+        <div class="form-group">
+            <br>
+            <label for="category">Seleccionar la categoría</label>
+            <select class="form-control" ng-model="vm.question.category"
+                    ng-options="category.name for category in vm.allCategories track by category.idCategory"
+                    id="category">
+                <option></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <br>
+            <label for="subcategory">Seleccionar la subcategoría</label>
+            <select class="form-control" ng-model="vm.question.subcategory"
+                    ng-options="subcategory.name for subcategory in vm.allSubcategories | filter:{category : vm.question.category} track by subcategory "
+                    id="subcategory">
+                <option></option>
+            </select>
+        </div>
+
+        <div class="form-group form-inline"
+             ng-class="{ 'has-error': form.options.$dirty && form.options.$error.required }">
+            <label for="options">Opciones</label>
+            <ul id="options" ng-repeat="(index, option) in vm.question.options track by $index">
+                <input type="text" class="form-control" ng-model="vm.question.options[index]"/>
+                <button type="button" class="btn btn-danger btn-xs" ng-click="vm.question.options.splice($index, 1)">
+                    <span class="glyphicon glyphicon-minus"></span>
+                </button>
+            </ul>
+
+            <span ng-show="form.options.$dirty && form.options.$error.required" class="help-block">Opciones es requerido.</span>
+        </div>
+
+        <div class="form-group form-inline"
+             ng-class="{ 'has-error': form.newItem.$dirty && form.newItem.$error.required }">
+            <label for="addItem">Agregar opciones de pregunta</label>
+            <input id="addItem" class="form-control" type="text" ng-model="newItem" lass="form-control">
+            <button type="button" class="btn btn-success btn-xs" ng-click="addItem(newItem)">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <span ng-show="form.newItem.$dirty && form.newItem.$error.required" class="help-block">Opciones es requerido.</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{ 'has-error': form.correctAnswer.$dirty && form.correctAnswer.$error.required }">
+
+            <label for="questionOptionsSelect">Elije una pregunta:</label>
+            <select class="form-control" id="questionOptionsSelect"
+                    ng-model="vm.question.correctAnswer">
+                <option ng-repeat="(index, option) in vm.question.options track by $index">{{option}}</option>
+            </select>
+        </div>
+
+        <div class="form-group"
+             ng-class="{ 'has-error': form.correctAnswer.$dirty && form.correctAnswer.$error.required }">
+            <label for="correctAnswer">Respuesta correcta</label>
+            <input type="text" id="correctAnswer" class="form-control" ng-model="vm.question.correctAnswer" readonly/>
+            <span ng-show="form.correctAnswer.$dirty && form.correctAnswer.$error.required" class="help-block">Respuesta correcta es requerida.</span>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': form.description.$dirty && form.description.$error.required }">
+            <label for="description">Descripción</label>
+            <input type="text" id="description" class="form-control" ng-model="vm.question.description" required/>
+            <span ng-show="form.description.$dirty && form.description.$error.required" class="help-block">Descripción es requerido</span>
+        </div>
+
+        <div>
+            <div class="form-actions">
+                <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-success">Modificar
+                </button>
+                <a href="#/question" class="btn btn-link">Volver</a>
+            </div>
+        </div>
+
+    </form>
+</div>

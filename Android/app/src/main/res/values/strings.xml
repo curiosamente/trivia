@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">Curiosamente</string>
+    <string name="facebook_app_id">1646759302213332</string>
+
+
+
+    <!--  Main Activity Strings -->
+    <string name="drawer_open">Opening...</string>
+    <string name="drawer_close">Closing...</string>
+    <string name="button_logout">Log Out</string>
+</resources>

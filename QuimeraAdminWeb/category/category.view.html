@@ -1,0 +1,64 @@
+<style>
+
+    #plus-container {
+        padding: 25px;
+    }
+
+    tr, th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table-responsive {
+        height: 400px;
+    }
+</style>
+<div class="container-fluid">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Administrar categorías</h3>
+        </div>
+        <div class="panel-content">
+
+            <div class="container">
+                <div id="plus-container">
+                    <a href="#category/register" class="btn btn-success btn-lg">
+                        <span class="glyphicon glyphicon-plus"></span> Agregar categoría
+                    </a>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Buscar" ng-model="search">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Id categoría</th>
+                                <th>Categoría</th>
+                                <!--<th>Subcategorías</th>-->
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="category in vm.allCategories | filter: search">
+                                <td>{{category.idCategory}}</td>
+                                <td>{{category.name}}</td>
+                                <!--<td ng-bind="vm.subcategories(category.subcategories)"></td>                                -->
+                                <td>
+                                    <a href="#category/modify/{{category.idCategory}}">Editar</a>
+                                    - <a href="#category" ng-click="vm.deleteCategory(category.idCategory)">Eliminar</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

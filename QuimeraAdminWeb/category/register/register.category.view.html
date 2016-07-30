@@ -1,0 +1,38 @@
+﻿<div class="container-fluid">
+    <form class="form-horizontal" ng-submit="vm.registerCategory()">
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <h3>Agregar categorías</h3>
+            </div>
+            <br>
+            <div class="panel-content">
+
+                <div class="container">
+
+                    <div class="col-md-3 col-md-offset-3">
+                        <div class="form-group"
+                             ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+                            <label for="name">Nombre de categoría</label>
+                            <input type="text" id="name" class="form-control" ng-model="vm.category.name"
+                                   required/>
+                                <span ng-show="form.name.$dirty && form.name.$error.required"
+                                      class="help-block">Nombre de categoría es requerido</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="form-actions">
+                <button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
+                        class="btn btn-success">
+                    Agregar
+                </button>
+                <a href="#/category" class="btn btn-link">Volver</a>
+            </div>
+        </div>
+</div>
+</form>
+</div>

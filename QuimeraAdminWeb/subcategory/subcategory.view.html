@@ -1,0 +1,64 @@
+<style>
+
+    #plus-container {
+        padding: 25px;
+    }
+
+    tr, th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table-responsive {
+        height: 400px;
+    }
+</style>
+<div class="container-fluid">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Administrar subcategorías</h3>
+        </div>
+        <div class="panel-content">
+
+            <div class="container">
+                <div id="plus-container">
+                    <a href="#subcategory/register" class="btn btn-success btn-lg">
+                        <span class="glyphicon glyphicon-plus"></span> Agregar subcategoría
+                    </a>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Buscar" ng-model="search">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Id subcategoría</th>
+                                <th>Subcategoría</th>
+                                <th>Categoría</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="subcategory in vm.allSubcategories | filter: search">
+                                <td>{{subcategory.idSubcategory}}</td>
+                                <td>{{subcategory.name}}</td>
+                                <td>{{subcategory.category.name}}</td>
+                                <td>
+                                    <a href="#subcategory/modify/{{subcategory.idSubcategory}}">Editar</a>
+                                    - <a href="#subcategory" ng-click="vm.deleteSubcategory(subcategory.idSubcategory)">Eliminar</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

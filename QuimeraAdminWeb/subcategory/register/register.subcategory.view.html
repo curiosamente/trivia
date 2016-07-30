@@ -1,0 +1,47 @@
+﻿<div class="container-fluid">
+    <form class="form-horizontal" ng-submit="vm.registerSubcategory()">
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <h3>Agregar subcategorías</h3>
+            </div>
+            <br>
+
+            <div class="panel-content">
+
+                <div class="container">
+
+                    <div class="col-md-3 col-md-offset-3">
+                        <div class="form-group"
+                             ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required }">
+                            <label for="name">Nombre de subcategoría</label>
+                            <input type="text" id="name" class="form-control" ng-model="vm.subcategory.name"
+                                   required/>
+                                <span ng-show="form.name.$dirty && form.name.$error.required"
+                                      class="help-block">Nombre de subcategoría es requerido</span>
+                        </div>
+
+                        <div class="form-group">
+                            <br>
+                            <label for="category">Seleccionar la categoría a la que pertenece la subcategoría</label>
+                            <select class="form-control" ng-model="vm.categorySelected"
+                                    ng-options="category.name for category in vm.allCategories track by category.idCategory" id="category">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="form-actions">
+                    <button type="submit" ng-disabled="form.$invalid || vm.dataLoading"
+                            class="btn btn-success">
+                        Agregar
+                    </button>
+                    <a href="#/subcategory" class="btn btn-link">Volver</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

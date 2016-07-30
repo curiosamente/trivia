@@ -1,0 +1,69 @@
+<style>
+
+    #plus-container {
+        padding: 25px;
+    }
+
+    tr, th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table-responsive {
+        height: 400px;
+    }
+</style>
+<div class="container-fluid">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Administrar banners</h3>
+        </div>
+        <div class="panel-content">
+
+            <div class="container">
+                <div id="plus-container">
+                    <a href="#banner/register" class="btn btn-success btn-lg">
+                        <span class="glyphicon glyphicon-plus"></span> Agregar banners
+                    </a>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Buscar" ng-model="search">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Id banner</th>
+                                <th>Nombre</th>
+                                <th>URL</th>
+                                <th>Image</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="banner in vm.allBanners | filter: search">
+                                <td>{{banner.idBanner}}</td>
+                                <td>{{banner.name}}</td>
+                                <td>{{banner.url}}</td>
+                                <td>
+                                    <img ng-show="banner.url!=null" src="{{banner.url}}" class="img-responsive" width="100" height="100">
+                                </td>
+                                <td>
+                                     <a href="#banner" ng-click="vm.deleteBanner(banner.idBanner)">Eliminar</a>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

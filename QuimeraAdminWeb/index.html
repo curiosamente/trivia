@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8"/>
+    <title>Quimera Web Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="app-content/app.css"/>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/">Curiosamente</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li id="home" class="active"><a href="#/">Home</a></li>
+                <li><a href="#/user">Usuarios</a></li>
+                <li><a href="#/question">Preguntas</a></li>
+                <li><a href="#/trivia">Trivia</a></li>
+                <li><a href="#/banner">Publicidad</a></li>
+                <li><a href="#/bar">Bar</a></li>
+                <li><a href="#/category">Categorías</a></li>
+                <li><a href="#/subcategory">Subcategorías</a></li>
+                <li><a href="#/setting">Dashboard</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/"><span class="glyphicon glyphicon-user"
+                                       ng-bind="globals.currentUser.username"></span></a></li>
+                <li><a href="#/login" data-toggle="tooltip" title="Cerrar sesión"><span
+                        class="glyphicon glyphicon-log-out"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-primary">
+    <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }"
+         ng-if="flash" ng-bind="flash.message"></div>
+    <div ng-view></div>
+</div>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-cookies.js"></script>
+
+<script src="app.js"></script>
+<script src="app-services/authentication.service.js"></script>
+<script src="app-services/flash.service.js"></script>
+<script src="app-services/trivia.service.js"></script>
+<script src="app-services/question.service.js"></script>
+<script src="app-services/user.service.js"></script>
+<script src="app-services/banner.service.js"></script>
+<script src="app-services/bar.service.js"></script>
+<script src="app-services/category.service.js"></script>
+<script src="app-services/subcategory.service.js"></script>
+<script src="app-services/gamemanager.service.js"></script>
+
+<script src="home/home.controller.js"></script>
+<script src="question/question.controller.js"></script>
+<script src="user/user.controller.js"></script>
+<script src="user/modify/modify.user.controller.js"></script>
+<script src="user/register/register.user.controller.js"></script>
+<script src="question/register/register.question.controller.js"></script>
+<script src="question/modify/modify.question.controller.js"></script>
+<script src="trivia/trivia.controller.js"></script>
+<script src="trivia/register/register.trivia.controller.js"></script>
+<script src="trivia/modify/modify.trivia.controller.js"></script>
+<script src="control-panel/control-panel.controller.js"></script>
+<script src="login/login.controller.js"></script>
+<script src="control-panel/selection/selection.trivia.controller.js"></script>
+<script src="banner/register/register.banner.controller.js"></script>
+<script src="banner/banner.controller.js"></script>
+<script src="bar/bar.controller.js"></script>
+<script src="bar/register/register.bar.controller.js"></script>
+<script src="bar/modify/modify.bar.controller.js"></script>
+<script src="category/category.controller.js"></script>
+<script src="category/register/register.category.controller.js"></script>
+<script src="category/modify/modify.category.controller.js"></script>
+<script src="subcategory/subcategory.controller.js"></script>
+<script src="subcategory/register/register.subcategory.controller.js"></script>
+<script src="subcategory/modify/modify.subcategory.controller.js"></script>
+
+</body>
+</html>
+
