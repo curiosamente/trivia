@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package curiosamente.com.app.activities.main;
+package curiosamente.com.app.activities.main.NoTrivia;
 
 import android.app.Fragment;
 import android.os.Build;
@@ -31,16 +31,16 @@ import android.widget.TextView;
 import curiosamente.com.app.R;
 
 
-public class MainFragment extends Fragment {
+public class NoTriviaFragment extends Fragment {
 
-    private final String LOG_TAG = MainFragment.class.getSimpleName();
+    private final String LOG_TAG = NoTriviaFragment.class.getSimpleName();
 
     private static final String ROTATION_MOVEMENT_ENABLED = "ROTATION_MOVEMENT_ENABLED";
     private static boolean ROTATION_MOVEMENT_ENABLED_BOOLEAN = true;
 
     RotateAnimation rotateAnim;
 
-    public MainFragment() {
+    public NoTriviaFragment() {
     }
 
     @Override
@@ -55,14 +55,11 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.main_fragment_notrivia, container, false);
 
 
         final ImageView imgView = (ImageView) rootView.findViewById(R.id.arrow);
         setRotationAnimation(imgView, ROTATION_MOVEMENT_ENABLED_BOOLEAN);
-
-        final String IMAGEVIEW_TAG = "icon bitmap";
-        imgView.setTag(IMAGEVIEW_TAG);
 
 
         final TextView textView = (TextView) rootView.findViewById(R.id.mainText);
@@ -127,7 +124,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onAnimationRepeat(Animation animation) {
                 numberOfRepetition = numberOfRepetition + 1;
-                if (numberOfRepetition == 5) {
+                if (numberOfRepetition == 6) {
                     animation.setStartOffset(3000);
                     numberOfRepetition = -1;
                 }
@@ -141,12 +138,28 @@ public class MainFragment extends Fragment {
     }
 
     private void translate(final View view) {
+        view.clearAnimation();
 
         TranslateAnimation anim = new TranslateAnimation(0, -5, 0, 5);
         anim.setRepeatMode(Animation.REVERSE);
-        anim.setRepeatCount(5);
+        anim.setRepeatCount(6);
         anim.setDuration(5);
         anim.setFillAfter(true);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            int numberOfRepetition = 0;
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.clearAnimation();
+                setTraslationAnimation(view);
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
 
         view.startAnimation(anim);
     }

@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
@@ -15,18 +16,20 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import curiosamente.com.app.R;
 
-public class RoundedImageView extends ImageView {
 
-    public RoundedImageView(Context context) {
+public class RoundedAndCrossedImageView extends ImageView {
+
+    public RoundedAndCrossedImageView(Context context) {
         super(context);
     }
 
-    public RoundedImageView(Context context, AttributeSet attrs) {
+    public RoundedAndCrossedImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public RoundedImageView(Context context, AttributeSet attrs, int defStyle) {
+    public RoundedAndCrossedImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -57,12 +60,40 @@ public class RoundedImageView extends ImageView {
         }
 
         Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
-
         int w = getWidth(), h = getHeight();
-
         Bitmap roundBitmap =  getCroppedBitmap(bitmap, w);
-        canvas.drawBitmap(roundBitmap, 0,0, null);
+        canvas.drawBitmap(roundBitmap, 0, 0, null);
+
+
+        canvas.rotate(45,canvas.getWidth()/2,canvas.getHeight()/2);
+
+
+        int top = (int) ((canvas.getHeight() / 2) - (canvas.getHeight() / 8));
+        int bottom =  (int) ((canvas.getHeight() / 2) + (canvas.getHeight() / 8));
+        Rect r = new Rect(0, top,roundBitmap.getWidth(), bottom);
+
+
+
+        Paint textPaint = new Paint();
+        textPaint.setTextSize(20);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
+
+        String text = getResources().getString(R.string.cashed);
+        int numOfChars = textPaint.breakText(text,true,getWidth(),null);
+        int start = (text.length()-numOfChars)/2;
+
+        Paint rect = new Paint();
+        rect.setColor(Color.RED);
+        canvas.drawRect(r ,rect);
+
+        int baseLineY = (int) ((canvas.getHeight() / 2) + ((fontMetrics.bottom - fontMetrics.top)/4));
+        canvas.drawText(text,start,start+numOfChars,r.exactCenterX(), baseLineY,textPaint);
+
     }
+
 
     public static Bitmap getCroppedBitmap(Bitmap bmp, int radius) {
         Bitmap sbmp;

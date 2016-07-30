@@ -10,5 +10,7 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
 
+    <color name="yellow">#EEB75C</color>
+
     <color name="shadow">#727272</color>
 </resources>

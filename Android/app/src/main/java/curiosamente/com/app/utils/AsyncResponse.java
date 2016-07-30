@@ -1,4 +1,4 @@
-package curiosamente.com.app.activities.main;
+package curiosamente.com.app.utils;
 
 public interface AsyncResponse {
     void processFinish(String output);

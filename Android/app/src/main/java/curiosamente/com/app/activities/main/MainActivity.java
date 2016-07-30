@@ -18,7 +18,6 @@ package curiosamente.com.app.activities.main;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -34,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.Profile;
@@ -41,80 +41,77 @@ import com.facebook.Profile;
 import java.io.File;
 
 import curiosamente.com.app.R;
-import curiosamente.com.app.model.Bar;
-import curiosamente.com.app.service.HttpService;
-import curiosamente.com.app.utils.DownloadImageUtility;
-import curiosamente.com.app.utils.LogInUtility;
+import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
+import curiosamente.com.app.activities.prizes.PrizesActivity;
+import curiosamente.com.app.utils.AsyncResponse;
+import curiosamente.com.app.manager.BarManager;
+import curiosamente.com.app.manager.LogInManager;
+import curiosamente.com.app.utils.ImageUtility;
 
 
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
-
     private DrawerLayout mDrawerLayout;
     private TextView mDrawerTextView;
     private ImageView mDrawerImage;
     private Button mDrawerLogoutButton;
-
-
+    private LinearLayout mBarLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-
-
     private BroadcastReceiver receiver;
+    private Button mLeaveBarButton;
+    private TextView mBarTextView;
+    private Button mGoToPrizesListButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
 
-
+        // Set initial Fragment
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        MainFragment mainFragment = new MainFragment();
-        fragmentTransaction.add(R.id.main_layout, mainFragment);
+        WaitingFragment waitingFragment = new WaitingFragment();
+        fragmentTransaction.add(R.id.main_layout, waitingFragment);
         fragmentTransaction.commit();
 
+        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                Bar[] bars = (Bar[]) intent.getExtras().get(HttpService.RETURNOBJECT_EXTRA_PROPERTY);
-//                FragmentManager fm = getFragmentManager();
-//                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            }
-        };
+        receiver = new MainActivityBroadcastReceiver(this);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_main);
         mDrawerTextView = (TextView) findViewById(R.id.facebook_name_text);
         mDrawerLogoutButton = (Button) mDrawerLayout.findViewById(R.id.facebook_logout_button);
         mDrawerImage = (ImageView) findViewById(R.id.profileImage);
+        mBarLayout = (LinearLayout) findViewById(R.id.bar_layout);
+        mLeaveBarButton = (Button) mBarLayout.findViewById(R.id.leave_bar_button);
+        mBarTextView = (TextView) mBarLayout.findViewById(R.id.bar_name);
+        mGoToPrizesListButton = (Button) mBarLayout.findViewById(R.id.prize_list_button);
 
-
-        Intent intent = new Intent(this, HttpService.class);
-        intent.putExtra(HttpService.URL_EXTRA_PROPERTY, "http://192.168.0.13:8080/bar");
-        intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Bar[].class);
-        startService(intent);
-
+        if (!BarManager.isABarSelectedAndValid(this)) {
+            BarManager.getBars(this);
+        } else {
+            BarManager.updateSelectedBarTimeStamp(this);
+        }
 
         initDrawer();
     }
 
 
-
     public void initDrawer() {
 
         mDrawerLogoutButton.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
+                                                   @Override
+                                                   public void onClick(View v) {
 //                                          if(StatusClass.serviceThread != null){
 //                                              StatusClass.serviceThread.interrupt();
 //                                              StatusClass.threadCreated = false;}
-//                                            LogInUtility.logOut(MainActivity.this);
-                                      }
-                                  }
+                                                       LogInManager.logOut(MainActivity.this);
+                                                   }
+                                               }
         );
 
 
@@ -122,20 +119,56 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
 
         Uri imageUrl = Profile.getCurrentProfile().getProfilePictureUri(200, 200);
-        DownloadImageUtility downloadImageUtility = new DownloadImageUtility(this, this);
+        ImageUtility downloadImageUtility = new ImageUtility(this, this);
         downloadImageUtility.execute(imageUrl.toString());
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, null, R.string.drawer_open, R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
+                mDrawerToggle.setHomeAsUpIndicator(R.drawable.actionbar_white_burger_logo);
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                mDrawerToggle.setHomeAsUpIndicator(R.drawable.actionbar_white_back_logo);
                 invalidateOptionsMenu();
             }
         };
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+        mDrawerToggle.setHomeAsUpIndicator(R.drawable.actionbar_white_burger_logo);
+
+
+        mLeaveBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BarManager.leaveBar(MainActivity.this);
+                initDrawer();
+                LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
+                Intent intent = new Intent(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY);
+                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityBroadcastReceiver.BROADCAST_RECEIVER_LEAVE_BAR);
+                broadcaster.sendBroadcast(intent);
+                mDrawerLayout.closeDrawers();
+            }
+        });
+
+        mGoToPrizesListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), PrizesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        if (BarManager.isABarSelectedAndValid(this)) {
+            mBarLayout.setVisibility(LinearLayout.VISIBLE);
+            mBarTextView.setText(BarManager.getBarName(getBaseContext()));
+        } else {
+            mBarLayout.setVisibility(LinearLayout.GONE);
+        }
+
+
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
@@ -150,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             mDrawerImage.setImageBitmap(myBitmap);
         }
     }
-
 
 
     @Override
@@ -171,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     protected void onResume() {
         super.onResume();
-        LogInUtility.checkStatus(this);
+        LogInManager.checkStatus(this);
     }
 
 
@@ -189,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     protected void onStart() {
         super.onStart();
         LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
-                new IntentFilter(HttpService.HTTPSERVICE_RESULT)
+                new IntentFilter(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY)
         );
     }
 

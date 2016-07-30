@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package curiosamente.com.app.utils;
+package curiosamente.com.app.manager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,10 +22,11 @@ import com.facebook.login.LoginManager;
 
 import curiosamente.com.app.activities.login.LoginActivity;
 
-public class LogInUtility {
+public class LogInManager {
 
 
     public static void logOut(Activity activity){
+        BarManager.leaveBar(activity);
         LoginManager.getInstance().logOut();
         Intent login = new Intent(activity, LoginActivity.class);
         activity.startActivity(login);
