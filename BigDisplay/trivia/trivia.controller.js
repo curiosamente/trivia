@@ -58,6 +58,7 @@
         }
 
         function nextQuestion() {
+        "1" + 2 +3;
             vm.urlBanner = null;
             vm.statusTrivia = 'SHOWING_QUESTION';
             vm.questionPosition++;
