@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/com_facebook_blue"
-                android:text="@string/button_logout"
+                android:text="@string/drawer_logout_button"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
-                android:text="@string/prizes"
+                android:text="@string/drawer_prize_title"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/icons"
                 android:textStyle="bold" />
@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/yellow"
-                android:text="@string/prizeButton"
+                android:text="@string/drawer_prize_button_text"
                 android:textColor="@color/icons" />
 
         </LinearLayout>
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/accent"
-                android:text="@string/leaveBar"
+                android:text="@string/drawer_bar_button_text"
                 android:textColor="@color/icons" />
 
         </LinearLayout>

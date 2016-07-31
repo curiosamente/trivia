@@ -11,7 +11,7 @@
         android:fontFamily="sans-serif-condensed"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:text="@string/selectBarText"
+        android:text="@string/bar_fragment_title"
         android:layout_marginBottom="10dp" />
 
     <ListView

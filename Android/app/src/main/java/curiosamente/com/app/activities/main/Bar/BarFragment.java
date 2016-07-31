@@ -61,7 +61,7 @@ public class BarFragment extends Fragment {
                 LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getActivity());
                 Intent intent = new Intent(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY);
                 intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_RETURN_OBJECT, bar);
-                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityBroadcastReceiver.BROADCAST_RECEIVER_SELECTED_BAR);
+                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE_SELECTED_BAR);
                 broadcaster.sendBroadcast(intent);
             }
         });

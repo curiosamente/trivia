@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Hours;
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.Bar;
+import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 import curiosamente.com.app.service.HttpService;
 
 
@@ -34,6 +35,7 @@ public class BarManager {
         editor.remove(context.getResources().getString(R.string.pref_selected_bar_id_key));
         editor.remove(context.getResources().getString(R.string.pref_selected_bar_timestamp_key));
         editor.commit();
+        StatusCheckManager.stopCheckingStatus();
     }
 
     public static String getBarName(Context context){
@@ -43,8 +45,9 @@ public class BarManager {
 
     public static void getBars(Context context){
         Intent intent = new Intent(context, HttpService.class);
-        intent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.barUrl));
+        intent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_bar));
         intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Bar[].class);
+        intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.Bar);
         context.startService(intent);
     }
 
@@ -59,8 +62,8 @@ public class BarManager {
         editor.putString(context.getResources().getString(R.string.pref_selected_bar_id_key), bar.getIdBar());
         editor.putString(context.getResources().getString(R.string.pref_selected_bar_name_key), bar.getName());
         editor.putLong(context.getResources().getString(R.string.pref_selected_bar_timestamp_key), DateTime.now().getMillis());
-
         editor.commit();
+        StatusCheckManager.callCheckStatus(context);
     }
 
     public static void updateSelectedBarTimeStamp(Context context){

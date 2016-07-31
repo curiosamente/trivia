@@ -1,20 +1,27 @@
 package curiosamente.com.app.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by semri on 7/30/2016.
- */
-public class Prize {
+public class Prize implements Serializable {
 
     public Prize() {
     }
 
+    private int seqId;
     private String idBar;
     private String name;
     private Date date;
     private String imageSrc;
-    private boolean cached;
+    private boolean isCollected;
+
+    public int getSeqId() {
+        return seqId;
+    }
+
+    public void setSeqId(int seqId) {
+        this.seqId = seqId;
+    }
 
     public Date getDate() {
         return date;
@@ -48,11 +55,11 @@ public class Prize {
         this.name = name;
     }
 
-    public boolean isCached() {
-        return cached;
+    public boolean isCollected() {
+        return isCollected;
     }
 
-    public void setCached(boolean cached) {
-        this.cached = cached;
+    public void setCollected(boolean collected) {
+        this.isCollected = collected;
     }
 }

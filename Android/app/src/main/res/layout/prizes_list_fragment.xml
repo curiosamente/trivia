@@ -5,6 +5,16 @@
     android:layout_marginLeft="10dp"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/prize_list_empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:text="@string/prize_list_empty_text"/>
+
     <ListView
         android:id="@+id/prizes_list"
         android:layout_width="fill_parent"

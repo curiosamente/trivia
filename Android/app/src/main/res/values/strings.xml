@@ -1,23 +1,47 @@
 <resources>
 
+    <!-- APP STRINGS-->
     <string name="app_name">Curiosamente</string>
     <string name="facebook_app_id">1646759302213332</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
 
-    <string name="barUrl">http://192.168.0.12:8090/bar</string>
-    <string name="selectBarText">¿En qué bar estás?</string>
-    <string name="leaveBar">Dejar Bar</string>
-    <string name="loading">Cargando</string>
-    <string name="prizes">Premios</string>
-    <string name="prizeButton">Ver Premios</string>
-    <string name="cashed">Cobrado</string>
+    <!--URLs-->
+    <string name="url_bar">http://192.168.0.12:8090/bar</string>
 
-    <!--  Main Activity Strings -->
+    <!-- MAIN ACTIVITY STRINGS-->
+    <string name="main_activity_loading">Cargando</string>
+
+    <!-- DRAWER STRINGS-->
     <string name="drawer_open">Opening...</string>
     <string name="drawer_close">Closing...</string>
-    <string name="button_logout">Log Out</string>
+    <string name="drawer_logout_button">Log Out</string>
+    <string name="drawer_bar_button_text">Dejar Bar</string>
+    <string name="drawer_prize_title">Premios</string>
+    <string name="drawer_prize_button_text">Ver Premios</string>
 
+    <!--BAR STRINGS-->
+    <string name="bar_fragment_title">¿En qué bar estás?</string>
+    <string name="bar_icon_logo_prefix">beer_logo</string>
+
+
+    <!-- PRIZE STRINGS-->
+    <string name="prize_collected">Cobrado</string>
+    <string name="prize_collect">Cobrar</string>
+    <string name="prize_collect_warning">Cobrar Premio!</string>
+    <string name="prize_collect_message">Antes de cobrar el premio, anda a la barra! Estas en la barra?</string>
+    <string name="prize_collect_error">Error al intentar cobrar premio... Reintentar</string>
+    <string name="prize_icon_logo_prefix">prize_logo</string>
+    <string name="prize_list_empty_text">Todavia no tenes premios</string>
+
+
+
+
+    <!-- SHARED PREFERENCES STRINGS-->
     <string name="pref_selected_bar_id_key" translatable="false">"selected_bar_id"</string>
     <string name="pref_selected_bar_name_key" translatable="false">"selected_bar_name"</string>
     <string name="pref_selected_bar_timestamp_key" translatable="false">selected_bar_timestamp</string>
+    <string name="pref_current_status_key" translatable="false">current_status</string>
+
 
 </resources>

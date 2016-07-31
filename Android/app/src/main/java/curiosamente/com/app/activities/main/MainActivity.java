@@ -42,7 +42,8 @@ import java.io.File;
 
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
-import curiosamente.com.app.activities.prizes.PrizesActivity;
+import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
+import curiosamente.com.app.manager.StatusCheckManager;
 import curiosamente.com.app.utils.AsyncResponse;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.LogInManager;
@@ -70,13 +71,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        // Set initial Fragment
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        WaitingFragment waitingFragment = new WaitingFragment();
-        fragmentTransaction.add(R.id.main_layout, waitingFragment);
-        fragmentTransaction.commit();
-
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -91,13 +85,28 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         mBarTextView = (TextView) mBarLayout.findViewById(R.id.bar_name);
         mGoToPrizesListButton = (Button) findViewById(R.id.prize_list_button);
 
+    }
+
+
+
+    private void startActivity() {
+
+        // Set initial Fragment
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        WaitingFragment waitingFragment = new WaitingFragment();
+        waitingFragment.setFragmentMessage("initial message");
+        fragmentTransaction.replace(R.id.main_layout, waitingFragment);
+        fragmentTransaction.commit();
+
+        initDrawer();
+
         if (!BarManager.isABarSelectedAndValid(this)) {
             BarManager.getBars(this);
         } else {
             BarManager.updateSelectedBarTimeStamp(this);
+            StatusCheckManager.callCheckStatus(this);
         }
-
-        initDrawer();
     }
 
 
@@ -106,9 +115,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         mDrawerLogoutButton.setOnClickListener(new View.OnClickListener() {
                                                    @Override
                                                    public void onClick(View v) {
-//                                          if(StatusClass.serviceThread != null){
-//                                              StatusClass.serviceThread.interrupt();
-//                                              StatusClass.threadCreated = false;}
                                                        LogInManager.logOut(MainActivity.this);
                                                    }
                                                }
@@ -146,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 initDrawer();
                 LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
                 Intent intent = new Intent(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY);
-                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityBroadcastReceiver.BROADCAST_RECEIVER_LEAVE_BAR);
+                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE_LEAVE_BAR);
                 broadcaster.sendBroadcast(intent);
                 mDrawerLayout.closeDrawers();
             }
@@ -155,8 +161,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         mGoToPrizesListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), PrizesActivity.class);
+                Intent intent = new Intent(getBaseContext(), PrizesListActivity.class);
                 startActivity(intent);
+                mDrawerLayout.closeDrawers();
             }
         });
 
@@ -204,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     protected void onResume() {
         super.onResume();
         LogInManager.checkStatus(this);
+        startActivity();
     }
 
 

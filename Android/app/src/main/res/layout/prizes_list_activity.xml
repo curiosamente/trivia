@@ -4,9 +4,9 @@
     android:layout_height="match_parent">
 
     <fragment
-        android:id="@+id/prize_list_fragment"
+        android:id="@+id/prizes_list_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="curiosamente.com.app.activities.prizes.PrizeListFragment"/>
+        android:name="curiosamente.com.app.activities.prize.prizeslist.PrizesListFragment"/>
 
 </LinearLayout>

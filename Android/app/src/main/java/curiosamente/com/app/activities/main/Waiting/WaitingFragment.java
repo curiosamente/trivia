@@ -14,6 +14,9 @@ import curiosamente.com.app.R;
 
 public class WaitingFragment extends Fragment {
 
+    //TODO PROVISORY FIELD TO TEST STATUS
+    private String fragmentMessage = null;
+
     public WaitingFragment() {
     }
 
@@ -29,7 +32,9 @@ public class WaitingFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.main_fragment_waiting, container, false);
 
         final TextView textView = (TextView) rootView.findViewById(R.id.mainText);
-        textView.setText(getResources().getString(R.string.loading));
+        //TODO UNCOMMENT THIS LINE
+        //textView.setText(getResources().getString(R.string.main_activity_loading));
+        textView.setText(fragmentMessage);
 
         final LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.loadingPanel);
 
@@ -105,4 +110,11 @@ public class WaitingFragment extends Fragment {
         view.startAnimation(anim);
     }
 
+    public String getFragmentMessage() {
+        return fragmentMessage;
+    }
+
+    public void setFragmentMessage(String fragmentMessage) {
+        this.fragmentMessage = fragmentMessage;
+    }
 }

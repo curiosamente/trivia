@@ -1,6 +1,5 @@
 package curiosamente.com.app.activities.main;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
@@ -23,10 +22,13 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
     final static public String BROADCAST_RECEIVER_TYPE = "BroadCastType";
 
     final static public String BROADCAST_RECEIVER_TYPE_BAR_LIST = "BAR_LIST";
-    final static public String BROADCAST_RECEIVER_SELECTED_BAR = "BAR_SELECTED";
-    final static public String BROADCAST_RECEIVER_LEAVE_BAR = "BAR_LEAVE";
+    final static public String BROADCAST_RECEIVER_TYPE_SELECTED_BAR = "BAR_SELECTED";
+    final static public String BROADCAST_RECEIVER_TYPE_LEAVE_BAR = "BAR_LEAVE";
+    final static public String BROADCAST_RECEIVER_TYPE_TRIVIA_STATUS = "TRIVIA_STATUS";
 
     private MainActivity mainActivity;
+
+
     public MainActivityBroadcastReceiver(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
@@ -39,13 +41,19 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
             Bar[] bars = (Bar[]) intent.getExtras().get(BROADCAST_RECEIVER_RETURN_OBJECT);
             fragment = new BarFragment();
             ((BarFragment)fragment).setBars(new ArrayList<>(Arrays.asList(bars)));
-        } else if (intent.getExtras().get(BROADCAST_RECEIVER_TYPE) == BROADCAST_RECEIVER_SELECTED_BAR) {
+        } else if (intent.getExtras().get(BROADCAST_RECEIVER_TYPE) == BROADCAST_RECEIVER_TYPE_SELECTED_BAR) {
             Bar bar = (Bar) intent.getExtras().get(BROADCAST_RECEIVER_RETURN_OBJECT);
             mainActivity.initDrawer();
             fragment = new WaitingFragment();
-        } else if (intent.getExtras().get(BROADCAST_RECEIVER_TYPE) == BROADCAST_RECEIVER_LEAVE_BAR) {
+        } else if (intent.getExtras().get(BROADCAST_RECEIVER_TYPE) == BROADCAST_RECEIVER_TYPE_LEAVE_BAR) {
             BarManager.getBars(context);
             fragment = new WaitingFragment();
+        } else if (intent.getExtras().get(BROADCAST_RECEIVER_TYPE) == BROADCAST_RECEIVER_TYPE_TRIVIA_STATUS) {
+            //TODO PROVISORY UNTIL NEW FRAGMENTS ARE CREATED
+            String string = (String) intent.getExtras().get(BROADCAST_RECEIVER_RETURN_OBJECT);
+            WaitingFragment waitingFragment = new WaitingFragment();
+            waitingFragment.setFragmentMessage(string);
+            fragment = waitingFragment;
         }
 
 

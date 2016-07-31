@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 initTrackers();
-                Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.main_activity_loading), Toast.LENGTH_SHORT).show();
             }
 
             @Override
