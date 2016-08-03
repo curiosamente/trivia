@@ -7,7 +7,8 @@
     <string name="no">No</string>
 
     <!--URLs-->
-    <string name="url_bar">http://192.168.0.12:8090/bar</string>
+    <string name="url_bar">http://10.0.2.2:8080/bar</string>
+    <string name="url_game_status">http://10.0.2.2:8080/game/status?idBar={idBar}</string>
 
     <!-- MAIN ACTIVITY STRINGS-->
     <string name="main_activity_loading">Cargando</string>
@@ -42,6 +43,8 @@
     <string name="pref_selected_bar_name_key" translatable="false">"selected_bar_name"</string>
     <string name="pref_selected_bar_timestamp_key" translatable="false">selected_bar_timestamp</string>
     <string name="pref_current_status_key" translatable="false">current_status</string>
+    <string name="pref_current_question_key" translatable="false">current_question</string>
+
 
 
 </resources>

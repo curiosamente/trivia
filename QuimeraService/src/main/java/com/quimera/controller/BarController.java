@@ -48,7 +48,7 @@ public class BarController {
         barService.deleteAll();
     }
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "/authenticate", method = RequestMethod.GET)
     public Bar authenticate(@RequestParam String username, @RequestParam String password) {
         return barService.authenticate(username, password);
     }

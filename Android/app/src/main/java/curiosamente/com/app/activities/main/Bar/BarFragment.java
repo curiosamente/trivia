@@ -26,8 +26,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.List;
+
 import curiosamente.com.app.R;
-import curiosamente.com.app.activities.main.MainActivityBroadcastReceiver;
+import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
+import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.model.Bar;
 
@@ -35,7 +38,7 @@ import curiosamente.com.app.model.Bar;
 public class BarFragment extends Fragment {
 
     private final String LOG_TAG = BarFragment.class.getSimpleName();
-    private ArrayList<Bar> bars = null;
+    private List<Bar> bars = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,16 +62,16 @@ public class BarFragment extends Fragment {
                 Bar bar = (Bar) adapterView.getItemAtPosition(position);
                 BarManager.storeSelectedBarPreference(getActivity(), bar);
                 LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getActivity());
-                Intent intent = new Intent(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY);
-                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_RETURN_OBJECT, bar);
-                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE_SELECTED_BAR);
+                Intent intent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+                intent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, bar);
+                intent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.BAR_SELECTED);
                 broadcaster.sendBroadcast(intent);
             }
         });
         return rootView;
     }
 
-    public void setBars(ArrayList<Bar> bars) {
+    public void setBars(List<Bar> bars) {
         this.bars = bars;
     }
 }

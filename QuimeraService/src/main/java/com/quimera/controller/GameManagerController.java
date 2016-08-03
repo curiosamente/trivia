@@ -71,11 +71,11 @@ public class GameManagerController {
     }
 
     @RequestMapping(value = "/currentTrivia", method = RequestMethod.GET)
-    public Trivia getCurrentTrivia(@RequestParam String idBar) {
+    public ResponseEntity<Trivia> getCurrentTrivia(@RequestParam String idBar) {
         if (gameMap.containsKey(idBar)) {
-            return gameMap.get(idBar).getTrivia();
+            return ResponseEntity.ok(gameMap.get(idBar).getTrivia());
         } else {
-            return null;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -87,7 +87,12 @@ public class GameManagerController {
         }
 
         Question question = gameMap.get(idBar).getCurrentQuestion();
-        question.setCorrectAnswer(null);
+
+        if(question!=null){
+            question.setCorrectAnswer(null);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
 
         return new ResponseEntity<>(question, HttpStatus.OK);
     }
@@ -111,17 +116,17 @@ public class GameManagerController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             gameMap.get(idBar).setGameStatus(GameStatus.valueOf(status));
+            return ResponseEntity.ok(gameMap.get(idBar).getGameStatus());
         }
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "status", method = RequestMethod.GET)
-    public ResponseEntity<String> getStatus(String idBar) {
+    public ResponseEntity<GameStatus> getStatus(String idBar) {
         Game game = gameMap.get(idBar);
         if (game == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(gameMap.get(idBar).getGameStatus().name(), HttpStatus.OK);
+        return new ResponseEntity<>(gameMap.get(idBar).getGameStatus(), HttpStatus.OK);
 
     }
 

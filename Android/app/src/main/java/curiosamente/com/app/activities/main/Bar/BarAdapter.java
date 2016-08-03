@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.Bar;
@@ -17,7 +18,7 @@ public class BarAdapter extends ArrayAdapter<Bar> {
 
     final Random rnd = new Random();
 
-    public BarAdapter(Context context, ArrayList<Bar> bars) {
+    public BarAdapter(Context context, List<Bar> bars) {
         super(context, 0, bars);
     }
 

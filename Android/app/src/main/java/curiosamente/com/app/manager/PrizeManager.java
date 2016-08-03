@@ -97,10 +97,9 @@ public class PrizeManager {
         Prize prize = new Prize();
         prize.setSeqId(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry._ID)));
         prize.setName(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_BAR_NAME)));
-        prize.setName(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_BAR_NAME)));
         prize.setDate(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_PRIZE_DATE))));
         prize.setImageSrc(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_PRIZE_IMAGE)));
-        prize.setCollected((cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_PRIZE_COLLECTED)) == 0) ? false : true);
+        prize.setCollected(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_PRIZE_COLLECTED)) != 0);
         return prize;
     }
 

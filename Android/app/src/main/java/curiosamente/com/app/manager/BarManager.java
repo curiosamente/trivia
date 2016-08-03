@@ -35,7 +35,7 @@ public class BarManager {
         editor.remove(context.getResources().getString(R.string.pref_selected_bar_id_key));
         editor.remove(context.getResources().getString(R.string.pref_selected_bar_timestamp_key));
         editor.commit();
-        StatusCheckManager.stopCheckingStatus();
+        ThreadManager.stopCheckingStatus();
     }
 
     public static String getBarName(Context context){
@@ -43,17 +43,27 @@ public class BarManager {
         return sharedPreferences.getString(context.getResources().getString(R.string.pref_selected_bar_name_key),null);
     }
 
+    public static String getBarId(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
+        return sharedPreferences.getString(context.getResources().getString(R.string.pref_selected_bar_id_key),null);
+    }
+
     public static void getBars(Context context){
         Intent intent = new Intent(context, HttpService.class);
         intent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_bar));
         intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Bar[].class);
-        intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.Bar);
+        intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.BAR);
         context.startService(intent);
     }
 
 
-    public void getBars() {
-
+    public static void getStatus(Context context, String idBar) {
+        Intent intent = new Intent(context, HttpService.class);
+        intent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_game_status));
+        intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, String.class);
+        intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.STATUS);
+        intent.putExtra(HttpService.ID_BAR_PARAMETER, idBar);
+        context.startService(intent);
     }
 
     public static void storeSelectedBarPreference(Context context, Bar bar){
@@ -63,7 +73,7 @@ public class BarManager {
         editor.putString(context.getResources().getString(R.string.pref_selected_bar_name_key), bar.getName());
         editor.putLong(context.getResources().getString(R.string.pref_selected_bar_timestamp_key), DateTime.now().getMillis());
         editor.commit();
-        StatusCheckManager.callCheckStatus(context);
+        ThreadManager.callCheckStatus(context);
     }
 
     public static void updateSelectedBarTimeStamp(Context context){

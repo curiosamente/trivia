@@ -10,7 +10,7 @@ public class Game {
     private Trivia trivia;
     private Bar bar;
     private Question currentQuestion;
-    private GameStatus gameStatus;
+    private GameStatus gameStatus = GameStatus.READY;
     private Set<Player> playerList = new TreeSet<>();
     private Set<Answer> answerHashSet = new HashSet<>();
     private List<Score> scoreList = new ArrayList<>();

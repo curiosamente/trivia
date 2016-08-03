@@ -41,7 +41,7 @@
         function getTrivia() {
             GameManagerService.GetCurrentTrivia()
                 .then(function (response) {
-                    if (response != "") {
+                    if (response != "" && response.success != false) {
                         vm.dataLoading = true;
                         vm.trivia = response;
                     } else {
@@ -58,7 +58,7 @@
         }
 
         function nextQuestion() {
-        "1" + 2 +3;
+
             vm.urlBanner = null;
             vm.statusTrivia = 'SHOWING_QUESTION';
             vm.questionPosition++;

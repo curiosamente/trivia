@@ -43,7 +43,7 @@ import java.io.File;
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
 import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
-import curiosamente.com.app.manager.StatusCheckManager;
+import curiosamente.com.app.manager.ThreadManager;
 import curiosamente.com.app.utils.AsyncResponse;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.LogInManager;
@@ -101,11 +101,11 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
         initDrawer();
 
-        if (!BarManager.isABarSelectedAndValid(this)) {
-            BarManager.getBars(this);
-        } else {
+        if (BarManager.isABarSelectedAndValid(this)) {
             BarManager.updateSelectedBarTimeStamp(this);
-            StatusCheckManager.callCheckStatus(this);
+            ThreadManager.callCheckStatus(this);
+        } else {
+            BarManager.getBars(this);
         }
     }
 
@@ -151,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                 BarManager.leaveBar(MainActivity.this);
                 initDrawer();
                 LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
-                Intent intent = new Intent(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY);
-                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE_LEAVE_BAR);
+                Intent intent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+                intent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.LEAVE_BAR);
                 broadcaster.sendBroadcast(intent);
                 mDrawerLayout.closeDrawers();
             }
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     protected void onStart() {
         super.onStart();
         LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
-                new IntentFilter(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY)
+                new IntentFilter(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY)
         );
     }
 

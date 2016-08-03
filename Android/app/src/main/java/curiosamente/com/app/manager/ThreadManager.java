@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -13,16 +12,17 @@ import java.util.Map;
 
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.GameStatus;
+import curiosamente.com.app.model.Question;
 import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 import curiosamente.com.app.service.AlarmReceiver;
 import curiosamente.com.app.service.HttpService;
 
-public class StatusCheckManager {
+public class ThreadManager {
 
-    private static final String LOG_TAG = StatusCheckManager.class.getSimpleName();
+    private static final String LOG_TAG = ThreadManager.class.getSimpleName();
 
     private static Map<String, GameStatus> GAME_STATUS_MAP = new HashMap<>();
-    private final static long THREAD_FRECUENCY_IN_MILLIS = 1 * 1000;
+    private final static long THREAD_FRECUENCY_IN_MILLIS = 1000;
     private final static long ALARM_FRECUENCY_IN_MILLIS = 60 * 1000;
 
     public static boolean threadCreated = false;
@@ -35,13 +35,13 @@ public class StatusCheckManager {
         }
     }
 
-    public static void newStatusReceived(String status, Context context) {
+    public static void newStatusReceived(GameStatus gameStatus, Context context) {
         Log.i(LOG_TAG, "Checking Status For Future Checks Strategy");
         if (GAME_STATUS_MAP.size() == 0) {
             populateGameStatusMap();
         }
 
-        if (GAME_STATUS_MAP.containsKey(status)) {
+        if (GAME_STATUS_MAP.containsKey(gameStatus)) {
             if (!threadCreated) {
                 serviceThread = createThread(THREAD_FRECUENCY_IN_MILLIS, context);
                 serviceThread.start();
@@ -65,7 +65,7 @@ public class StatusCheckManager {
                 try {
                     while (!Thread.interrupted()) {
                         Log.i("LOG_TAG", "Status Checked through Thread");
-                        StatusCheckManager.callCheckStatus(context);
+                        ThreadManager.callCheckStatus(context);
                         Thread.sleep(frecuencyInMillis);
                     }
                 } catch (InterruptedException e) {
@@ -92,12 +92,20 @@ public class StatusCheckManager {
 
     public static void callCheckStatus(Context context) {
         Intent callIntent = new Intent(context, HttpService.class);
-        callIntent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_bar));
+        callIntent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_game_status));
         callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, String.class);
-        callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.Status);
+        callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
+        callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.STATUS);
         context.startService(callIntent);
     }
 
-
+    public static void callGetQuestion(Context context) {
+        Intent callIntent = new Intent(context, HttpService.class);
+        callIntent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_game_status));
+        callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Question.class);
+        callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
+        callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.QUESTION);
+        context.startService(callIntent);
+    }
 
 }
