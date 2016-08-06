@@ -28,7 +28,6 @@ public class PrizesListAdapter extends ArrayAdapter<Prize> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
         Prize prize = (Prize) getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -51,10 +50,5 @@ public class PrizesListAdapter extends ArrayAdapter<Prize> {
         prizeImageView.setImageDrawable(getContext().getResources().getDrawable(ImageUtility.getResourceID(imagePath, "drawable", getContext())));
 
         return convertView;
-
     }
-
-
-
-
 }

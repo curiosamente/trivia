@@ -38,11 +38,14 @@ import android.widget.TextView;
 
 import com.facebook.Profile;
 
+import org.joda.time.LocalDateTime;
+
 import java.io.File;
 
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
 import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
+import curiosamente.com.app.manager.StatusManager;
 import curiosamente.com.app.manager.ThreadManager;
 import curiosamente.com.app.utils.AsyncResponse;
 import curiosamente.com.app.manager.BarManager;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private TextView mBarTextView;
     private Button mGoToPrizesListButton;
 
+    public LocalDateTime fragmentReplacementTimeStamp = LocalDateTime.now();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,34 +88,32 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         mLeaveBarButton = (Button) mBarLayout.findViewById(R.id.leave_bar_button);
         mBarTextView = (TextView) mBarLayout.findViewById(R.id.bar_name);
         mGoToPrizesListButton = (Button) findViewById(R.id.prize_list_button);
-
     }
 
-
-
-    private void startActivity() {
-
+    public void startActivity() {
         // Set initial Fragment
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         WaitingFragment waitingFragment = new WaitingFragment();
-        waitingFragment.setFragmentMessage("initial message");
+        waitingFragment.setFragmentMessage(getBaseContext().getResources().getString(R.string.waiting_fragment_connecting_server));
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_right, 0);
         fragmentTransaction.replace(R.id.main_layout, waitingFragment);
+        fragmentReplacementTimeStamp = LocalDateTime.now();
         fragmentTransaction.commit();
+        fm.popBackStack();
 
-        initDrawer();
 
         if (BarManager.isABarSelectedAndValid(this)) {
             BarManager.updateSelectedBarTimeStamp(this);
+            StatusManager.clearStatus(this);
             ThreadManager.callCheckStatus(this);
         } else {
             BarManager.getBars(this);
         }
+        initDrawer();
     }
 
-
     public void initDrawer() {
-
         mDrawerLogoutButton.setOnClickListener(new View.OnClickListener() {
                                                    @Override
                                                    public void onClick(View v) {
@@ -120,9 +122,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                                                }
         );
 
-
         mDrawerTextView.setText(Profile.getCurrentProfile().getName());
-
 
         Uri imageUrl = Profile.getCurrentProfile().getProfilePictureUri(200, 200);
         ImageUtility downloadImageUtility = new ImageUtility(this, this);
@@ -149,10 +149,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             @Override
             public void onClick(View v) {
                 BarManager.leaveBar(MainActivity.this);
-                initDrawer();
                 LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
                 Intent intent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-                intent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.LEAVE_BAR);
+                intent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.BAR_LEAVE);
                 broadcaster.sendBroadcast(intent);
                 mDrawerLayout.closeDrawers();
             }
@@ -167,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             }
         });
 
-
         if (BarManager.isABarSelectedAndValid(this)) {
             mBarLayout.setVisibility(LinearLayout.VISIBLE);
             mBarTextView.setText(BarManager.getBarName(getBaseContext()));
@@ -175,12 +173,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             mBarLayout.setVisibility(LinearLayout.GONE);
         }
 
-
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
     }
-
 
     @Override
     public void processFinish(String output) {
@@ -190,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             mDrawerImage.setImageBitmap(myBitmap);
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -206,14 +200,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         LogInManager.checkStatus(this);
         startActivity();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -223,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             super.onBackPressed();
         }
     }
-
 
     @Override
     protected void onStart() {

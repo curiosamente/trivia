@@ -5,6 +5,6 @@ package curiosamente.com.app.activities.main;
  */
 public enum BroadcastReceiverType {
 
-    BAR_LIST, QUESTION, TRIVIA_STATUS, BAR_SELECTED, LEAVE_BAR
+    BAR_LIST, QUESTION, SHOWING_WAITING_MESSAGE, BAR_SELECTED, BAR_LEAVE, SHOW_TOAST, TRIVIA_RESULT
 
 }

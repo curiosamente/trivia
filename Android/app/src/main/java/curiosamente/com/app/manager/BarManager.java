@@ -16,7 +16,6 @@ public class BarManager {
     private static final int SELECTED_BAR_REFRESH_IN_HOURS = 12;
 
     public static boolean isABarSelectedAndValid(Context context){
-
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
 
         String selectedKeyBar = context.getResources().getString(R.string.pref_selected_bar_id_key);
@@ -53,16 +52,6 @@ public class BarManager {
         intent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_bar));
         intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Bar[].class);
         intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.BAR);
-        context.startService(intent);
-    }
-
-
-    public static void getStatus(Context context, String idBar) {
-        Intent intent = new Intent(context, HttpService.class);
-        intent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_game_status));
-        intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, String.class);
-        intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.STATUS);
-        intent.putExtra(HttpService.ID_BAR_PARAMETER, idBar);
         context.startService(intent);
     }
 

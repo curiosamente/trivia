@@ -24,7 +24,6 @@ import curiosamente.com.app.activities.login.LoginActivity;
 
 public class LogInManager {
 
-
     public static void logOut(Activity activity){
         BarManager.leaveBar(activity);
         LoginManager.getInstance().logOut();
@@ -38,5 +37,4 @@ public class LogInManager {
             logOut(actitivy);
         }
     }
-
 }

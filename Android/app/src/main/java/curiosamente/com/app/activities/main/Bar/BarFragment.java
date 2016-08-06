@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import curiosamente.com.app.R;
@@ -65,6 +65,7 @@ public class BarFragment extends Fragment {
                 Intent intent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
                 intent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, bar);
                 intent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.BAR_SELECTED);
+
                 broadcaster.sendBroadcast(intent);
             }
         });

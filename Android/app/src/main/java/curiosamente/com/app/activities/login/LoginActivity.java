@@ -1,8 +1,14 @@
 package curiosamente.com.app.activities.login;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -14,6 +20,10 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.MainActivity;
 
@@ -25,11 +35,32 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean newActivityAlreadyCreated = false;
 
+    private LoginButton loginButton;
     private FacebookCallback<LoginResult> callback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //TODO delete this code
+        PackageInfo info;
+        try {
+            info = getPackageManager().getPackageInfo("curiosamente.com.app", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                //String something = new String(Base64.encodeBytes(md.digest()));
+                Log.e("hash key", something);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("name not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("no such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("exception", e.toString());
+        }
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.login_fragment);
@@ -38,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         initTrackers();
 
         callback = createCallBack();
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.registerCallback(callbackManager, callback);
         loginButton.setReadPermissions("user_friends");
 
@@ -49,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 initTrackers();
+                loginButton.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.main_activity_loading), Toast.LENGTH_SHORT).show();
             }
 

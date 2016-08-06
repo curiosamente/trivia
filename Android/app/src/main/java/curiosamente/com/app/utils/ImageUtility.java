@@ -45,7 +45,6 @@ public class ImageUtility extends AsyncTask<String, String, Bitmap> {
         }
     }
 
-
     public String saveToInternalStorage(Bitmap bitmapImage, Activity activity) throws IOException {
 
         ContextWrapper cw = new ContextWrapper(activity.getApplicationContext());

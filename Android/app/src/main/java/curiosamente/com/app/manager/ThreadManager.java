@@ -21,15 +21,13 @@ public class ThreadManager {
 
     private static final String LOG_TAG = ThreadManager.class.getSimpleName();
 
-    private static Map<String, GameStatus> GAME_STATUS_MAP = new HashMap<>();
     private final static long THREAD_FRECUENCY_IN_MILLIS = 1000;
     private final static long ALARM_FRECUENCY_IN_MILLIS = 60 * 1000;
-
     public static boolean threadCreated = false;
     public static Thread serviceThread;
 
-    public static void stopCheckingStatus(){
-        if(threadCreated){
+    public static void stopCheckingStatus() {
+        if (threadCreated) {
             serviceThread.interrupt();
             threadCreated = false;
         }
@@ -37,22 +35,33 @@ public class ThreadManager {
 
     public static void newStatusReceived(GameStatus gameStatus, Context context) {
         Log.i(LOG_TAG, "Checking Status For Future Checks Strategy");
-        if (GAME_STATUS_MAP.size() == 0) {
-            populateGameStatusMap();
+        switch (gameStatus) {
+            case SHOWING_FINAL_WINNERS:
+                if (threadCreated) {
+                    serviceThread.interrupt();
+                    threadCreated = false;
+                }
+                break;
+            case WAITING_TRIVIA: {
+                if (threadCreated) {
+                    serviceThread.interrupt();
+                    threadCreated = false;
+                }
+                createAlarmIntent(ALARM_FRECUENCY_IN_MILLIS, context);
+                break;
+            }
+            default: {
+                createThread(context);
+                break;
+            }
         }
+    }
 
-        if (GAME_STATUS_MAP.containsKey(gameStatus)) {
-            if (!threadCreated) {
-                serviceThread = createThread(THREAD_FRECUENCY_IN_MILLIS, context);
-                serviceThread.start();
-                threadCreated = true;
-            }
-        } else {
-            if (threadCreated) {
-                serviceThread.interrupt();
-                threadCreated = false;
-            }
-            createAlarmIntent(ALARM_FRECUENCY_IN_MILLIS, context);
+    private static void createThread(Context context) {
+        if (!threadCreated) {
+            serviceThread = createThread(THREAD_FRECUENCY_IN_MILLIS, context);
+            serviceThread.start();
+            threadCreated = true;
         }
     }
 
@@ -82,12 +91,6 @@ public class ThreadManager {
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + frecuencyInMillis, alarmIntent);
-    }
-
-    public static void populateGameStatusMap() {
-        for (GameStatus gameStatus : GameStatus.values()) {
-            GAME_STATUS_MAP.put(gameStatus.name(), gameStatus);
-        }
     }
 
     public static void callCheckStatus(Context context) {

@@ -7,8 +7,9 @@
     <string name="no">No</string>
 
     <!--URLs-->
-    <string name="url_bar">http://10.0.2.2:8080/bar</string>
-    <string name="url_game_status">http://10.0.2.2:8080/game/status?idBar={idBar}</string>
+    <string name="url_bar">http://192.168.0.17:8080/bar</string>
+    <string name="url_game_status">http://192.168.0.17:8080/game/status?idBar={idBar}</string>
+    <string name="url_game_current_question">http://192.168.0.17:8080/game/currentQuestion?idBar={idBar}</string>
 
     <!-- MAIN ACTIVITY STRINGS-->
     <string name="main_activity_loading">Cargando</string>
@@ -21,12 +22,23 @@
     <string name="drawer_prize_title">Premios</string>
     <string name="drawer_prize_button_text">Ver Premios</string>
 
+    <!-- WAITING STRINGS -->
+    <string name="waiting_fragment_loading_bars_message">Cargando Bares...</string>
+    <string name="waiting_fragment_connecting_server">Conectando...</string>
+
     <!--BAR STRINGS-->
     <string name="bar_fragment_title">¿En qué bar estás?</string>
     <string name="bar_icon_logo_prefix">beer_logo</string>
 
+    <!-- TRIVIA RESULTS STRINGS-->
+    <string name="trivia_result_won_text">GANASTE!!!</string>
+    <string name="trivia_result_won_button">Ir a Mis Premios</string>
+    <string name="trivia_result_lost_text">PERDISTE!!!</string>
+    <string name="trivia_result_lost_button">Volver a Intentar</string>
+    <string name="trivia_result_facepalm_logo_prefix">facepalm_</string>
+    <string name="trivia_result_thumbup_logo_prefix">thumbup_</string>
 
-    <!-- PRIZE STRINGS-->
+        <!-- PRIZE STRINGS-->
     <string name="prize_collected">Cobrado</string>
     <string name="prize_collect">Cobrar</string>
     <string name="prize_collect_warning">Cobrar Premio!</string>
@@ -35,16 +47,12 @@
     <string name="prize_icon_logo_prefix">prize_logo</string>
     <string name="prize_list_empty_text">Todavia no tenes premios</string>
 
-
-
-
     <!-- SHARED PREFERENCES STRINGS-->
     <string name="pref_selected_bar_id_key" translatable="false">"selected_bar_id"</string>
     <string name="pref_selected_bar_name_key" translatable="false">"selected_bar_name"</string>
     <string name="pref_selected_bar_timestamp_key" translatable="false">selected_bar_timestamp</string>
     <string name="pref_current_status_key" translatable="false">current_status</string>
     <string name="pref_current_question_key" translatable="false">current_question</string>
-
 
 
 </resources>

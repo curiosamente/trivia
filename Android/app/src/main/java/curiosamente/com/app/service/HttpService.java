@@ -3,14 +3,13 @@ package curiosamente.com.app.service;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.Serializable;
 
+import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
 import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.manager.BarManager;
@@ -22,11 +21,9 @@ import curiosamente.com.app.model.Question;
 
 public class HttpService extends android.app.IntentService {
 
-
     public HttpService() {
         super("HttpService");
     }
-
 
     final static public String URL_EXTRA_PROPERTY = "url";
     final static public String CLASS_EXTRA_PROPERTY = "class";
@@ -40,7 +37,6 @@ public class HttpService extends android.app.IntentService {
         Log.i(LOG_TAG, "HttpService intent started");
 
         if (intent.hasExtra(URL_EXTRA_PROPERTY) && intent.hasExtra(CLASS_EXTRA_PROPERTY) && intent.hasExtra(CALL_TYPE_ENUM_EXTRA_PROPERTY)) {
-
             String url = (String) intent.getExtras().get(URL_EXTRA_PROPERTY);
             Class returnObjectClass = (Class) intent.getExtras().get(CLASS_EXTRA_PROPERTY);
             HttpServiceCallTypeEnum httpServiceCallTypeEnum = (HttpServiceCallTypeEnum) intent.getExtras().get(CALL_TYPE_ENUM_EXTRA_PROPERTY);
@@ -63,10 +59,11 @@ public class HttpService extends android.app.IntentService {
                     GameStatus gameStatus;
                     try {
                         String idBar = BarManager.getBarId(this);
-                        gameStatus = restTemplate.getForObject("http://10.0.2.2:8080/game/status?idBar={idBar}", GameStatus.class, idBar);
+                        gameStatus = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_status), GameStatus.class, idBar);
                     } catch (HttpClientErrorException e) {
                         gameStatus = GameStatus.WAITING_TRIVIA;
                     }
+                    Log.i(LOG_TAG, "Status received: " + gameStatus);
                     StatusManager.statusReceived(gameStatus, getBaseContext());
                     break;
                 }
@@ -75,7 +72,7 @@ public class HttpService extends android.app.IntentService {
                     try {
                         String idBar = BarManager.getBarId(this);
 //                        String idBar = (String) intent.getExtras().get(HttpService.ID_BAR_PARAMETER);
-                        question = restTemplate.getForObject("http://10.0.2.2:8080/game/currentQuestion?idBar={idBar}", Question.class, idBar);
+                        question = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_current_question), Question.class, idBar);
                     } catch (HttpClientErrorException e) {
                         question = null;
                     }
@@ -83,10 +80,6 @@ public class HttpService extends android.app.IntentService {
                     break;
                 }
             }
-
-
         }
-
     }
-
 }

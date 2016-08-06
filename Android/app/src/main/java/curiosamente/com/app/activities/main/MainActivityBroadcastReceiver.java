@@ -6,18 +6,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.app.Fragment;
-
-import java.util.ArrayList;
+import android.widget.Toast;
+import org.joda.time.LocalDateTime;
 import java.util.Arrays;
-
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Bar.BarFragment;
+import curiosamente.com.app.activities.main.Options.QuestionFragment;
+import curiosamente.com.app.activities.main.TriviaResult.TriviaResultFragment;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
 import curiosamente.com.app.manager.BarManager;
-import curiosamente.com.app.manager.StatusManager;
 import curiosamente.com.app.model.Bar;
 import curiosamente.com.app.model.GameStatus;
-import curiosamente.com.app.model.Question;
 
 public class MainActivityBroadcastReceiver extends BroadcastReceiver {
 
@@ -29,9 +28,7 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         Fragment fragment = null;
-
         BroadcastReceiverType broadcastReceiverType = (BroadcastReceiverType) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE);
 
         switch (broadcastReceiverType) {
@@ -43,30 +40,76 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
             }
             case BAR_SELECTED: {
                 mainActivity.initDrawer();
-
                 fragment = new WaitingFragment();
-                ((WaitingFragment) fragment).setFragmentMessage(GameStatus.WAITING_TRIVIA.name());
-
+                ((WaitingFragment) fragment).setFragmentMessage(context.getResources().getString(R.string.waiting_fragment_connecting_server));
                 break;
             }
-            case LEAVE_BAR: {
+            case BAR_LEAVE: {
                 BarManager.getBars(context);
+                //TODO review initDrawer
+                mainActivity.initDrawer();
                 fragment = new WaitingFragment();
+                ((WaitingFragment) fragment).setFragmentMessage(context.getResources().getString(R.string.waiting_fragment_loading_bars_message));
+                break;
+            }
+            case QUESTION: {
+                fragment = new QuestionFragment();
+                break;
+            }
+            case TRIVIA_RESULT:{
+                boolean isWinner = (boolean) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT);
+                TriviaResultFragment triviaResultFragment = new TriviaResultFragment();
+                triviaResultFragment.setWinner(isWinner);
+                fragment = triviaResultFragment;
+                break;
+            }
+            case SHOW_TOAST:{
+                String string = (String) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT);
+                Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
                 break;
             }
 
-            case QUESTION: {
-                Question question = (Question) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT);
-                fragment = new WaitingFragment();
-                ((WaitingFragment) fragment).setFragmentMessage(question.getQuestion());
+            case SHOWING_WAITING_MESSAGE: {
+                //TODO switch for GameStatus enum and get String
+                String string = ((GameStatus) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT)).toString();
+                WaitingFragment waitingFragment = new WaitingFragment();
+                waitingFragment.setFragmentMessage(string);
+                fragment = waitingFragment;
                 break;
             }
         }
 
+        if (fragment != null) {
+            long millis = LocalDateTime.now().getMillisOfDay() - mainActivity.fragmentReplacementTimeStamp.getMillisOfDay();
+            final Fragment fFragment = fragment;
+            if (millis < 500) {
+                Thread thread= new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(500);
+                            replaceFragment(fFragment);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                thread.start();
+            } else {
+                replaceFragment(fFragment);
+            }
+
+
+        }
+    }
+
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fm = mainActivity.getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_right);
         fragmentTransaction.replace(R.id.main_layout, fragment);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        mainActivity.fragmentReplacementTimeStamp = LocalDateTime.now();
+        fm.popBackStack();
     }
 }

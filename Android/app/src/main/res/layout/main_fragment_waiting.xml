@@ -1,15 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/no_trivia_layout"
+    android:id="@+id/waiting_container_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
-
 
     <LinearLayout
         android:id="@+id/loadingPanel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangleshape"
+        android:background="@drawable/shape_rectangle"
         android:orientation="vertical"
         android:gravity="center" >
 
@@ -27,10 +26,7 @@
             android:textColor="@color/icons"
             android:textAppearance="?android:textAppearanceLarge"
             android:textStyle="bold"
-            android:text="TESTING WAITING TEXT"
-
-            />
+            android:text="TESTING WAITING TEXT"/>
     </LinearLayout>
-
 
 </RelativeLayout>

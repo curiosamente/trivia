@@ -16,6 +16,7 @@ import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
 import curiosamente.com.app.R;
 
 
@@ -37,13 +38,10 @@ public class PrizeImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         Drawable drawable = getDrawable();
-
         if (drawable == null) {
             return;
         }
-
         if (getWidth() == 0 || getHeight() == 0) {
             return;
         }
@@ -67,10 +65,8 @@ public class PrizeImageView extends ImageView {
 
         //Cashed Rectangle
         if (isCollected()) {
-
             //Cashed Rectangle Rotation
             canvas.rotate(-45, canvas.getWidth() / 2, canvas.getHeight() / 2);
-
             //Cashed Rectangle
             int rectangleTop = (canvas.getHeight() / 2) - (canvas.getHeight() / 8);
             int rectangleBottom = (canvas.getHeight() / 2) + (canvas.getHeight() / 8);
@@ -81,8 +77,6 @@ public class PrizeImageView extends ImageView {
             rectanglePaint.setColor(Color.RED);
             int radius = canvas.getWidth() / 20;
             canvas.drawRoundRect(r, radius, radius, rectanglePaint);
-
-
             //Cashed Rectangle Text
             Paint textPaint = new Paint();
             String text = getResources().getString(R.string.prize_collected);
@@ -97,11 +91,9 @@ public class PrizeImageView extends ImageView {
             //Identify BreakLines For fitting
             int numOfChars = textPaint.breakText(text, true, getWidth(), null);
             int start = (text.length() - numOfChars) / 2;
-            canvas.drawText(text, start, start + numOfChars, canvas.getWidth()/2, baseLineY, textPaint);
+            canvas.drawText(text, start, start + numOfChars, canvas.getWidth() / 2, baseLineY, textPaint);
         }
-
     }
-
 
     public static Bitmap getCroppedBitmap(Bitmap bmp, int radius) {
         Bitmap sbmp;
@@ -126,7 +118,6 @@ public class PrizeImageView extends ImageView {
                 sbmp.getWidth() / 2 + 0.1f, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(sbmp, rect, rect, paint);
-
 
         return output;
     }

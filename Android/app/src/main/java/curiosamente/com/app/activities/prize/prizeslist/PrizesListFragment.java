@@ -44,7 +44,6 @@ public class PrizesListFragment extends Fragment {
         ArrayList<Prize> prizeList = PrizeManager.getPrizesList(getActivity());
         PrizesListAdapter prizesListAdapter = new PrizesListAdapter(getActivity(), prizeList);
 
-
         TextView tvNoPrizes = (TextView) rootView.findViewById(R.id.prize_list_empty_text);
         if(prizeList.size() > 0){
             tvNoPrizes.setVisibility(View.GONE);

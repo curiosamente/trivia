@@ -16,8 +16,6 @@ import curiosamente.com.app.views.RoundedImageView;
 
 public class BarAdapter extends ArrayAdapter<Bar> {
 
-    final Random rnd = new Random();
-
     public BarAdapter(Context context, List<Bar> bars) {
         super(context, 0, bars);
     }
@@ -40,13 +38,9 @@ public class BarAdapter extends ArrayAdapter<Bar> {
         tvName.setText(bar.getName());
         tvAddress.setText(bar.getAddress());
 
-//        String resource = "beer_logo" + rnd.nextInt(5);
-        String resource = "beer_logo" + 0;
+        String resource = getContext().getResources().getString(R.string.bar_icon_logo_prefix) + 0;
         roundedImageView.setImageDrawable(getContext().getResources().getDrawable(ImageUtility.getResourceID(resource, "drawable", getContext())));
 
         return convertView;
     }
-
-
-
 }

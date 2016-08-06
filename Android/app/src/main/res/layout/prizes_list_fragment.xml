@@ -2,7 +2,7 @@
     android:id="@+id/prizes_list_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
 
     <TextView
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textAppearance="?android:textAppearanceLarge"
         android:text="@string/prize_list_empty_text"/>
 

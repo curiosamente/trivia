@@ -18,8 +18,6 @@ import curiosamente.com.app.model.Prize;
 
 public class PrizeManager {
 
-    final static Random rnd = new Random();
-
     public static boolean addPrize(Prize prize, Context context){
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
@@ -28,8 +26,7 @@ public class PrizeManager {
         contentValues.put(DbContract.PrizesEntry.COLUMN_BAR_ID, prize.getIdBar());
         contentValues.put(DbContract.PrizesEntry.COLUMN_BAR_NAME, prize.getName());
         contentValues.put(DbContract.PrizesEntry.COLUMN_PRIZE_DATE, prize.getDate().getTime());
-        //String resource = context.getString(R.string.prize_icon_logo_prefix) + rnd.nextInt(5);
-        String resource = context.getString(R.string.prize_icon_logo_prefix) + 4;
+        String resource = context.getString(R.string.prize_icon_logo_prefix) + 0;
         contentValues.put(DbContract.PrizesEntry.COLUMN_PRIZE_IMAGE, resource);
         contentValues.put(DbContract.PrizesEntry.COLUMN_PRIZE_COLLECTED, 0);
 
@@ -43,7 +40,6 @@ public class PrizeManager {
         }catch(Exception e){
             return false;
         }
-
     }
 
     public static Prize collectPrize(Context context, Prize prize){
@@ -79,7 +75,6 @@ public class PrizeManager {
                 prizes.add(getPrizeFromCursor(cursor));
             } while (cursor.moveToNext());
         }
-
         sqLiteDatabase.close();
         return prizes;
     }
@@ -93,7 +88,6 @@ public class PrizeManager {
     }
 
     public static Prize getPrizeFromCursor(Cursor cursor){
-
         Prize prize = new Prize();
         prize.setSeqId(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry._ID)));
         prize.setName(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_BAR_NAME)));
@@ -102,15 +96,6 @@ public class PrizeManager {
         prize.setCollected(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_PRIZE_COLLECTED)) != 0);
         return prize;
     }
-
-
-
-
-
-
-
-
-
 
     public static void provisoryAddPrizes(SQLiteDatabase sqLiteDatabase, Context context){
         sqLiteDatabase.execSQL("delete from " + DbContract.PrizesEntry.TABLE_NAME);
