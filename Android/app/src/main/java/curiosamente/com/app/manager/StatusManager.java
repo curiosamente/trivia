@@ -70,7 +70,7 @@ public class StatusManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getResources().getString(R.string.pref_current_status_key), gameStatus.name());
-        editor.commit();
+        editor.apply();
     }
 
     public static void clearStatus(Context context) {

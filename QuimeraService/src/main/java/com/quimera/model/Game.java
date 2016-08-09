@@ -11,33 +11,35 @@ public class Game {
     private Bar bar;
     private Question currentQuestion;
     private GameStatus gameStatus = GameStatus.READY;
-    private Set<Player> playerList = new TreeSet<>();
-    private Set<Answer> answerHashSet = new HashSet<>();
-    private List<Score> scoreList = new ArrayList<>();
+//    private Set<Player> playerList = new TreeSet<>();
+    private Set<Answer> answerSet = new TreeSet<>();
+    private Map<Player, Score> scoreMap = new TreeMap<>();
     private int elapsedTime;
 
-    public Set<Player> getPlayerList() {
-        return playerList;
+//
+//    public Set<Player> getPlayerList() {
+//        return playerList;
+//    }
+//
+//    public void setPlayerList(Set<Player> playerList) {
+//        this.playerList = playerList;
+//    }
+
+
+    public Map<Player, Score> getScoreMap() {
+        return scoreMap;
     }
 
-    public void setPlayerList(Set<Player> playerList) {
-        this.playerList = playerList;
+    public void setScoreMap(Map<Player, Score> scoreMap) {
+        this.scoreMap = scoreMap;
     }
 
-    public Set<Answer> getAnswerHashSet() {
-        return answerHashSet;
+    public Set<Answer> getAnswerSet() {
+        return answerSet;
     }
 
-    public void setAnswerHashSet(Set<Answer> answerHashSet) {
-        this.answerHashSet = answerHashSet;
-    }
-
-    public List<Score> getScoreList() {
-        return scoreList;
-    }
-
-    public void setScoreList(List<Score> scoreList) {
-        this.scoreList = scoreList;
+    public void setAnswerSet(Set<Answer> answerSet) {
+        this.answerSet = answerSet;
     }
 
     public int getElapsedTime() {

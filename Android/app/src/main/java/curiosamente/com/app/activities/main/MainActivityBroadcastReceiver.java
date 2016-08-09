@@ -15,8 +15,12 @@ import curiosamente.com.app.activities.main.Options.QuestionFragment;
 import curiosamente.com.app.activities.main.TriviaResult.TriviaResultFragment;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
 import curiosamente.com.app.manager.BarManager;
+import curiosamente.com.app.manager.QuestionManager;
 import curiosamente.com.app.model.Bar;
 import curiosamente.com.app.model.GameStatus;
+import curiosamente.com.app.model.Question;
+import curiosamente.com.app.service.HttpService;
+import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 
 public class MainActivityBroadcastReceiver extends BroadcastReceiver {
 
@@ -69,9 +73,20 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
                 break;
             }
 
+            case PUSH_ANSWER:{
+
+                Question question = QuestionManager.getQuestion(context);
+                Intent intent2 = new Intent(context, HttpService.class);
+                intent2.putExtra(HttpService.ID_QUESTION_ANSWER, question.getIdQuestion());
+                intent2.putExtra(HttpService.ANSWER, "Catamarca");
+                intent2.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.PUSH_ANSWER);
+                context.startService(intent2);
+                break;
+            }
+
             case SHOWING_WAITING_MESSAGE: {
                 //TODO switch for GameStatus enum and get String
-                String string = ((GameStatus) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT)).toString();
+                String string = intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT).toString();
                 WaitingFragment waitingFragment = new WaitingFragment();
                 waitingFragment.setFragmentMessage(string);
                 fragment = waitingFragment;

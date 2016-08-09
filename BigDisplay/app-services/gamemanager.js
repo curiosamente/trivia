@@ -18,6 +18,7 @@
         service.SetElapsedTime = SetElapsedTime;
         service.GetCurrentTrivia = GetCurrentTrivia;
         service.FinishTrivia = FinishTrivia;
+        service.GetScores = GetScores;
 
         return service;
 
@@ -39,6 +40,10 @@
 
         function FinishTrivia() {
             return $http.patch(url + '/game/finishTrivia?idBar=' + idBar).then(handleSuccess, handleError('Error finishing trivia'));
+        }
+
+        function GetScores() {
+            return $http.get(url + '/game/scores?idBar=' + idBar).then(handleSuccess, handleError('Error getting scores'));
         }
 
         function handleSuccess(res) {

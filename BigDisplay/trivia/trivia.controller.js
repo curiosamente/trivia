@@ -34,6 +34,8 @@
 
         vm.questionPosition = 0;
 
+        vm.scores = [];
+
         vm.description = null;
 
         vm.elapsedTimeToShow = MAX_ELAPSED_TIME;
@@ -54,7 +56,20 @@
         function triviaStart() {
             triviaStarted = true;
             vm.statusTrivia = 'STARTING_TRIVIA';
-            actualTimeOut = setTimeout(nextQuestion, 500);
+            GameManagerService.SetStatus(vm.statusTrivia);
+            actualTimeOut = setTimeout(nextQuestion, 1000);
+        }
+
+        function getScores() {
+            GameManagerService.GetScores()
+                .then(function (response) {
+                    if (response != "" && response.success != false) {
+                        vm.dataLoading = true;
+                        vm.scores = response;
+                    } else {
+                        vm.scores = [];
+                    }
+                });
         }
 
         function nextQuestion() {
@@ -81,7 +96,7 @@
 
         function countdown() {
             elapsedTimeInterval = $interval(function () {
-                GameManagerService.SetElapsedTime(vm.elapsedTime);
+                //GameManagerService.SetElapsedTime(vm.elapsedTime);
                 if (vm.elapsedTime > 0) {
                     vm.elapsedTimeToShow = vm.elapsedTime;
                     vm.elapsedTime = vm.elapsedTime - 1;
@@ -116,10 +131,11 @@
             vm.options = null;
             vm.statusTrivia = 'SHOWING_PARTIAL_WINNERS';
             GameManagerService.SetStatus(vm.statusTrivia);
+            getScores();
             if (vm.questionPosition == 5 || vm.questionPosition == 10 || vm.questionPosition == 15) {
                 actualTimeOut = setTimeout(showingBanners, 5000);
             } else {
-                actualTimeOut = setTimeout(nextQuestion, 5000);
+                actualTimeOut = setTimeout(nextQuestion, 50000);
             }
         }
 
@@ -146,6 +162,7 @@
             vm.currentQuestion = null;
             vm.statusTrivia = 'SHOWING_FINAL_WINNERS';
             GameManagerService.SetStatus(vm.statusTrivia);
+            getScores();
             actualTimeOut = setTimeout(finishTrivia, 5000);
         }
 

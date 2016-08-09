@@ -12,6 +12,13 @@ public class Score implements Comparable<Score> {
     private Player player;
     private int score;
 
+    public Score() {
+    }
+
+    public Score(Player player) {
+        this.player = player;
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -30,6 +37,6 @@ public class Score implements Comparable<Score> {
 
     @Override
     public int compareTo(Score score) {
-        return new Integer(this.score).compareTo(score.getScore());
+        return new Integer(score.score).compareTo(this.getScore());
     }
 }

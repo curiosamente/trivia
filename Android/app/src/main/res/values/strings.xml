@@ -7,9 +7,10 @@
     <string name="no">No</string>
 
     <!--URLs-->
-    <string name="url_bar">http://192.168.0.17:8080/bar</string>
-    <string name="url_game_status">http://192.168.0.17:8080/game/status?idBar={idBar}</string>
-    <string name="url_game_current_question">http://192.168.0.17:8080/game/currentQuestion?idBar={idBar}</string>
+    <string name="url_bar">http://10.0.2.2:8080/bar</string>
+    <string name="url_game_status">http://10.0.2.2:8080/game/status?idBar={idBar}</string>
+    <string name="url_game_current_question">http://10.0.2.2:8080/game/currentQuestion?idBar={idBar}</string>
+    <string name="url_game_push_answer">http://10.0.2.2:8080/game/pushAnswer?idBar={idBar}</string>
 
     <!-- MAIN ACTIVITY STRINGS-->
     <string name="main_activity_loading">Cargando</string>

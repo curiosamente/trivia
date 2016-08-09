@@ -3,6 +3,10 @@ package curiosamente.com.app.service;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import com.facebook.Profile;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
@@ -15,7 +19,9 @@ import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.QuestionManager;
 import curiosamente.com.app.manager.StatusManager;
+import curiosamente.com.app.model.Answer;
 import curiosamente.com.app.model.GameStatus;
+import curiosamente.com.app.model.Player;
 import curiosamente.com.app.model.Question;
 
 
@@ -29,6 +35,8 @@ public class HttpService extends android.app.IntentService {
     final static public String CLASS_EXTRA_PROPERTY = "class";
     final static public String CALL_TYPE_ENUM_EXTRA_PROPERTY = "callType";
     final static public String ID_BAR_PARAMETER = "idBar";
+    final static public String ID_QUESTION_ANSWER = "idQuestion";
+    final static public String ANSWER = "answer";
 
     public static final String LOG_TAG = HttpService.class.getSimpleName();
 
@@ -77,6 +85,25 @@ public class HttpService extends android.app.IntentService {
                         question = null;
                     }
                     QuestionManager.questionReceived(question, getBaseContext());
+                    break;
+                }
+                case PUSH_ANSWER: {
+                    HttpStatus httpStatus;
+                    try {
+                        String idBar = BarManager.getBarId(this);
+                        Answer answer = new Answer();
+                        Player player = new Player();
+                        player.setId(Profile.getCurrentProfile().getId());
+                        player.setName(Profile.getCurrentProfile().getFirstName());
+                        player.setLastName(Profile.getCurrentProfile().getLastName());
+                        answer.setPlayer(player);
+                        answer.setIdQuestion((String) intent.getExtras().get(HttpService.ID_QUESTION_ANSWER));
+                        answer.setAnswer((String) intent.getExtras().get(HttpService.ANSWER));
+                        httpStatus = restTemplate.postForEntity(getBaseContext().getResources().getString(R.string.url_game_push_answer), answer, Void.class, idBar).getStatusCode();
+                    } catch (HttpClientErrorException e) {
+                        httpStatus = e.getStatusCode();
+                    }
+
                     break;
                 }
             }

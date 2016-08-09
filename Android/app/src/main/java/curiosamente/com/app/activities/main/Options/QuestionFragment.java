@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import curiosamente.com.app.R;
-import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
-import curiosamente.com.app.activities.main.BroadcastReceiverType;
-import curiosamente.com.app.activities.main.MainActivityBroadcastReceiver;
+import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.QuestionManager;
 import curiosamente.com.app.model.Question;
+import curiosamente.com.app.service.HttpService;
+import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 
 public class QuestionFragment extends Fragment {
 
@@ -78,15 +77,31 @@ public class QuestionFragment extends Fragment {
                 deselectAllOptions();
                 setColor(button, true);
                 //TODO add call to service
-                LocalBroadcastManager broadcaster2 = LocalBroadcastManager.getInstance(getActivity());
-                Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-                returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, textButton + position);
-                returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.SHOW_TOAST);
-                broadcaster2.sendBroadcast(returnIntent);
+//                LocalBroadcastManager broadcaster2 = LocalBroadcastManager.getInstance(getActivity());
+//                Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+//                returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, textButton + position);
+//                returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.SHOW_TOAST);
+//                broadcaster2.sendBroadcast(returnIntent);
 //                LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getActivity());
 //                Intent intent = new Intent(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY);
 //                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityFragmentEnum.OPTIONS);
 //                broadcaster.sendBroadcast(intent);
+
+//                LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getActivity());
+                Question question = QuestionManager.getQuestion(getActivity());
+
+                Intent intent = new Intent(getActivity(), HttpService.class);
+                intent.putExtra(HttpService.URL_EXTRA_PROPERTY, getActivity().getResources().getString(R.string.url_game_push_answer));
+                intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Void.class);
+                intent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(getActivity()));
+
+                intent.putExtra(HttpService.ID_QUESTION_ANSWER, question.getIdQuestion());
+                intent.putExtra(HttpService.ANSWER, textButton);
+                intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.PUSH_ANSWER);
+                getActivity().startService(intent);
+//                broadcaster.sendBroadcast(intent);
+                disableAllOptions();
+
             }
         });
 
@@ -99,6 +114,11 @@ public class QuestionFragment extends Fragment {
         }
     }
 
+    public void disableAllOptions() {
+        for (Button button : buttonList) {
+            button.setEnabled(false);
+        }
+    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void setColor(Button button, Boolean selected) {
