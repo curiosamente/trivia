@@ -108,6 +108,10 @@
                 }
             }, 1000);
 
+            actualTimeOut = setTimeout(delayBeforeCorrectAnswer, 2000);
+        }
+
+        function delayBeforeCorrectAnswer() {
             actualTimeOut = setTimeout(showingCorrectAnswer, MAX_ELAPSED_TIME*1000 + 1000);
         }
 
@@ -164,13 +168,12 @@
             vm.statusTrivia = 'SHOWING_FINAL_WINNERS';
             GameManagerService.SetStatus(vm.statusTrivia);
             getScores();
-            actualTimeOut = setTimeout(finishTrivia, 5000);
+            actualTimeOut = setTimeout(finishTrivia, 10000);
         }
 
         function finishTrivia() {
 
             vm.statusTrivia = 'WAITING_TRIVIA';
-            GameManagerService.SetStatus(vm.statusTrivia);
 
             triviaStarted = false;
 

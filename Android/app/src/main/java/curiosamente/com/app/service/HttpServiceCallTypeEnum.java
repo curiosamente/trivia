@@ -5,5 +5,6 @@ package curiosamente.com.app.service;
  */
 public enum HttpServiceCallTypeEnum {
 
-    BAR, STATUS, QUESTION, PUSH_ANSWER
+    BAR, STATUS, QUESTION, PUSH_ANSWER, WINNER
+
 }

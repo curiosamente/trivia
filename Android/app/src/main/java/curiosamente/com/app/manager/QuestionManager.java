@@ -1,9 +1,7 @@
 package curiosamente.com.app.manager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,8 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 import curiosamente.com.app.R;
-import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
-import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.model.Question;
 
 

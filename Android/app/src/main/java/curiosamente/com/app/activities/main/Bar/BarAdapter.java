@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Random;
+
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.Bar;
 import curiosamente.com.app.utils.ImageUtility;

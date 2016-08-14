@@ -18,6 +18,7 @@ package curiosamente.com.app.manager;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+
 import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;

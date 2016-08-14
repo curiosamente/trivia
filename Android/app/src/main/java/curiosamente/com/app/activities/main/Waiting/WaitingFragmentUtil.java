@@ -1,6 +1,7 @@
 package curiosamente.com.app.activities.main.Waiting;
 
 import android.content.Context;
+
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.GameStatus;
 
@@ -36,6 +37,10 @@ public class WaitingFragmentUtil {
             }
             case SHOWING_BANNER: {
                 messageString = context.getResources().getString(R.string.waiting_fragment_waiting_next_question);
+                break;
+            }
+            case SHOWING_FINAL_WINNERS: {
+                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_result);
                 break;
             }
         }

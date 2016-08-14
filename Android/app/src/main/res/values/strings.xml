@@ -7,11 +7,11 @@
     <string name="no">No</string>
 
     <!--URLs-->
-    <string name="url_bar">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/bar</string>
-    <string name="url_game_status">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/game/status?idBar={idBar}</string>
-    <string name="url_game_current_question">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/game/currentQuestion?idBar={idBar}</string>
-    <string name="url_game_push_answer">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/game/pushAnswer?idBar={idBar}</string>
-    <string name="url_game_score">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/game/scores?idBar={idBar}</string>
+    <string name="url_bar">http://10.0.2.2:8080/bar</string>
+    <string name="url_game_status">http://10.0.2.2:8080/game/status?idBar={idBar}</string>
+    <string name="url_game_current_question">http://10.0.2.2:8080/game/currentQuestion?idBar={idBar}</string>
+    <string name="url_game_push_answer">http://10.0.2.2:8080/game/pushAnswer?idBar={idBar}</string>
+    <string name="url_game_winner">http://10.0.2.2:8080/game/winner?idBar={idBar}</string>
 
     <!-- MAIN ACTIVITY STRINGS-->
     <string name="main_activity_loading">Cargando</string>
@@ -30,6 +30,7 @@
     <string name="waiting_fragment_waiting_trivia">Esperando próxima trivia...</string>
     <string name="waiting_fragment_showing_question">Siguiente Pregunta!</string>
     <string name="waiting_fragment_waiting_next_question">Esperando siguiente pregunta...</string>
+    <string name="waiting_fragment_waiting_result">Esperando resultados</string>
     <string name="waiting_fragment_loading_bars_message">Cargando Bares...</string>
     <string name="waiting_fragment_connecting_server">Conectando...</string>
 
@@ -60,6 +61,7 @@
     <string name="pref_selected_bar_timestamp_key" translatable="false">selected_bar_timestamp</string>
     <string name="pref_current_status_key" translatable="false">current_status</string>
     <string name="pref_current_question_key" translatable="false">current_question</string>
+    <string name="pref_winner_key" translatable="false">winner</string>
 
 
 </resources>

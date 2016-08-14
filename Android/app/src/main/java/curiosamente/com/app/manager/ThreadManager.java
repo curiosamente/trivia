@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.util.Log;
 
-import curiosamente.com.app.R;
 import curiosamente.com.app.model.GameStatus;
+import curiosamente.com.app.model.Player;
 import curiosamente.com.app.model.Question;
-import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 import curiosamente.com.app.service.AlarmReceiver;
 import curiosamente.com.app.service.HttpService;
+import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 
 public class ThreadManager {
 
@@ -103,6 +103,14 @@ public class ThreadManager {
         callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Question.class);
         callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
         callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.QUESTION);
+        context.startService(callIntent);
+    }
+
+    public static void callGetWinner(Context context) {
+        Intent callIntent = new Intent(context, HttpService.class);
+        callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Player.class);
+        callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
+        callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.WINNER);
         context.startService(callIntent);
     }
 

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import curiosamente.com.app.R;
-import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
 import curiosamente.com.app.model.Prize;
 
 public class PrizeDetailActivity extends AppCompatActivity {

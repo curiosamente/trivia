@@ -76,18 +76,7 @@ public class QuestionFragment extends Fragment {
             public void onClick(View v) {
                 deselectAllOptions();
                 setColor(button, true);
-                //TODO add call to service
-//                LocalBroadcastManager broadcaster2 = LocalBroadcastManager.getInstance(getActivity());
-//                Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-//                returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, textButton + position);
-//                returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.SHOW_TOAST);
-//                broadcaster2.sendBroadcast(returnIntent);
-//                LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getActivity());
-//                Intent intent = new Intent(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_MAINACTIVITY);
-//                intent.putExtra(MainActivityBroadcastReceiver.BROADCAST_RECEIVER_TYPE, MainActivityFragmentEnum.OPTIONS);
-//                broadcaster.sendBroadcast(intent);
 
-//                LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getActivity());
                 Question question = QuestionManager.getQuestion(getActivity());
 
                 Intent intent = new Intent(getActivity(), HttpService.class);
@@ -98,7 +87,6 @@ public class QuestionFragment extends Fragment {
                 intent.putExtra(HttpService.ANSWER, textButton);
                 intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.PUSH_ANSWER);
                 getActivity().startService(intent);
-//                broadcaster.sendBroadcast(intent);
                 disableAllOptions();
 
             }

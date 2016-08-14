@@ -3,12 +3,14 @@ package curiosamente.com.app.manager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
+
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.Bar;
-import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 import curiosamente.com.app.service.HttpService;
+import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 
 
 public class BarManager {

@@ -1,12 +1,14 @@
 package curiosamente.com.app.activities.main;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.app.Fragment;
 import android.widget.Toast;
+
+import com.facebook.Profile;
 
 import org.joda.time.LocalDateTime;
 
@@ -19,12 +21,9 @@ import curiosamente.com.app.activities.main.TriviaResult.TriviaResultFragment;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragmentUtil;
 import curiosamente.com.app.manager.BarManager;
-import curiosamente.com.app.manager.QuestionManager;
+import curiosamente.com.app.manager.WinnerManager;
 import curiosamente.com.app.model.Bar;
 import curiosamente.com.app.model.GameStatus;
-import curiosamente.com.app.model.Question;
-import curiosamente.com.app.service.HttpService;
-import curiosamente.com.app.service.HttpServiceCallTypeEnum;
 
 public class MainActivityBroadcastReceiver extends BroadcastReceiver {
 
@@ -64,9 +63,11 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
                 break;
             }
             case TRIVIA_RESULT: {
-                boolean isWinner = (boolean) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT);
+
+                String id = Profile.getCurrentProfile().getId();
+                String idWinner = WinnerManager.getWinner(context).getId();
                 TriviaResultFragment triviaResultFragment = new TriviaResultFragment();
-                triviaResultFragment.setWinner(isWinner);
+                triviaResultFragment.setWinner(id.equals(idWinner));
                 fragment = triviaResultFragment;
                 break;
             }
@@ -76,23 +77,12 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
                 break;
             }
 
-            case PUSH_ANSWER:{
-
-                Question question = QuestionManager.getQuestion(context);
-                Intent intent2 = new Intent(context, HttpService.class);
-                intent2.putExtra(HttpService.ID_QUESTION_ANSWER, question.getIdQuestion());
-                intent2.putExtra(HttpService.ANSWER, "Catamarca");
-                intent2.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.PUSH_ANSWER);
-                context.startService(intent2);
-                break;
-            }
-
             case SHOWING_WAITING_MESSAGE: {
                 GameStatus gameStatus = (GameStatus) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT);
                 String waitingFragmentMessage = WaitingFragmentUtil.getWaitingMessageForStatus(gameStatus, context);
 
                 Fragment currentFragment = mainActivity.getFragmentManager().findFragmentByTag(MainActivity.FRAGMENT_TAG);
-                if (currentFragment instanceof WaitingFragment && ((WaitingFragment) currentFragment).getFragmentMessage() == waitingFragmentMessage) {
+                if (currentFragment instanceof WaitingFragment && ((WaitingFragment) currentFragment).getFragmentMessage().equals(waitingFragmentMessage)) {
                     fragment = null;
                 } else {
                     WaitingFragment waitingFragment = new WaitingFragment();

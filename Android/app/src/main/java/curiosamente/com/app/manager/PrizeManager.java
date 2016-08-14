@@ -5,12 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.facebook.Profile;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import curiosamente.com.app.R;

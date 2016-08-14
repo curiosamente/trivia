@@ -15,9 +15,9 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 
 import curiosamente.com.app.R;
+import curiosamente.com.app.manager.PrizeManager;
 import curiosamente.com.app.model.Prize;
 import curiosamente.com.app.utils.ImageUtility;
-import curiosamente.com.app.manager.PrizeManager;
 import curiosamente.com.app.views.PrizeImageView;
 
 

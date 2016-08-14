@@ -36,8 +36,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.Profile;
-
 import org.joda.time.LocalDateTime;
 
 import java.io.File;
@@ -45,11 +43,11 @@ import java.io.File;
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
 import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
+import curiosamente.com.app.manager.BarManager;
+import curiosamente.com.app.manager.LogInManager;
 import curiosamente.com.app.manager.StatusManager;
 import curiosamente.com.app.manager.ThreadManager;
 import curiosamente.com.app.utils.AsyncResponse;
-import curiosamente.com.app.manager.BarManager;
-import curiosamente.com.app.manager.LogInManager;
 import curiosamente.com.app.utils.ImageUtility;
 
 

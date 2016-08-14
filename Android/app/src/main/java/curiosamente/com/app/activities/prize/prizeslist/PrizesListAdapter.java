@@ -1,12 +1,10 @@
 package curiosamente.com.app.activities.prize.prizeslist;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -14,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import curiosamente.com.app.R;
-import curiosamente.com.app.data.DbContract;
-import curiosamente.com.app.manager.PrizeManager;
 import curiosamente.com.app.model.Prize;
 import curiosamente.com.app.utils.ImageUtility;
 import curiosamente.com.app.views.PrizeImageView;

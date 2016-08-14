@@ -68,7 +68,7 @@ public class GameManagerController {
     @RequestMapping(value = "currentQuestion", method = RequestMethod.PUT)
     public ResponseEntity setCurrentQuestion(@RequestParam String idBar, @RequestBody Question question) {
 
-        if (question!=null && gameManagerService.setCurrentQuestion(idBar, question)) {
+        if (question != null && gameManagerService.setCurrentQuestion(idBar, question)) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -106,6 +106,21 @@ public class GameManagerController {
         List<Score> scores = gameManagerService.getScores(idBar);
         if (scores != null) {
             return new ResponseEntity<>(scores, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/winner", method = RequestMethod.GET)
+    public ResponseEntity<Player> getWinner(@RequestParam String idBar) {
+
+        List<Score> scores = gameManagerService.getScores(idBar);
+        Score winner = null;
+        if (scores != null & !scores.isEmpty()) {
+            winner = scores.get(0);
+        }
+        if (winner != null && winner.getScore() > 0) {
+            return new ResponseEntity<>(scores.get(0).getPlayer(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.prize.prizedetail.PrizeDetailActivity;
-import curiosamente.com.app.model.Prize;
 import curiosamente.com.app.manager.PrizeManager;
+import curiosamente.com.app.model.Prize;
 
 
 public class PrizesListFragment extends Fragment {

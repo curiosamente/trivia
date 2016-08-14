@@ -3,20 +3,25 @@ package curiosamente.com.app.service;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
 import com.facebook.Profile;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
 import java.io.Serializable;
+
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
 import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.QuestionManager;
 import curiosamente.com.app.manager.StatusManager;
+import curiosamente.com.app.manager.WinnerManager;
 import curiosamente.com.app.model.Answer;
 import curiosamente.com.app.model.GameStatus;
 import curiosamente.com.app.model.Player;
@@ -80,6 +85,24 @@ public class HttpService extends android.app.IntentService {
                         question = null;
                     }
                     QuestionManager.questionReceived(question, getBaseContext());
+                    break;
+                }
+                case WINNER: {
+                    Player player;
+                    try {
+                        String idBar = BarManager.getBarId(this);
+                        player = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_winner), Player.class, idBar);
+                    } catch (HttpClientErrorException e) {
+                        player = null;
+                    }
+                    WinnerManager.winnerReceived(player, getBaseContext());
+
+                    LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
+                    Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+                    returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, true);
+                    returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.TRIVIA_RESULT);
+                    broadcaster.sendBroadcast(returnIntent);
+
                     break;
                 }
                 case PUSH_ANSWER: {

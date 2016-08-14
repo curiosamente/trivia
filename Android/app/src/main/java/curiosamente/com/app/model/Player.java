@@ -1,5 +1,8 @@
 package curiosamente.com.app.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Created by Manu on 7/8/16.
  */
@@ -32,4 +35,15 @@ public class Player {
         this.lastName = lastName;
     }
 
+    @Override
+    public String toString() {
+        String jsonFormat = null;
+        try {
+            jsonFormat = new ObjectMapper().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return jsonFormat;
+    }
 }
