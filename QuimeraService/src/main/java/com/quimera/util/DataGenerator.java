@@ -88,7 +88,7 @@ public class DataGenerator {
         question6.addOption("1978");
         question6.addOption("2002");
         question6.addOption("1929");
-        question6.setCorrectAnswer("1974");
+        question6.setCorrectAnswer("1978");
         question6.setDescription("Desc");
 
         Question question7 = new Question();

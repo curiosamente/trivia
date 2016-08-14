@@ -185,8 +185,11 @@
     #scores {
         position: absolute;
         top: 5%;
-        width: 100%;
+        width: 80%;
+        left: 10%;
         z-index: 0;
+        margin-left: auto;
+        margin-right: auto;
 
     }
 
@@ -261,16 +264,16 @@
         <table class="table">
             <thead>
             <tr>
-                <th width="10%">Posición</th>
-                <th width="50%">Nombre y apellido</th>
-                <th width="40%">Puntaje</th>
+                <th>Posición</th>
+                <th>Nombre y apellido</th>
+                <th>Puntaje</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="score in vm.scores">
-                <td width="10%">{{$index + 1}}</td>
-                <td width="70%">{{score.player.name}} {{score.player.lastName}}</td>
-                <td width="20%">{{score.score}}</td>
+                <td>{{$index + 1}}</td>
+                <td>{{score.player.name}} {{score.player.lastName}}</td>
+                <td>{{score.score}}</td>
             </tr>
             </tbody>
         </table>

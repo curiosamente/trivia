@@ -65,9 +65,6 @@ public class GameManagerService {
 
         if (game != null) {
             question = gameMap.get(idBar).getCurrentQuestion();
-            if (question != null) {
-                question.setCorrectAnswer(null);
-            }
         }
 
         return question;
@@ -195,4 +192,16 @@ public class GameManagerService {
         return minutes >= 0 && minutes <= 5;
     }
 
+    public boolean setQuestionNumber(String idBar, int questionPosition) {
+
+        boolean isUpdated = false;
+
+        Game game = gameMap.get(idBar);
+        if (game != null) {
+            gameMap.get(idBar).setQuestionPosition(questionPosition);
+            isUpdated = true;
+        }
+
+        return isUpdated;
+    }
 }

@@ -30,7 +30,6 @@ public class Question {
     @DBRef
     private Subcategory subcategory;
 
-    @Transient
     private int currentPosition;
 
     public int getCurrentPosition() {

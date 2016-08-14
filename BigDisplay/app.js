@@ -32,8 +32,8 @@
 
     run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];
     function run($rootScope, $location, $cookieStore, $http) {
-        //$rootScope.url = 'http://quimera-default.us-west-2.elasticbeanstalk.com';
-        $rootScope.url = 'http://localhost:8080';
+        $rootScope.url = 'http://curiosamente-prod.sa-east-1.elasticbeanstalk.com';
+        //$rootScope.url = 'http://localhost:8080';
         // keep user logged in after page refresh
         $rootScope.globals = $cookieStore.get('globals') || {};
         if ($rootScope.globals.currentUser) {

@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     @Autowired
-    private BannerService bannerService;
-
-    @Autowired
     private BarService barService;
 
     @Autowired

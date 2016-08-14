@@ -2,6 +2,7 @@ package com.quimera.controller;
 
 import com.quimera.model.*;
 import com.quimera.services.GameManagerService;
+import com.quimera.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class GameManagerController {
 
     @Autowired
     private GameManagerService gameManagerService;
+
+    @Autowired
+    private QuestionService questionService;
 
 
     @RequestMapping(method = RequestMethod.GET)
@@ -49,7 +53,7 @@ public class GameManagerController {
         }
     }
 
-    @RequestMapping(value = "/currentQuestion", method = RequestMethod.GET)
+    @RequestMapping(value = "currentQuestion", method = RequestMethod.GET)
     public ResponseEntity<Question> getCurrentQuestion(@RequestParam String idBar) {
 
         Question question = gameManagerService.getCurrentQuestion(idBar);
@@ -64,7 +68,7 @@ public class GameManagerController {
     @RequestMapping(value = "currentQuestion", method = RequestMethod.PUT)
     public ResponseEntity setCurrentQuestion(@RequestParam String idBar, @RequestBody Question question) {
 
-        if (gameManagerService.setCurrentQuestion(idBar, question)) {
+        if (question!=null && gameManagerService.setCurrentQuestion(idBar, question)) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

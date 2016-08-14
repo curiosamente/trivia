@@ -135,7 +135,7 @@
             if (vm.questionPosition == 5 || vm.questionPosition == 10 || vm.questionPosition == 15) {
                 actualTimeOut = setTimeout(showingBanners, 5000);
             } else {
-                actualTimeOut = setTimeout(nextQuestion, 50000);
+                actualTimeOut = setTimeout(nextQuestion, 5000);
             }
         }
 
@@ -143,18 +143,19 @@
 
             GameManagerService.SetStatus(vm.statusTrivia);
             if (vm.questionPosition == 5) {
-                vm.urlBanner = vm.trivia.bar.banners[0].url;
+                //vm.urlBanner = vm.trivia.bar.banners[0].url;
                 vm.statusTrivia = 'SHOWING_BANNER';
                 actualTimeOut = setTimeout(nextQuestion, 5000);
             } else if (vm.questionPosition == 10) {
-                vm.urlBanner = vm.trivia.bar.banners[1].url;
+                //vm.urlBanner = vm.trivia.bar.banners[1].url;
                 vm.statusTrivia = 'SHOWING_BANNER';
                 actualTimeOut = setTimeout(nextQuestion, 5000);
             } else if (vm.questionPosition == 15) {
-                vm.urlBanner = vm.trivia.bar.banners[2].url;
+                //vm.urlBanner = vm.trivia.bar.banners[2].url;
                 vm.statusTrivia = 'SHOWING_BANNER';
                 actualTimeOut = setTimeout(showingFinalWinners, 5000);
             }
+            GameManagerService.SetStatus(vm.statusTrivia);
         }
 
         function showingFinalWinners() {
@@ -168,7 +169,8 @@
 
         function finishTrivia() {
 
-            vm.statusTrivia = 'TERMINATED';
+            vm.statusTrivia = 'WAITING_TRIVIA';
+            GameManagerService.SetStatus(vm.statusTrivia);
 
             triviaStarted = false;
 
@@ -191,6 +193,12 @@
             vm.currentQuestion.currentPosition = 0;
 
             vm.description = null;
+
+            actualTimeOut = setTimeout(delay, 5000);
+
+        }
+
+        function delay() {
 
         }
 

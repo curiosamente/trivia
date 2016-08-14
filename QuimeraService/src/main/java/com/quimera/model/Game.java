@@ -15,6 +15,7 @@ public class Game {
     private Set<Answer> answerSet = new TreeSet<>();
     private Map<Player, Score> scoreMap = new TreeMap<>();
     private int elapsedTime;
+    private int questionPosition;
 
 //
 //    public Set<Player> getPlayerList() {
@@ -25,6 +26,14 @@ public class Game {
 //        this.playerList = playerList;
 //    }
 
+
+    public int getQuestionPosition() {
+        return questionPosition;
+    }
+
+    public void setQuestionPosition(int questionPosition) {
+        this.questionPosition = questionPosition;
+    }
 
     public Map<Player, Score> getScoreMap() {
         return scoreMap;
