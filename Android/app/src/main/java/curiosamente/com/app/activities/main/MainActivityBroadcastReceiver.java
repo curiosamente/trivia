@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.facebook.Profile;
-
 import org.joda.time.LocalDateTime;
 
 import java.util.Arrays;
@@ -21,7 +19,6 @@ import curiosamente.com.app.activities.main.TriviaResult.TriviaResultFragment;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
 import curiosamente.com.app.activities.main.Waiting.WaitingFragmentUtil;
 import curiosamente.com.app.manager.BarManager;
-import curiosamente.com.app.manager.WinnerManager;
 import curiosamente.com.app.model.Bar;
 import curiosamente.com.app.model.GameStatus;
 
@@ -64,10 +61,9 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
             }
             case TRIVIA_RESULT: {
 
-                String id = Profile.getCurrentProfile().getId();
-                String idWinner = WinnerManager.getWinner(context).getId();
+                boolean isWinner = (boolean) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT);
                 TriviaResultFragment triviaResultFragment = new TriviaResultFragment();
-                triviaResultFragment.setWinner(id.equals(idWinner));
+                triviaResultFragment.setWinner(isWinner);
                 fragment = triviaResultFragment;
                 break;
             }
