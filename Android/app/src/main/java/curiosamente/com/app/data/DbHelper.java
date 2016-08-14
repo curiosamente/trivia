@@ -21,7 +21,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     static final String DATABASE_NAME = "curiosamente.db";
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,6 +32,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_PRIZES_TABLE = "CREATE TABLE " + DbContract.PrizesEntry.TABLE_NAME + " (" +
                DbContract.PrizesEntry._ID + " INTEGER PRIMARY KEY," +
+               DbContract.PrizesEntry.COLUMN_USER_ID + " TEXT NOT NULL, " +
                DbContract.PrizesEntry.COLUMN_BAR_ID + " TEXT NOT NULL, " +
                DbContract.PrizesEntry.COLUMN_BAR_NAME + " TEXT NOT NULL, " +
                DbContract.PrizesEntry.COLUMN_PRIZE_DATE + " DATE NOT NULL, " +

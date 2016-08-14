@@ -11,13 +11,14 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.MainActivity;
 import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
@@ -54,21 +55,6 @@ public class TriviaResultFragment extends Fragment {
 
         triviaResultText = (isWinner) ? getResources().getString(R.string.trivia_result_won_text) : getResources().getString(R.string.trivia_result_lost_text);
 
-        final LinearLayout textLinearLayout = (LinearLayout) rootView.findViewById(R.id.trivia_result_text_layout);
-        //For defining TextSize
-        textLinearLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                // Ensure you call it only once :
-                textLinearLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int textLinearLayoutHeight = textLinearLayout.getHeight();
-                textView.setTextSize(textLinearLayoutHeight/4);
-
-            }
-        });
-
-        textView.setTextSize(50);
         textView.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         textView.setText(createMultiColorSpannable(triviaResultText));
 
@@ -129,8 +115,14 @@ public class TriviaResultFragment extends Fragment {
     public Spannable createMultiColorSpannable(String text) {
         Spannable spannableText = new SpannableString(text);
         if (isWinner) {
+            int colorIndex = colorRandom.nextInt(colors.size());
             for (int i = 0; i < text.length(); i++) {
-                spannableText.setSpan(new ForegroundColorSpan(colors.get(colorRandom.nextInt(colors.size()))), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableText.setSpan(new ForegroundColorSpan(colors.get(colorIndex)), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if (colorIndex + 1 < colors.size()) {
+                    colorIndex++;
+                } else {
+                    colorIndex = 0;
+                }
             }
         } else {
             spannableText.setSpan(Color.BLACK, 0, spannableText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

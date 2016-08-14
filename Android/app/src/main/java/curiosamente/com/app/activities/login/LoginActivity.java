@@ -20,7 +20,6 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -72,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onError(FacebookException e) {
             }
         };
-
     }
 
     private void initTrackers() {
@@ -107,8 +105,6 @@ public class LoginActivity extends AppCompatActivity {
         nextActivity(profile);
     }
 
-
-
     protected void onStop() {
         super.onStop();
         accessTokenTracker.stopTracking();
@@ -125,10 +121,6 @@ public class LoginActivity extends AppCompatActivity {
         if (profile != null) {
             newActivityAlreadyCreated = true;
             Intent main = new Intent(LoginActivity.this, MainActivity.class);
-            main.putExtra("name", profile.getFirstName());
-            main.putExtra("id", profile.getId());
-            main.putExtra("surname", profile.getLastName());
-            main.putExtra("imageUrl", profile.getProfilePictureUri(200, 200).toString());
             startActivity(main);
             finish();
         }

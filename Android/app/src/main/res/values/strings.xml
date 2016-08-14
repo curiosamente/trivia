@@ -25,6 +25,11 @@
     <string name="drawer_prize_button_text">Ver Premios</string>
 
     <!-- WAITING STRINGS -->
+    <string name="waiting_fragment_default_message">Conectando...</string>
+    <string name="waiting_fragment_starting_trivia">La trivia esta por empezar...</string>
+    <string name="waiting_fragment_waiting_trivia">Esperando próxima trivia...</string>
+    <string name="waiting_fragment_showing_question">Siguiente Pregunta!</string>
+    <string name="waiting_fragment_waiting_next_question">Esperando siguiente pregunta...</string>
     <string name="waiting_fragment_loading_bars_message">Cargando Bares...</string>
     <string name="waiting_fragment_connecting_server">Conectando...</string>
 

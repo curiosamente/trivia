@@ -17,7 +17,9 @@ package curiosamente.com.app.manager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import com.facebook.AccessToken;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 
 import curiosamente.com.app.activities.login.LoginActivity;
@@ -37,4 +39,17 @@ public class LogInManager {
             logOut(actitivy);
         }
     }
+
+    public static String getCurrentUserID(){
+        return Profile.getCurrentProfile().getId();
+    }
+
+    public static Uri getCurrentUserPhoto(int size){
+        return Profile.getCurrentProfile().getProfilePictureUri(size, size);
+    }
+
+    public static String getCurrentUserName(){
+        return Profile.getCurrentProfile().getName();
+    }
+
 }

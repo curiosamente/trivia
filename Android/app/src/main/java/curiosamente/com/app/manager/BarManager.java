@@ -34,6 +34,7 @@ public class BarManager {
         editor.remove(context.getResources().getString(R.string.pref_selected_bar_id_key));
         editor.remove(context.getResources().getString(R.string.pref_selected_bar_timestamp_key));
         editor.commit();
+        StatusManager.clearStatus(context);
         ThreadManager.stopCheckingStatus();
     }
 
@@ -49,7 +50,6 @@ public class BarManager {
 
     public static void getBars(Context context){
         Intent intent = new Intent(context, HttpService.class);
-        intent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_bar));
         intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Bar[].class);
         intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.BAR);
         context.startService(intent);

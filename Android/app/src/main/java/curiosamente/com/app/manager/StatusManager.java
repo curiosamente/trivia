@@ -5,16 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
 import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.model.GameStatus;
-import curiosamente.com.app.model.Question;
 
 
 public class StatusManager {
@@ -24,9 +18,6 @@ public class StatusManager {
     public static void statusReceived(GameStatus gameStatus, Context context) {
         Log.i(LOG_TAG, "Received Status From Server");
         if (BarManager.isABarSelectedAndValid(context)) {
-
-            //TODO SHOULD CHECK THAT MAIN ACITIVITY HAS RECIEVED FIRST STATUS CHANGE (IF NOT, WILL NEVER BE UPDATED)
-
             if (!gameStatus.equals(getStatus(context))) {
                 updateStatus(gameStatus, context);
                 switch (gameStatus) {
@@ -70,14 +61,14 @@ public class StatusManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getResources().getString(R.string.pref_current_status_key), gameStatus.name());
-        editor.apply();
+        editor.commit();
     }
 
     public static void clearStatus(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(context.getResources().getString(R.string.pref_current_status_key));
-        editor.apply();
+        editor.commit();
     }
 
 }

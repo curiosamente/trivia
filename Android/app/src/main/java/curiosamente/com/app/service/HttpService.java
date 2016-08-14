@@ -3,16 +3,14 @@ package curiosamente.com.app.service;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
 import com.facebook.Profile;
-
 import org.springframework.http.HttpStatus;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import java.io.Serializable;
-
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
 import curiosamente.com.app.activities.main.BroadcastReceiverType;
@@ -31,7 +29,6 @@ public class HttpService extends android.app.IntentService {
         super("HttpService");
     }
 
-    final static public String URL_EXTRA_PROPERTY = "url";
     final static public String CLASS_EXTRA_PROPERTY = "class";
     final static public String CALL_TYPE_ENUM_EXTRA_PROPERTY = "callType";
     final static public String ID_BAR_PARAMETER = "idBar";
@@ -44,18 +41,17 @@ public class HttpService extends android.app.IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.i(LOG_TAG, "HttpService intent started");
 
-        if (intent.hasExtra(URL_EXTRA_PROPERTY) && intent.hasExtra(CLASS_EXTRA_PROPERTY) && intent.hasExtra(CALL_TYPE_ENUM_EXTRA_PROPERTY)) {
-            String url = (String) intent.getExtras().get(URL_EXTRA_PROPERTY);
+        if (intent.hasExtra(CLASS_EXTRA_PROPERTY) && intent.hasExtra(CALL_TYPE_ENUM_EXTRA_PROPERTY)) {
             Class returnObjectClass = (Class) intent.getExtras().get(CLASS_EXTRA_PROPERTY);
             HttpServiceCallTypeEnum httpServiceCallTypeEnum = (HttpServiceCallTypeEnum) intent.getExtras().get(CALL_TYPE_ENUM_EXTRA_PROPERTY);
 
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
+            ((SimpleClientHttpRequestFactory) restTemplate.getRequestFactory()).setReadTimeout(1000);
             switch (httpServiceCallTypeEnum) {
                 case BAR: {
-                    Serializable returnObject = (Serializable) restTemplate.getForObject(url, returnObjectClass);
+                    Serializable returnObject = (Serializable) restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_bar), returnObjectClass);
                     LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(this);
                     Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
                     returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, returnObject);
@@ -79,7 +75,6 @@ public class HttpService extends android.app.IntentService {
                     Question question;
                     try {
                         String idBar = BarManager.getBarId(this);
-//                        String idBar = (String) intent.getExtras().get(HttpService.ID_BAR_PARAMETER);
                         question = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_current_question), Question.class, idBar);
                     } catch (HttpClientErrorException e) {
                         question = null;

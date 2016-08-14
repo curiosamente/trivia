@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.util.Log;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.GameStatus;
 import curiosamente.com.app.model.Question;
@@ -95,7 +92,6 @@ public class ThreadManager {
 
     public static void callCheckStatus(Context context) {
         Intent callIntent = new Intent(context, HttpService.class);
-        callIntent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_game_status));
         callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, String.class);
         callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
         callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.STATUS);
@@ -104,7 +100,6 @@ public class ThreadManager {
 
     public static void callGetQuestion(Context context) {
         Intent callIntent = new Intent(context, HttpService.class);
-        callIntent.putExtra(HttpService.URL_EXTRA_PROPERTY, context.getResources().getString(R.string.url_game_status));
         callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Question.class);
         callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
         callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.QUESTION);

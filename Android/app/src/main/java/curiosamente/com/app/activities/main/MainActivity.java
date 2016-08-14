@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    public static final String FRAGMENT_TAG = "MAIN_FRAGMENT";
+
     private DrawerLayout mDrawerLayout;
     private TextView mDrawerTextView;
     private ImageView mDrawerImage;
@@ -92,12 +94,13 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     public void startActivity() {
         // Set initial Fragment
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
         WaitingFragment waitingFragment = new WaitingFragment();
         waitingFragment.setFragmentMessage(getBaseContext().getResources().getString(R.string.waiting_fragment_connecting_server));
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.animator.slide_in_right, 0);
-        fragmentTransaction.replace(R.id.main_layout, waitingFragment);
+        fragmentTransaction.replace(R.id.main_layout, waitingFragment, FRAGMENT_TAG);
         fragmentReplacementTimeStamp = LocalDateTime.now();
         fragmentTransaction.commit();
         fm.popBackStack();
@@ -122,9 +125,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                                                }
         );
 
-        mDrawerTextView.setText(Profile.getCurrentProfile().getName());
+        mDrawerTextView.setText(LogInManager.getCurrentUserName());
 
-        Uri imageUrl = Profile.getCurrentProfile().getProfilePictureUri(200, 200);
+        Uri imageUrl = LogInManager.getCurrentUserPhoto(300);
         ImageUtility downloadImageUtility = new ImageUtility(this, this);
         downloadImageUtility.execute(imageUrl.toString());
 

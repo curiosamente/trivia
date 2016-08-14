@@ -91,7 +91,6 @@ public class QuestionFragment extends Fragment {
                 Question question = QuestionManager.getQuestion(getActivity());
 
                 Intent intent = new Intent(getActivity(), HttpService.class);
-                intent.putExtra(HttpService.URL_EXTRA_PROPERTY, getActivity().getResources().getString(R.string.url_game_push_answer));
                 intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Void.class);
                 intent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(getActivity()));
 

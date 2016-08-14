@@ -9,6 +9,7 @@ public class Prize implements Serializable {
     }
 
     private int seqId;
+    private String idUser;
     private String idBar;
     private String name;
     private Date date;
@@ -21,6 +22,14 @@ public class Prize implements Serializable {
 
     public void setSeqId(int seqId) {
         this.seqId = seqId;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public Date getDate() {
