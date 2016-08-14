@@ -16,7 +16,7 @@ import curiosamente.com.app.model.Prize;
 
 public class PrizeManager {
 
-    public static boolean addPrize(Prize prize, Context context) {
+    public static boolean storePrize(Prize prize, Context context) {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
@@ -39,6 +39,15 @@ public class PrizeManager {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static void createAndStorePrize(Context context){
+        Prize prize = new Prize();
+        prize.setIdBar(BarManager.getBarId(context));
+        prize.setName(BarManager.getBarName(context));
+        prize.setIdUser(LogInManager.getCurrentUserID());
+        prize.setDate(new Date());
+        storePrize(prize, context);
     }
 
     public static Prize collectPrize(Context context, Prize prize) {
@@ -96,37 +105,5 @@ public class PrizeManager {
         prize.setImageSrc(cursor.getString(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_PRIZE_IMAGE)));
         prize.setCollected(cursor.getInt(cursor.getColumnIndexOrThrow(DbContract.PrizesEntry.COLUMN_PRIZE_COLLECTED)) != 0);
         return prize;
-    }
-
-    public static void provisoryAddPrizes(SQLiteDatabase sqLiteDatabase, Context context) {
-        sqLiteDatabase.execSQL("delete from " + DbContract.PrizesEntry.TABLE_NAME);
-
-        Prize prize = new Prize();
-        prize.setIdBar("1");
-        prize.setName("BAR NAME1");
-        prize.setIdUser(LogInManager.getCurrentUserID());
-        prize.setDate(new Date());
-        addPrize(prize, context);
-
-        Prize prize2 = new Prize();
-        prize2.setIdBar("2");
-        prize2.setName("BAR NAME2");
-        prize2.setIdUser(LogInManager.getCurrentUserID());
-        prize2.setDate(new Date());
-        addPrize(prize2, context);
-
-        Prize prize3 = new Prize();
-        prize3.setIdBar("3");
-        prize3.setName("BAR NAME3");
-        prize3.setIdUser(LogInManager.getCurrentUserID());
-        prize3.setDate(new Date());
-        addPrize(prize3, context);
-
-        Prize prize4 = new Prize();
-        prize4.setIdBar("4");
-        prize4.setName("BAR NAME4");
-        prize4.setIdUser(LogInManager.getCurrentUserID());
-        prize4.setDate(new Date(new Date().getTime() + TimeUnit.DAYS.toMillis(1)));
-        addPrize(prize4, context);
     }
 }

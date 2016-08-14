@@ -7,11 +7,11 @@
     <string name="no">No</string>
 
     <!--URLs-->
-    <string name="url_bar">http://10.0.2.2:8080/bar</string>
-    <string name="url_game_status">http://10.0.2.2:8080/game/status?idBar={idBar}</string>
-    <string name="url_game_current_question">http://10.0.2.2:8080/game/currentQuestion?idBar={idBar}</string>
-    <string name="url_game_push_answer">http://10.0.2.2:8080/game/pushAnswer?idBar={idBar}</string>
-    <string name="url_game_winner">http://10.0.2.2:8080/game/winner?idBar={idBar}</string>
+    <string name="url_bar">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/bar</string>
+    <string name="url_game_status">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/game/status?idBar={idBar}</string>
+    <string name="url_game_current_question">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/game/currentQuestion?idBar={idBar}</string>
+    <string name="url_game_push_answer">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/game/pushAnswer?idBar={idBar}</string>
+    <string name="url_game_score">http://curiosamente-prod.sa-east-1.elasticbeanstalk.com/game/scores?idBar={idBar}</string>
 
     <!-- MAIN ACTIVITY STRINGS-->
     <string name="main_activity_loading">Cargando</string>

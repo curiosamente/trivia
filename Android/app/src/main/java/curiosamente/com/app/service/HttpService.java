@@ -20,6 +20,7 @@ import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
 import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.LogInManager;
+import curiosamente.com.app.manager.PrizeManager;
 import curiosamente.com.app.manager.QuestionManager;
 import curiosamente.com.app.manager.StatusManager;
 import curiosamente.com.app.model.Answer;
@@ -92,11 +93,13 @@ public class HttpService extends android.app.IntentService {
                     try {
                         String idBar = BarManager.getBarId(this);
                         winner = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_winner), Player.class, idBar);
-                        String idPlayer = LogInManager.getCurrentUserID();
-
+                        boolean isWinner = LogInManager.getCurrentUserID().equals(winner.getId());
+                        if(isWinner){
+                            PrizeManager.createAndStorePrize(getBaseContext());
+                        }
                         LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
                         Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-                        returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, idPlayer.equals(winner.getId()));
+                        returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, isWinner);
                         returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.TRIVIA_RESULT);
                         broadcaster.sendBroadcast(returnIntent);
                     } catch (HttpClientErrorException e) {
