@@ -81,6 +81,7 @@
             vm.currentQuestion.currentPosition = vm.questionPosition;
             GameManagerService.SetCurrentQuestion(vm.currentQuestion);
             GameManagerService.SetStatus(vm.statusTrivia);
+            vm.elapsedTimeToShow = MAX_ELAPSED_TIME;
             actualTimeOut = setTimeout(showingOptions, 5000);
         }
 
@@ -103,7 +104,6 @@
                     vm.progressBarValue = (vm.elapsedTime/MAX_ELAPSED_TIME)*100;
 
                 } else {
-                    vm.elapsedTimeToShow = MAX_ELAPSED_TIME;
                     $interval.cancel(elapsedTimeInterval);
                 }
             }, 1000);

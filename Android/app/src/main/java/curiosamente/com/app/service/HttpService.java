@@ -54,7 +54,7 @@ public class HttpService extends android.app.IntentService {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            ((SimpleClientHttpRequestFactory) restTemplate.getRequestFactory()).setReadTimeout(1000);
+            ((SimpleClientHttpRequestFactory) restTemplate.getRequestFactory()).setReadTimeout(2000);
             switch (httpServiceCallTypeEnum) {
                 case BAR: {
                     Serializable returnObject = (Serializable) restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_bar), returnObjectClass);
