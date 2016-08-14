@@ -1,4 +1,4 @@
-package curiosamente.com.app.activities.main.Waiting;
+package curiosamente.com.app.activities.main.Message;
 
 import android.content.Context;
 

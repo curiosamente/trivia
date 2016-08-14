@@ -40,6 +40,7 @@ public class HttpService extends android.app.IntentService {
     final static public String ID_BAR_PARAMETER = "idBar";
     final static public String ID_QUESTION_ANSWER = "idQuestion";
     final static public String ANSWER = "answer";
+    final static public int MAX_RETRY = 2;
 
     public static final String LOG_TAG = HttpService.class.getSimpleName();
 
@@ -79,52 +80,64 @@ public class HttpService extends android.app.IntentService {
                 }
                 case QUESTION: {
                     Question question;
-                    try {
-                        String idBar = BarManager.getBarId(this);
-                        question = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_current_question), Question.class, idBar);
-                    } catch (HttpClientErrorException e) {
-                        question = null;
-                    }
+                    String idBar = BarManager.getBarId(this);
+                    int retry = 0;
+                    do {
+                        try {
+                            question = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_current_question), Question.class, idBar);
+                        } catch (HttpClientErrorException e) {
+                            question = null;
+                            retry++;
+                        }
+                    } while (question == null && retry < MAX_RETRY);
                     QuestionManager.questionReceived(question, getBaseContext());
                     break;
                 }
                 case WINNER: {
                     Player winner;
-                    try {
-                        String idBar = BarManager.getBarId(this);
-                        winner = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_winner), Player.class, idBar);
-                        boolean isWinner = LogInManager.getCurrentUserID().equals(winner.getId());
-                        if(isWinner){
-                            PrizeManager.createAndStorePrize(getBaseContext());
-                        }
-                        LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
-                        Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-                        returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, isWinner);
-                        returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.TRIVIA_RESULT);
-                        broadcaster.sendBroadcast(returnIntent);
-                    } catch (HttpClientErrorException e) {
-                        winner = null;
-                    }
+                    int retry = 0;
+                    String idBar = BarManager.getBarId(this);
 
+                    do {
+                        try {
+                            winner = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_winner), Player.class, idBar);
+                        } catch (HttpClientErrorException e) {
+                            retry++;
+                            winner = null;
+                        }
+                    } while (winner == null && retry < MAX_RETRY);
+
+                    boolean isWinner = LogInManager.getCurrentUserID().equals(winner.getId());
+                    if (isWinner) {
+                        PrizeManager.createAndStorePrize(getBaseContext());
+                    }
+                    LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
+                    Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+                    returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, isWinner);
+                    returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.TRIVIA_RESULT);
+                    broadcaster.sendBroadcast(returnIntent);
                     break;
                 }
                 case PUSH_ANSWER: {
+                    int retry = 0;
                     HttpStatus httpStatus;
-                    try {
-                        String idBar = BarManager.getBarId(this);
-                        Answer answer = new Answer();
-                        Player player = new Player();
-                        player.setId(Profile.getCurrentProfile().getId());
-                        player.setName(Profile.getCurrentProfile().getFirstName());
-                        player.setLastName(Profile.getCurrentProfile().getLastName());
-                        answer.setPlayer(player);
-                        answer.setIdQuestion((String) intent.getExtras().get(HttpService.ID_QUESTION_ANSWER));
-                        answer.setAnswer((String) intent.getExtras().get(HttpService.ANSWER));
-                        httpStatus = restTemplate.postForEntity(getBaseContext().getResources().getString(R.string.url_game_push_answer), answer, Void.class, idBar).getStatusCode();
-                    } catch (HttpClientErrorException e) {
-                        httpStatus = e.getStatusCode();
-                    }
-
+                    String idBar = BarManager.getBarId(this);
+                    Answer answer = new Answer();
+                    Player player = new Player();
+                    player.setId(Profile.getCurrentProfile().getId());
+                    player.setName(Profile.getCurrentProfile().getFirstName());
+                    player.setLastName(Profile.getCurrentProfile().getLastName());
+                    answer.setPlayer(player);
+                    answer.setIdQuestion((String) intent.getExtras().get(HttpService.ID_QUESTION_ANSWER));
+                    answer.setAnswer((String) intent.getExtras().get(HttpService.ANSWER));
+                    do {
+                        try {
+                            httpStatus = restTemplate.postForEntity(getBaseContext().getResources().getString(R.string.url_game_push_answer), answer, Void.class, idBar).getStatusCode();
+                        } catch (HttpClientErrorException e) {
+                            retry++;
+                            httpStatus = e.getStatusCode();
+                        }
+                    } while (!httpStatus.equals(HttpStatus.OK) && retry < MAX_RETRY);
                     break;
                 }
             }

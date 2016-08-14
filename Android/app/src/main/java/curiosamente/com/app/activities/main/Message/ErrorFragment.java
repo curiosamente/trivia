@@ -1,4 +1,4 @@
-package curiosamente.com.app.activities.main.Waiting;
+package curiosamente.com.app.activities.main.Message;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import curiosamente.com.app.R;
 
-public class WaitingFragment extends Fragment {
+public class ErrorFragment extends Fragment {
 
     private String fragmentMessage = null;
 
-    public WaitingFragment() {
+    public ErrorFragment() {
     }
 
     @Override

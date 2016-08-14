@@ -11,20 +11,10 @@ public class Game {
     private Bar bar;
     private Question currentQuestion;
     private GameStatus gameStatus = GameStatus.READY;
-//    private Set<Player> playerList = new TreeSet<>();
     private Set<Answer> answerSet = new TreeSet<>();
     private Map<Player, Score> scoreMap = new TreeMap<>();
     private int elapsedTime;
     private int questionPosition;
-
-//
-//    public Set<Player> getPlayerList() {
-//        return playerList;
-//    }
-//
-//    public void setPlayerList(Set<Player> playerList) {
-//        this.playerList = playerList;
-//    }
 
 
     public int getQuestionPosition() {

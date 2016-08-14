@@ -41,7 +41,7 @@ import org.joda.time.LocalDateTime;
 import java.io.File;
 
 import curiosamente.com.app.R;
-import curiosamente.com.app.activities.main.Waiting.WaitingFragment;
+import curiosamente.com.app.activities.main.Message.WaitingFragment;
 import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.LogInManager;

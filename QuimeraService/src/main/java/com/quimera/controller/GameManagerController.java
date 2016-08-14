@@ -33,7 +33,7 @@ public class GameManagerController {
     }
 
 
-    @RequestMapping(value = "/finishTrivia", method = RequestMethod.PATCH)
+    @RequestMapping(value = "finishTrivia", method = RequestMethod.PATCH)
     public ResponseEntity finishTrivia(@RequestParam String idBar) {
         if (gameManagerService.finishTrivia(idBar)) {
             return new ResponseEntity(HttpStatus.OK);
@@ -42,7 +42,7 @@ public class GameManagerController {
         }
     }
 
-    @RequestMapping(value = "/currentTrivia", method = RequestMethod.GET)
+    @RequestMapping(value = "currentTrivia", method = RequestMethod.GET)
     public ResponseEntity<Trivia> getCurrentTrivia(@RequestParam String idBar) {
 
         Trivia trivia = gameManagerService.getCurrentTrivia(idBar);
@@ -100,7 +100,7 @@ public class GameManagerController {
 
     }
 
-    @RequestMapping(value = "/scores", method = RequestMethod.GET)
+    @RequestMapping(value = "scores", method = RequestMethod.GET)
     public ResponseEntity<List<Score>> getScores(@RequestParam String idBar) {
 
         List<Score> scores = gameManagerService.getScores(idBar);
@@ -111,7 +111,7 @@ public class GameManagerController {
         }
     }
 
-    @RequestMapping(value = "/winner", method = RequestMethod.GET)
+    @RequestMapping(value = "winner", method = RequestMethod.GET)
     public ResponseEntity<Player> getWinner(@RequestParam String idBar) {
 
         List<Score> scores = gameManagerService.getScores(idBar);
@@ -126,7 +126,7 @@ public class GameManagerController {
         }
     }
 
-    @RequestMapping(value = "/pushAnswer", method = RequestMethod.POST)
+    @RequestMapping(value = "pushAnswer", method = RequestMethod.POST)
     public ResponseEntity pushAnswer(@RequestParam String idBar, @RequestBody Answer answer) {
 
         if (gameManagerService.pushAnswer(idBar, answer)) {

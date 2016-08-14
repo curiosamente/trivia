@@ -108,12 +108,14 @@
                 }
             }, 1000);
 
-            actualTimeOut = setTimeout(delayBeforeCorrectAnswer, 2000);
-        }
-
-        function delayBeforeCorrectAnswer() {
             actualTimeOut = setTimeout(showingCorrectAnswer, MAX_ELAPSED_TIME*1000 + 1000);
         }
+
+//        function delayBeforeCorrectAnswer() {
+//            vm.statusTrivia = 'WAITING_CORRECT_ANSWER';
+//            GameManagerService.SetStatus(vm.statusTrivia);
+//            actualTimeOut = setTimeout(showingCorrectAnswer, MAX_ELAPSED_TIME*1000 + 1000);
+//        }
 
         function showingCorrectAnswer() {
             vm.elapsedTime = MAX_ELAPSED_TIME;
@@ -196,12 +198,6 @@
             vm.currentQuestion.currentPosition = 0;
 
             vm.description = null;
-
-            actualTimeOut = setTimeout(delay, 5000);
-
-        }
-
-        function delay() {
 
         }
 
