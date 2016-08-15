@@ -23,20 +23,24 @@ public class WaitingFragmentUtil {
                 messageString = context.getResources().getString(R.string.waiting_fragment_showing_question);
                 break;
             }
+            case WAITING_CORRECT_ANSWER: {
+                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_game);
+                break;
+            }
             case SHOWING_CORRECT_ANSWER: {
-                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_next_question);
+                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_game);
                 break;
             }
             case SHOWING_DESCRIPTION: {
-                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_next_question);
+                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_game);
                 break;
             }
             case SHOWING_PARTIAL_WINNERS: {
-                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_next_question);
+                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_game);
                 break;
             }
             case SHOWING_BANNER: {
-                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_next_question);
+                messageString = context.getResources().getString(R.string.waiting_fragment_waiting_game);
                 break;
             }
             case SHOWING_FINAL_WINNERS: {

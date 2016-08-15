@@ -21,7 +21,7 @@ public class QuestionManager {
 
         if (BarManager.isABarSelectedAndValid(context)) {
 
-            if (question != null && !getQuestion(context).equals(question)) {
+            if (question != null && !question.equals(getQuestion(context))) {
                 updateQuestion(question, context);
             }
         }
@@ -29,21 +29,28 @@ public class QuestionManager {
 
     public static Question getQuestion(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        String questionJSON = sharedPreferences.getString(context.getResources().getString(R.string.pref_current_question_key), "{}");
+        String questionJSON = sharedPreferences.getString(context.getResources().getString(R.string.pref_current_question_key), null);
         Question question = null;
         try {
             question = new ObjectMapper().readValue(questionJSON, Question.class);
+        } catch (NullPointerException e) {
         } catch (IOException e) {
             e.printStackTrace();
         }
         return question;
     }
 
+    public static void clearQuestion(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(context.getResources().getString(R.string.pref_current_question_key));
+        editor.apply();
+    }
+
     public static void updateQuestion(Question question, Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(context.getResources().getString(R.string.pref_current_question_key), question != null ? question.toString() : "{}");
-        editor.commit();
+        editor.putString(context.getResources().getString(R.string.pref_current_question_key), question != null ? question.toString() : null);
+        editor.apply();
     }
-
 }

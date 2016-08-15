@@ -11,6 +11,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
@@ -55,7 +56,7 @@ public class HttpService extends android.app.IntentService {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            ((SimpleClientHttpRequestFactory) restTemplate.getRequestFactory()).setReadTimeout(2000);
+            ((SimpleClientHttpRequestFactory) restTemplate.getRequestFactory()).setReadTimeout(1000);
             switch (httpServiceCallTypeEnum) {
                 case BAR: {
                     Serializable returnObject = (Serializable) restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_bar), returnObjectClass);
@@ -70,8 +71,9 @@ public class HttpService extends android.app.IntentService {
                     GameStatus gameStatus;
                     try {
                         String idBar = BarManager.getBarId(this);
+                        Log.i(LOG_TAG, "STATUS CALL");
                         gameStatus = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_status), GameStatus.class, idBar);
-                    } catch (HttpClientErrorException e) {
+                    } catch (HttpClientErrorException | ResourceAccessException e) {
                         gameStatus = GameStatus.WAITING_TRIVIA;
                     }
                     Log.i(LOG_TAG, "Status received: " + gameStatus);
@@ -84,8 +86,10 @@ public class HttpService extends android.app.IntentService {
                     int retry = 0;
                     do {
                         try {
+                            Log.i(LOG_TAG, "QUESTION CALL");
                             question = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_current_question), Question.class, idBar);
-                        } catch (HttpClientErrorException e) {
+                        } catch (HttpClientErrorException | ResourceAccessException e) {
+                            Log.e(LOG_TAG, "QUESTION CALL CATCH", e);
                             question = null;
                             retry++;
                         }
@@ -100,14 +104,16 @@ public class HttpService extends android.app.IntentService {
 
                     do {
                         try {
+                            Log.i(LOG_TAG, "WINNER");
                             winner = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_winner), Player.class, idBar);
-                        } catch (HttpClientErrorException e) {
+                        } catch (HttpClientErrorException | ResourceAccessException e) {
+                            Log.e(LOG_TAG, "WINNER CALL CATCH", e);
                             retry++;
                             winner = null;
                         }
                     } while (winner == null && retry < MAX_RETRY);
 
-                    boolean isWinner = LogInManager.getCurrentUserID().equals(winner.getId());
+                    boolean isWinner = winner != null && LogInManager.getCurrentUserID().equals(winner.getId());
                     if (isWinner) {
                         PrizeManager.createAndStorePrize(getBaseContext());
                     }
@@ -132,12 +138,16 @@ public class HttpService extends android.app.IntentService {
                     answer.setAnswer((String) intent.getExtras().get(HttpService.ANSWER));
                     do {
                         try {
+                            Log.i(LOG_TAG, "PUSH");
                             httpStatus = restTemplate.postForEntity(getBaseContext().getResources().getString(R.string.url_game_push_answer), answer, Void.class, idBar).getStatusCode();
-                        } catch (HttpClientErrorException e) {
+                        } catch (HttpClientErrorException  e) {
                             retry++;
                             httpStatus = e.getStatusCode();
+                        } catch (ResourceAccessException e ){
+                            Log.e(LOG_TAG, "PUSH CALL TIMEOUT", e);
+                            httpStatus = HttpStatus.REQUEST_TIMEOUT;
                         }
-                    } while (!httpStatus.equals(HttpStatus.OK) && retry < MAX_RETRY);
+                    } while (!httpStatus.equals(HttpStatus.OK) && !httpStatus.equals(HttpStatus.ACCEPTED) && retry < MAX_RETRY);
                     break;
                 }
             }

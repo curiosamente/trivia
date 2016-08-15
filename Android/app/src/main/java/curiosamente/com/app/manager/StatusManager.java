@@ -10,6 +10,7 @@ import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
 import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.model.GameStatus;
+import curiosamente.com.app.model.Question;
 
 
 public class StatusManager {
@@ -20,16 +21,26 @@ public class StatusManager {
         Log.i(LOG_TAG, "Received Status From Server");
         if (BarManager.isABarSelectedAndValid(context)) {
             if (!gameStatus.equals(getStatus(context))) {
+
+                if (!GameStatus.SHOWING_QUESTION.equals(gameStatus) && !GameStatus.SHOWING_OPTIONS.equals(gameStatus)) {
+                    QuestionManager.clearQuestion(context);
+                }
+
                 updateStatus(gameStatus, context);
                 switch (gameStatus) {
                     case SHOWING_QUESTION:
                         ThreadManager.callGetQuestion(context);
                         break;
                     case SHOWING_OPTIONS:
-                        LocalBroadcastManager broadcaster3 = LocalBroadcastManager.getInstance(context);
-                        Intent returnIntent2 = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-                        returnIntent2.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.QUESTION);
-                        broadcaster3.sendBroadcast(returnIntent2);
+                        if (QuestionManager.getQuestion(context) == null) {
+                            ThreadManager.callGetQuestion(context);
+                            StatusManager.updateStatus(GameStatus.SHOWING_QUESTION, context);
+                        } else {
+                            LocalBroadcastManager broadcaster3 = LocalBroadcastManager.getInstance(context);
+                            Intent returnIntent2 = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+                            returnIntent2.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.QUESTION);
+                            broadcaster3.sendBroadcast(returnIntent2);
+                        }
                         break;
                     case SHOWING_FINAL_WINNERS: {
                         ThreadManager.callGetWinner(context);

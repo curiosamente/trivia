@@ -45,6 +45,7 @@ import curiosamente.com.app.activities.main.Message.WaitingFragment;
 import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.LogInManager;
+import curiosamente.com.app.manager.QuestionManager;
 import curiosamente.com.app.manager.StatusManager;
 import curiosamente.com.app.manager.ThreadManager;
 import curiosamente.com.app.utils.AsyncResponse;
@@ -228,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     protected void onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        QuestionManager.clearQuestion(this);
         super.onStop();
     }
 
