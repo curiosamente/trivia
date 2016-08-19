@@ -332,34 +332,4 @@ public class DataGenerator {
         return trivias;
     }
 
-    public void generatePolicyAndSignature() throws UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException {
-
-        String policy_document = "{" +
-                "\"expiration\": \"2020-01-01T00:00:00Z\",\n" +
-                "  \"conditions\": [ \n" +
-                "    {\"bucket\": \"quimera-web-admin-banners\"}, \n" +
-                "    [\"starts-with\", \"$key\", \"uploads/\"],\n" +
-                "    {\"acl\": \"public-read\"},\n" +
-                "    {\"success_action_redirect\": \"/banner/successful-upload\"},\n" +
-                "    [\"starts-with\", \"$Content-Type\", \"\"],\n" +
-                "    [\"content-length-range\", 0, 1048576]\n" +
-                "  ]\n" +
-                "}";
-
-        String aws_secret_key = "6zn0Foc6NWrk0LuKWgwJfYOeNXbpjardkNywjPk4";
-
-        String policy = (new BASE64Encoder()).encode(
-                policy_document.getBytes("UTF-8")).replaceAll("\n", "").replaceAll("\r", "");
-
-        Mac hmac = Mac.getInstance("HmacSHA1");
-        hmac.init(new SecretKeySpec(
-                aws_secret_key.getBytes("UTF-8"), "HmacSHA1"));
-        String signature = (new BASE64Encoder()).encode(
-                hmac.doFinal(policy.getBytes("UTF-8")))
-                .replaceAll("\n", "");
-
-        System.out.println(policy);
-        System.out.println(signature);
-    }
-
 }

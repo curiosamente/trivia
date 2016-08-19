@@ -39,7 +39,9 @@ public class GameManagerService {
     public boolean finishTrivia(String idBar) {
         boolean isUpdated = false;
         if (gameMap.containsKey(idBar)) {
-            Trivia trivia = gameMap.remove(idBar).getTrivia();
+            Game game = gameMap.remove(idBar);
+            game.setGameStatus(GameStatus.TERMINATED);
+            Trivia trivia = game.getTrivia();
             trivia.setTriviaStatus(TriviaStatus.TERMINATED);
             triviaService.update(trivia);
             isUpdated = true;
@@ -192,16 +194,4 @@ public class GameManagerService {
         return minutes >= 0 && minutes <= 5;
     }
 
-    public boolean setQuestionNumber(String idBar, int questionPosition) {
-
-        boolean isUpdated = false;
-
-        Game game = gameMap.get(idBar);
-        if (game != null) {
-            gameMap.get(idBar).setQuestionPosition(questionPosition);
-            isUpdated = true;
-        }
-
-        return isUpdated;
-    }
 }

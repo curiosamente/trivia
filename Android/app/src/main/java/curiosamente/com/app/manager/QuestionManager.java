@@ -33,8 +33,7 @@ public class QuestionManager {
         Question question = null;
         try {
             question = new ObjectMapper().readValue(questionJSON, Question.class);
-        } catch (NullPointerException e) {
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
         return question;

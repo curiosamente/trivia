@@ -222,20 +222,20 @@
 
 <div id="waitingTrivia" ng-show="vm.statusTrivia == 'WAITING_TRIVIA'">Esperando trivia</div>
 
-<div id="top" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
+<div id="top" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS' || vm.statusTrivia == 'TERMINATED'">
     <span class="questionNumber"
-          ng-show="vm.statusTrivia == 'SHOWING_QUESTION' || vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_DESCRIPTION'"
+          ng-show="vm.statusTrivia == 'SHOWING_QUESTION' || vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_DESCRIPTION' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER' "
           ng-hide="vm.questionPosition==0 || vm.statusTrivia == 'TERMINATED'">Pregunta {{vm.questionPosition}}</span>
 </div>
-<div id="header" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
+<div id="header" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS' || vm.statusTrivia == 'TERMINATED'">
     <span class="questionlabel"
-          ng-show="vm.statusTrivia == 'SHOWING_QUESTION' || vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_DESCRIPTION'"
+          ng-show="vm.statusTrivia == 'SHOWING_QUESTION' || vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_DESCRIPTION'"
+
           ng-bind="vm.currentQuestion.question"></span>
 </div>
 
-<div id="middle" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
-    <div id="list" ng-show="vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER'"
-         ng-hide="vm.statusTrivia == 'TERMINATED'">
+<div id="middle" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS' || vm.statusTrivia == 'TERMINATED'">
+    <div id="list" ng-show="vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER'">
         <ul class="optionsli">
             <li ng-repeat="option in vm.options">
                 {{option}}
@@ -247,8 +247,8 @@
     </div>
 
 </div>
-<div id="bottom" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
-    <div class="progress" ng-show="vm.statusTrivia == 'SHOWING_OPTIONS'">
+<div id="bottom" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS' || vm.statusTrivia == 'TERMINATED'">
+    <div class="progress" ng-show="vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER'">
         <div class="progress-bar progress-bar-striped progress-bar-info active animate" role="progressbar"
              aria-valuemin="0" aria-valuemax="100" ng-style="{width: vm.progressBarValue + '%'}">
             <span class="progress-value">{{vm.elapsedTimeToShow}}</span>
