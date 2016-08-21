@@ -21,12 +21,14 @@ public class ThreadManager {
     private final static long THREAD_FRECUENCY_IN_MILLIS = 1000;
     private final static long ALARM_FRECUENCY_IN_MILLIS = 60 * 1000;
     public static boolean threadCreated = false;
+    public static boolean createNewThread = true;
     public static Thread serviceThread;
 
     public static void stopCheckingStatus() {
         if (threadCreated) {
             serviceThread.interrupt();
             threadCreated = false;
+            createNewThread = false;
         }
     }
 
@@ -55,7 +57,7 @@ public class ThreadManager {
     }
 
     private static void createThread(Context context) {
-        if (!threadCreated) {
+        if (!threadCreated && createNewThread) {
             serviceThread = createThread(THREAD_FRECUENCY_IN_MILLIS, context);
             serviceThread.start();
             threadCreated = true;

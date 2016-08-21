@@ -74,21 +74,23 @@ public class QuestionFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deselectAllOptions();
-                setColor(button, true);
-
                 Question question = QuestionManager.getQuestion(getActivity());
+                if (question != null) {
 
-                Intent intent = new Intent(getActivity(), HttpService.class);
-                intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Void.class);
-                intent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(getActivity()));
+                    deselectAllOptions();
+                    setColor(button, true);
+                    disableAllOptions();
 
-                intent.putExtra(HttpService.ID_QUESTION_ANSWER, question.getIdQuestion());
-                intent.putExtra(HttpService.ANSWER, textButton);
-                intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.PUSH_ANSWER);
-                getActivity().startService(intent);
-                disableAllOptions();
+                    Intent intent = new Intent(getActivity(), HttpService.class);
+                    intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Void.class);
+                    intent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(getActivity()));
 
+                    intent.putExtra(HttpService.ID_QUESTION_ANSWER, question.getIdQuestion());
+                    intent.putExtra(HttpService.ANSWER, textButton);
+                    intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.PUSH_ANSWER);
+                    getActivity().startService(intent);
+
+                }
             }
         });
 

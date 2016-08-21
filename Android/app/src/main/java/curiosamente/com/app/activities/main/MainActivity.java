@@ -208,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         StatusManager.clearStatus(this);
         LogInManager.checkStatus(this);
         QuestionManager.clearQuestion(this);
+        ThreadManager.createNewThread = true;
         startActivity();
     }
 
@@ -226,6 +227,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
                 new IntentFilter(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY)
         );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ThreadManager.stopCheckingStatus();
     }
 
     @Override
