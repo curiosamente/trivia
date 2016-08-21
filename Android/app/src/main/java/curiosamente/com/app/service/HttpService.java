@@ -63,23 +63,25 @@ public class HttpService extends android.app.IntentService {
 
             switch (httpServiceCallTypeEnum) {
                 case BAR: {
-                    Bar[] barList;
+
+                    ResponseEntity<Bar[]> responseEntityBars = null;
                     int retry = 0;
                     do {
                         try {
-                            barList = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_bar), Bar[].class);
+                            responseEntityBars = restTemplate.getForEntity(getBaseContext().getResources().getString(R.string.url_bar), Bar[].class);
                         } catch (Exception e) {
                             Log.e(LOG_TAG, "BAR CALL CATCH", e);
-                            barList = null;
                             retry++;
                         }
-                    } while (barList == null && retry < MAX_RETRY);
+                    } while (responseEntityBars == null && retry < MAX_RETRY);
 
-                    LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(this);
-                    Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-                    returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, barList);
-                    returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.BAR_LIST);
-                    broadcaster.sendBroadcast(returnIntent);
+                    if (responseEntityBars != null && responseEntityBars.getBody() != null) {
+                        LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(this);
+                        Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+                        returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, responseEntityBars.getBody());
+                        returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.BAR_LIST);
+                        broadcaster.sendBroadcast(returnIntent);
+                    }
                     break;
                 }
                 case STATUS: {
@@ -90,7 +92,7 @@ public class HttpService extends android.app.IntentService {
                             String idBar = BarManager.getBarId(this);
                             Log.i(LOG_TAG, "STATUS CALL");
                             gameStatusResponseEntity = restTemplate.getForEntity(getBaseContext().getResources().getString(R.string.url_game_status), GameStatus.class, idBar);
-                            Log.i(LOG_TAG, "STATUS CALL" + gameStatusResponseEntity.getBody());
+                            Log.i(LOG_TAG, "STATUS CALL " + gameStatusResponseEntity.getBody());
                         } catch (Exception e) {
                             Log.i(LOG_TAG, "STATUS CALL CATCH");
                             retry++;
@@ -110,23 +112,26 @@ public class HttpService extends android.app.IntentService {
                     break;
                 }
                 case QUESTION: {
-                    Question question;
+                    ResponseEntity<Question> questionResponseEntity = null;
+
                     String idBar = BarManager.getBarId(this);
                     int retry = 0;
                     do {
                         try {
                             Log.i(LOG_TAG, "QUESTION CALL");
-                            question = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_current_question), Question.class, idBar);
+                            questionResponseEntity = restTemplate.getForEntity(getBaseContext().getResources().getString(R.string.url_game_current_question), Question.class, idBar);
                         } catch (Exception e) {
                             Log.e(LOG_TAG, "QUESTION CALL CATCH", e);
-                            question = null;
                             retry++;
                         }
-                    } while (question == null && retry < MAX_RETRY);
-                    QuestionManager.questionReceived(question, getBaseContext());
+                    } while (questionResponseEntity == null && retry < MAX_RETRY);
+                    if (questionResponseEntity != null) {
+                        QuestionManager.questionReceived(questionResponseEntity.getBody(), getBaseContext());
+                    }
                     break;
                 }
                 case WINNER: {
+                    ResponseEntity<Player> playerResponseEntity = null;
                     Player winner;
                     int retry = 0;
                     String idBar = BarManager.getBarId(this);
@@ -134,26 +139,29 @@ public class HttpService extends android.app.IntentService {
                     do {
                         try {
                             Log.i(LOG_TAG, "WINNER");
-                            winner = restTemplate.getForObject(getBaseContext().getResources().getString(R.string.url_game_winner), Player.class, idBar);
+                            playerResponseEntity = restTemplate.getForEntity(getBaseContext().getResources().getString(R.string.url_game_winner), Player.class, idBar);
                         } catch (Exception e) {
                             Log.e(LOG_TAG, "WINNER CALL CATCH", e);
                             retry++;
-                            winner = null;
                         }
-                    } while (winner == null && retry < MAX_RETRY);
+                    } while (playerResponseEntity == null && retry < MAX_RETRY);
 
-                    boolean isWinner = winner != null && LogInManager.getCurrentUserID().equals(winner.getId());
-                    if (isWinner) {
-                        PrizeManager.createAndStorePrize(getBaseContext());
+                    if(playerResponseEntity!=null){
+                        winner = playerResponseEntity.getBody();
+                        boolean isWinner = winner != null && LogInManager.getCurrentUserID().equals(winner.getId());
+                        if (isWinner) {
+                            PrizeManager.createAndStorePrize(getBaseContext());
+                        }
+                        LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
+                        Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+                        returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, isWinner);
+                        returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.TRIVIA_RESULT);
+                        broadcaster.sendBroadcast(returnIntent);
                     }
-                    LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
-                    Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-                    returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, isWinner);
-                    returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.TRIVIA_RESULT);
-                    broadcaster.sendBroadcast(returnIntent);
                     break;
                 }
                 case PUSH_ANSWER: {
+                    ResponseEntity responseEntityPushAnswer = null;
                     int retry = 0;
                     HttpStatus httpStatus = null;
                     String idBar = BarManager.getBarId(this);
@@ -168,13 +176,13 @@ public class HttpService extends android.app.IntentService {
                     do {
                         try {
                             Log.i(LOG_TAG, "PUSH ANSWER");
-                            httpStatus = restTemplate.postForEntity(getBaseContext().getResources().getString(R.string.url_game_push_answer), answer, Void.class, idBar).getStatusCode();
+                            responseEntityPushAnswer = restTemplate.postForEntity(getBaseContext().getResources().getString(R.string.url_game_push_answer), answer, Void.class, idBar);
                         } catch (Exception e) {
                             Log.e(LOG_TAG, "PUSH ANSWER CALL CATCH", e);
                             retry++;
                         }
                     }
-                    while (httpStatus == null && retry < MAX_RETRY);
+                    while (responseEntityPushAnswer == null && retry < MAX_RETRY);
                     break;
                 }
             }

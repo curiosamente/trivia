@@ -43,11 +43,6 @@ public class StatusManager {
                         }
                         break;
                     }
-                    case SHOWING_PARTIAL_WINNERS:{
-                        QuestionManager.clearQuestion(context);
-                        callWaitingMessage(gameStatus, context);
-                        break;
-                    }
                     case SHOWING_FINAL_WINNERS: {
                         ThreadManager.callGetWinner(context);
 

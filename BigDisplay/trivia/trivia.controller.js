@@ -172,6 +172,7 @@
         function showingFinalWinners() {
 
             vm.statusTrivia = 'SHOWING_FINAL_WINNERS';
+            document.getElementById("score").firstElementChild.style.fontSize = "xx-large";
             GameManagerService.SetStatus(vm.statusTrivia);
 
             actualTimeOut = setTimeout(finishTrivia, 10000);

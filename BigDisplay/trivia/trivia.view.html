@@ -5,18 +5,22 @@
     }
 
     #waitingTrivia {
-        transition: width 0s ease-in-out;
         position: absolute;
-        width: 80%;
-        left: 10%;
-        top: 35%;
+        width: 100%;
+        height: 100%;
         text-align: center;
         vertical-align: middle;
-        font-size: 7em;
 
         display: flex;
         justify-content: center; /* align horizontal */
         align-items: center;
+    }
+
+    #imgLogo {
+        width: 30%;
+        left: 20%;
+        margin: auto;
+        z-index: 999;
     }
 
     #top {
@@ -220,7 +224,11 @@
 
 </style>
 
-<div id="waitingTrivia" ng-show="vm.statusTrivia == 'WAITING_TRIVIA'">Esperando trivia</div>
+<div id="waitingTrivia" ng-show="vm.statusTrivia == 'WAITING_TRIVIA'">
+
+    <img id="imgLogo" src="img/logo.gif">
+
+</div>
 
 <div id="top" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS' || vm.statusTrivia == 'TERMINATED'">
     <span class="questionNumber"
@@ -261,7 +269,7 @@
 
 <div id="scores" ng-show="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
     <div class="table-responsive">
-        <table class="table">
+        <table id="tableScore" class="table">
             <thead>
             <tr>
                 <th>Posición</th>

@@ -74,9 +74,7 @@
                             <label for="questionOptionsSelect">Elije la respuesta correcta:</label>
                             <select class="form-control" id="questionOptionsSelect"
                                     ng-model="vm.question.correctAnswer">
-                                <option ng-repeat="(index, option) in vm.question.options track by $index">
-                                    {{option}}
-                                </option>
+                                <option ng-repeat="(index, option) in vm.question.options track by $index">{{option}}</option>
                             </select>
                         </div>
 
