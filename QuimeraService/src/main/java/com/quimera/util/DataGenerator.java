@@ -4,13 +4,7 @@ import com.quimera.model.Bar;
 import com.quimera.model.Question;
 import com.quimera.model.Trivia;
 import com.quimera.model.User;
-import sun.misc.BASE64Encoder;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

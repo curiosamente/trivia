@@ -39,7 +39,9 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
             case BAR_LIST: {
                 Bar[] bars = (Bar[]) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT);
                 fragment = new BarFragment();
-                ((BarFragment) fragment).setBars(Arrays.asList(bars));
+                if(bars != null) {
+                    ((BarFragment) fragment).setBars(Arrays.asList(bars));
+                }
                 break;
             }
             case BAR_SELECTED: {

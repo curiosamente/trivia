@@ -32,8 +32,10 @@ public class QuestionManager {
         String questionJSON = sharedPreferences.getString(context.getResources().getString(R.string.pref_current_question_key), null);
         Question question = null;
         try {
-            question = new ObjectMapper().readValue(questionJSON, Question.class);
-        } catch (IOException | NullPointerException e) {
+            if (questionJSON != null) {
+                question = new ObjectMapper().readValue(questionJSON, Question.class);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return question;

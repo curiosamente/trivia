@@ -63,7 +63,7 @@ public class BarManager {
         editor.putString(context.getResources().getString(R.string.pref_selected_bar_id_key), bar.getIdBar());
         editor.putString(context.getResources().getString(R.string.pref_selected_bar_name_key), bar.getName());
         editor.putLong(context.getResources().getString(R.string.pref_selected_bar_timestamp_key), DateTime.now().getMillis());
-        editor.commit();
+        editor.apply();
         ThreadManager.callCheckStatus(context);
     }
 
@@ -71,6 +71,6 @@ public class BarManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong(context.getResources().getString(R.string.pref_selected_bar_timestamp_key), DateTime.now().getMillis());
-        editor.commit();
+        editor.apply();
     }
 }

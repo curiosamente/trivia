@@ -55,6 +55,9 @@
 
         function triviaStart() {
             triviaStarted = true;
+            vm.questionPosition = 0;
+            vm.scores = [];
+
             vm.statusTrivia = 'STARTING_TRIVIA';
             GameManagerService.SetStatus(vm.statusTrivia);
             actualTimeOut = setTimeout(nextQuestion, 1000);
@@ -114,7 +117,7 @@
         function waitingCorrectAnswer() {
             vm.statusTrivia = 'WAITING_CORRECT_ANSWER';
             GameManagerService.SetStatus(vm.statusTrivia);
-            actualTimeOut = setTimeout(showingCorrectAnswer, 1000);
+            actualTimeOut = setTimeout(showingCorrectAnswer, 2000);
 
         }
 
@@ -125,6 +128,7 @@
             GameManagerService.SetStatus(vm.statusTrivia);
             vm.options = [];
             vm.options.push(vm.currentQuestion.correctAnswer);
+            getScores();
             actualTimeOut = setTimeout(showingDescription, 5000);
         }
 
@@ -138,7 +142,7 @@
             vm.options = null;
             vm.statusTrivia = 'SHOWING_PARTIAL_WINNERS';
             GameManagerService.SetStatus(vm.statusTrivia);
-            getScores();
+
             if (vm.questionPosition == 5 || vm.questionPosition == 10 || vm.questionPosition == 15) {
                 actualTimeOut = setTimeout(showingBanners, 5000);
             } else {
@@ -169,17 +173,18 @@
 
             vm.statusTrivia = 'SHOWING_FINAL_WINNERS';
             GameManagerService.SetStatus(vm.statusTrivia);
-            getScores();
+
             actualTimeOut = setTimeout(finishTrivia, 10000);
         }
 
         function finishTrivia() {
-            vm.statusTrivia = 'TERMINATED';
-            GameManagerService.SetStatus(vm.statusTrivia);
+            vm.statusTrivia = 'WAITING_TRIVIA';
+            GameManagerService.SetStatus('TERMINATED');
             GameManagerService.FinishTrivia();
 
-            clearData();
+            triviaStarted = false;
 
+            clearData();
             actualTimeOut = setTimeout(endDelay, 3000);
         }
 
@@ -189,7 +194,6 @@
 
         function clearData(){
 
-            triviaStarted = false;
             vm.correctAnswer = null;
 
             vm.trivia = null;
@@ -216,6 +220,9 @@
                 if (vm.trivia == null) {
                     vm.statusTrivia = 'WAITING_TRIVIA';
                     triviaStarted = false;
+                    if(actualTimeOut){
+                        $timeout.cancel(actualTimeOut);
+                    }
                 } else if(!triviaStarted){
                     triviaStart();
                 }

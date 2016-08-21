@@ -205,9 +205,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     protected void onResume() {
         super.onResume();
+        StatusManager.clearStatus(this);
         LogInManager.checkStatus(this);
         QuestionManager.clearQuestion(this);
-        StatusManager.clearStatus(this);
         startActivity();
     }
 

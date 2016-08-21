@@ -39,14 +39,14 @@ public class ThreadManager {
                     threadCreated = false;
                 }
                 break;
-            case WAITING_TRIVIA: {
-                if (threadCreated) {
-                    serviceThread.interrupt();
-                    threadCreated = false;
-                }
-                createAlarmIntent(ALARM_FRECUENCY_IN_MILLIS, context);
-                break;
-            }
+//            case WAITING_TRIVIA: {
+//                if (threadCreated) {
+//                    serviceThread.interrupt();
+//                    threadCreated = false;
+//                }
+//                createAlarmIntent(ALARM_FRECUENCY_IN_MILLIS, context);
+//                break;
+//            }
             default: {
                 createThread(context);
                 break;

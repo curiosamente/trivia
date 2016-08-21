@@ -38,7 +38,7 @@ public class GameManagerController {
         if (gameManagerService.finishTrivia(idBar)) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }
 
@@ -49,7 +49,7 @@ public class GameManagerController {
         if (trivia != null) {
             return new ResponseEntity<>(trivia, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
@@ -61,7 +61,7 @@ public class GameManagerController {
         if (question != null) {
             return new ResponseEntity<>(question, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
@@ -71,7 +71,7 @@ public class GameManagerController {
         if (question != null && gameManagerService.setCurrentQuestion(idBar, question)) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
     }
@@ -82,7 +82,7 @@ public class GameManagerController {
         if (gameManagerService.setStatus(idBar, status)) {
             return new ResponseEntity(HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
 
     }
@@ -95,7 +95,7 @@ public class GameManagerController {
         if (gameStatus != null) {
             return new ResponseEntity<>(gameStatus, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
     }
@@ -107,7 +107,7 @@ public class GameManagerController {
         if (scores != null) {
             return new ResponseEntity<>(scores, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
@@ -116,13 +116,14 @@ public class GameManagerController {
 
         List<Score> scores = gameManagerService.getScores(idBar);
         Score winner = null;
-        if (scores != null & !scores.isEmpty()) {
+
+        if (scores != null && !scores.isEmpty()) {
             winner = scores.get(0);
         }
         if (winner != null && winner.getScore() > 0) {
             return new ResponseEntity<>(scores.get(0).getPlayer(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 

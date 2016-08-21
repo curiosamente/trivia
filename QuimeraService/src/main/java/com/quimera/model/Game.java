@@ -13,16 +13,10 @@ public class Game {
     private GameStatus gameStatus = GameStatus.READY;
     private Set<Answer> answerSet = new TreeSet<>();
     private Map<Player, Score> scoreMap = new TreeMap<>();
-    private int elapsedTime;
-    private int questionPosition;
 
-
-    public int getQuestionPosition() {
-        return questionPosition;
-    }
-
-    public void setQuestionPosition(int questionPosition) {
-        this.questionPosition = questionPosition;
+    public void resetScore(){
+        this.answerSet = new TreeSet<>();
+        this.scoreMap = new TreeMap<>();
     }
 
     public Map<Player, Score> getScoreMap() {
@@ -39,14 +33,6 @@ public class Game {
 
     public void setAnswerSet(Set<Answer> answerSet) {
         this.answerSet = answerSet;
-    }
-
-    public int getElapsedTime() {
-        return elapsedTime;
-    }
-
-    public void setElapsedTime(int elapsedTime) {
-        this.elapsedTime = elapsedTime;
     }
 
     public Trivia getTrivia() {

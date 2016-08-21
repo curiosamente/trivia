@@ -90,7 +90,11 @@ public class GameManagerService {
 
         Game game = gameMap.get(idBar);
         if (game != null) {
-            gameMap.get(idBar).setGameStatus(GameStatus.valueOf(status));
+            GameStatus gameStatus = GameStatus.valueOf(status);
+            if(gameStatus.equals(GameStatus.STARTING_TRIVIA)){
+                game.resetScore();
+            }
+            gameMap.get(idBar).setGameStatus(gameStatus);
             isUpdated = true;
         }
 
