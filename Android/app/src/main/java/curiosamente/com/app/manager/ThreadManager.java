@@ -8,18 +8,16 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import curiosamente.com.app.model.GameStatus;
-import curiosamente.com.app.model.Player;
-import curiosamente.com.app.model.Question;
 import curiosamente.com.app.service.AlarmReceiver;
-import curiosamente.com.app.service.HttpService;
-import curiosamente.com.app.service.HttpServiceCallTypeEnum;
+import curiosamente.com.app.service.QuestionService;
+import curiosamente.com.app.service.StatusService;
+import curiosamente.com.app.service.WinnerService;
 
 public class ThreadManager {
 
     private static final String LOG_TAG = ThreadManager.class.getSimpleName();
 
     private final static long THREAD_FRECUENCY_IN_MILLIS = 1000;
-    private final static long ALARM_FRECUENCY_IN_MILLIS = 60 * 1000;
     public static boolean threadCreated = false;
     public static boolean createNewThread = true;
     public static Thread serviceThread;
@@ -41,14 +39,6 @@ public class ThreadManager {
                     threadCreated = false;
                 }
                 break;
-//            case WAITING_TRIVIA: {
-//                if (threadCreated) {
-//                    serviceThread.interrupt();
-//                    threadCreated = false;
-//                }
-//                createAlarmIntent(ALARM_FRECUENCY_IN_MILLIS, context);
-//                break;
-//            }
             default: {
                 createThread(context);
                 break;
@@ -66,7 +56,7 @@ public class ThreadManager {
 
 
     public static Thread createThread(final long frecuencyInMillis, final Context context) {
-        Log.i("LOG_TAG", "Creating New Thread For checking Status");
+        Log.i(LOG_TAG, "Creating New Thread For checking Status");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -84,35 +74,18 @@ public class ThreadManager {
         return new Thread(runnable);
     }
 
-    public static void createAlarmIntent(final long frecuencyInMillis, final Context context) {
-        Log.i(LOG_TAG, "Created Alarm");
-        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + frecuencyInMillis, alarmIntent);
-    }
-
     public static void callCheckStatus(Context context) {
-        Intent callIntent = new Intent(context, HttpService.class);
-        callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, String.class);
-        callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
-        callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.STATUS);
+        Intent callIntent = new Intent(context, StatusService.class);
         context.startService(callIntent);
     }
 
     public static void callGetQuestion(Context context) {
-        Intent callIntent = new Intent(context, HttpService.class);
-        callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Question.class);
-        callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
-        callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.QUESTION);
+        Intent callIntent = new Intent(context, QuestionService.class);
         context.startService(callIntent);
     }
 
     public static void callGetWinner(Context context) {
-        Intent callIntent = new Intent(context, HttpService.class);
-        callIntent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Player.class);
-        callIntent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(context));
-        callIntent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.WINNER);
+        Intent callIntent = new Intent(context, WinnerService.class);
         context.startService(callIntent);
     }
 

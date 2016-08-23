@@ -10,7 +10,6 @@ import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.BroadcastReceiverConstant;
 import curiosamente.com.app.activities.main.BroadcastReceiverType;
 import curiosamente.com.app.model.GameStatus;
-import curiosamente.com.app.model.Question;
 
 
 public class StatusManager {

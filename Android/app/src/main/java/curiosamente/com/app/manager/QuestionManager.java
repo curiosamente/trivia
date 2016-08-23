@@ -6,8 +6,6 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.Question;
 

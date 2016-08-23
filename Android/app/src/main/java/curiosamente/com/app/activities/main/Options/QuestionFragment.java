@@ -17,11 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import curiosamente.com.app.R;
-import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.manager.QuestionManager;
 import curiosamente.com.app.model.Question;
-import curiosamente.com.app.service.HttpService;
-import curiosamente.com.app.service.HttpServiceCallTypeEnum;
+import curiosamente.com.app.service.PushAnswerService;
 
 public class QuestionFragment extends Fragment {
 
@@ -81,13 +79,10 @@ public class QuestionFragment extends Fragment {
                     setColor(button, true);
                     disableAllOptions();
 
-                    Intent intent = new Intent(getActivity(), HttpService.class);
-                    intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Void.class);
-                    intent.putExtra(HttpService.ID_BAR_PARAMETER, BarManager.getBarId(getActivity()));
+                    Intent intent = new Intent(getActivity(), PushAnswerService.class);
 
-                    intent.putExtra(HttpService.ID_QUESTION_ANSWER, question.getIdQuestion());
-                    intent.putExtra(HttpService.ANSWER, textButton);
-                    intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.PUSH_ANSWER);
+                    intent.putExtra(PushAnswerService.ID_QUESTION_ANSWER, question.getIdQuestion());
+                    intent.putExtra(PushAnswerService.ANSWER, textButton);
                     getActivity().startService(intent);
 
                 }

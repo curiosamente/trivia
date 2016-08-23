@@ -9,8 +9,7 @@ import org.joda.time.Hours;
 
 import curiosamente.com.app.R;
 import curiosamente.com.app.model.Bar;
-import curiosamente.com.app.service.HttpService;
-import curiosamente.com.app.service.HttpServiceCallTypeEnum;
+import curiosamente.com.app.service.BarService;
 
 
 public class BarManager {
@@ -51,9 +50,7 @@ public class BarManager {
     }
 
     public static void getBars(Context context){
-        Intent intent = new Intent(context, HttpService.class);
-        intent.putExtra(HttpService.CLASS_EXTRA_PROPERTY, Bar[].class);
-        intent.putExtra(HttpService.CALL_TYPE_ENUM_EXTRA_PROPERTY, HttpServiceCallTypeEnum.BAR);
+        Intent intent = new Intent(context, BarService.class);
         context.startService(intent);
     }
 

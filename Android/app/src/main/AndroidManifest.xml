@@ -53,7 +53,11 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <service android:name=".service.HttpService" />
+        <service android:name=".service.BarService" />
+        <service android:name=".service.PushAnswerService" />
+        <service android:name=".service.QuestionService" />
+        <service android:name=".service.StatusService" />
+        <service android:name=".service.WinnerService" />
 
         <receiver
             android:name=".service.AlarmReceiver"

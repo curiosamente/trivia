@@ -14,10 +14,10 @@ import java.util.Arrays;
 
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Bar.BarFragment;
-import curiosamente.com.app.activities.main.Options.QuestionFragment;
-import curiosamente.com.app.activities.main.TriviaResult.TriviaResultFragment;
 import curiosamente.com.app.activities.main.Message.WaitingFragment;
 import curiosamente.com.app.activities.main.Message.WaitingFragmentUtil;
+import curiosamente.com.app.activities.main.Options.QuestionFragment;
+import curiosamente.com.app.activities.main.TriviaResult.TriviaResultFragment;
 import curiosamente.com.app.manager.BarManager;
 import curiosamente.com.app.model.Bar;
 import curiosamente.com.app.model.GameStatus;
