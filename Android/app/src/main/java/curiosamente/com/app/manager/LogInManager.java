@@ -49,8 +49,17 @@ public class LogInManager {
         return Profile.getCurrentProfile().getProfilePictureUri(size, size);
     }
 
-    public static String getCurrentUserName(){
+    public static String getCurrentUserCompleteName(){
         return Profile.getCurrentProfile().getName();
     }
+
+    public static String getCurrentUserFirstName(){
+        return Profile.getCurrentProfile().getFirstName();
+    }
+
+    public static String getCurrentUserLastName(){
+        return Profile.getCurrentProfile().getLastName();
+    }
+
 
 }

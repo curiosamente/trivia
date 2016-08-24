@@ -30,7 +30,7 @@ public class QuestionService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(LOG_TAG, "Intent started");
+        Log.i(LOG_TAG, "Question Intent started");
 
         ResponseEntity<Question> questionResponseEntity = null;
 
@@ -48,6 +48,7 @@ public class QuestionService extends IntentService {
 
         } while (questionResponseEntity == null && retry < MAX_RETRY);
         if (questionResponseEntity != null) {
+            Log.i(LOG_TAG, "Question Received: " + questionResponseEntity.getBody());
             QuestionManager.questionReceived(questionResponseEntity.getBody(), getBaseContext());
         }
 

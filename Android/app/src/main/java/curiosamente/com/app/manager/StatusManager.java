@@ -32,6 +32,7 @@ public class StatusManager {
                         break;
                     case SHOWING_OPTIONS: {
                         if (QuestionManager.getQuestion(context) == null) {
+                            Log.i(LOG_TAG, "Status 'SHOWING_OPTIONS', but no question stored... Calling getQuestion");
                             ThreadManager.callGetQuestion(context);
                             StatusManager.updateStatus(GameStatus.SHOWING_QUESTION, context);
                         } else {

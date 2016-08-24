@@ -30,7 +30,7 @@ public class StatusService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(LOG_TAG, "Intent started");
+        Log.i(LOG_TAG, "Status Intent started");
 
         ResponseEntity<GameStatus> gameStatusResponseEntity = null;
         int retry = 0;
@@ -39,7 +39,6 @@ public class StatusService extends IntentService {
                 String idBar = BarManager.getBarId(this);
                 Log.i(LOG_TAG, "STATUS CALL");
                 gameStatusResponseEntity = getRestTemplate().getForEntity(getBaseContext().getResources().getString(R.string.url_game_status), GameStatus.class, idBar);
-                Log.i(LOG_TAG, "STATUS CALL " + gameStatusResponseEntity.getBody());
             } catch (Exception e) {
                 Log.i(LOG_TAG, "STATUS CALL CATCH");
             }
@@ -50,12 +49,13 @@ public class StatusService extends IntentService {
         GameStatus gameStatus;
 
         if (gameStatusResponseEntity == null || gameStatusResponseEntity.getBody() == null) {
+            Log.i(LOG_TAG, "STATUS NOT RECEIVED, SETTED WAITING_TRIVIA STATUS");
             gameStatus = GameStatus.WAITING_TRIVIA;
         } else {
             gameStatus = gameStatusResponseEntity.getBody();
+            Log.i(LOG_TAG, "STATUS RECEIVED: " + gameStatus);
         }
 
-        Log.i(LOG_TAG, "Status received: " + gameStatus);
         StatusManager.statusReceived(gameStatus, getBaseContext());
 
     }

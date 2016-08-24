@@ -34,7 +34,7 @@ public class WinnerService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(LOG_TAG, "Intent started");
+        Log.i(LOG_TAG, "Winner Intent started");
 
         ResponseEntity<Player> playerResponseEntity = null;
         Player winner;

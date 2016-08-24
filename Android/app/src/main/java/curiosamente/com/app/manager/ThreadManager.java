@@ -30,6 +30,10 @@ public class ThreadManager {
         }
     }
 
+    public static void startCheckingStatus() {
+       createNewThread = true;
+    }
+
     public static void newStatusReceived(GameStatus gameStatus, Context context) {
         Log.i(LOG_TAG, "Checking Status For Future Checks Strategy");
         switch (gameStatus) {

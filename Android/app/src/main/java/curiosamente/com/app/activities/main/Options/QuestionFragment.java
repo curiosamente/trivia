@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import curiosamente.com.app.service.PushAnswerService;
 public class QuestionFragment extends Fragment {
 
     private List<Button> buttonList = new ArrayList<>();
+    public static final String LOG_TAG = QuestionFragment.class.getSimpleName();
 
     private static final int SELECTED_BUTTON_TEXT = R.color.primary;
     private static final int UNSELECTED_BUTTON_TEXT = R.color.icons;
@@ -74,6 +76,8 @@ public class QuestionFragment extends Fragment {
             public void onClick(View v) {
                 Question question = QuestionManager.getQuestion(getActivity());
                 if (question != null) {
+
+                    Log.i(LOG_TAG, "Option was selected. Question: " + question + ". Option: " + textButton);
 
                     deselectAllOptions();
                     setColor(button, true);

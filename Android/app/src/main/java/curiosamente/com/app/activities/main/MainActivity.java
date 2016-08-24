@@ -35,11 +35,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import org.joda.time.LocalDateTime;
-
 import java.io.File;
-
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Message.WaitingFragment;
 import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
@@ -208,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         StatusManager.clearStatus(this);
         LogInManager.checkStatus(this);
         QuestionManager.clearQuestion(this);
-        ThreadManager.createNewThread = true;
+        ThreadManager.startCheckingStatus();
         startActivity();
     }
 
@@ -231,8 +228,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     @Override
     protected void onPause() {
-        super.onPause();
         ThreadManager.stopCheckingStatus();
+        super.onPause();
     }
 
     @Override
@@ -241,5 +238,4 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         QuestionManager.clearQuestion(this);
         super.onStop();
     }
-
 }

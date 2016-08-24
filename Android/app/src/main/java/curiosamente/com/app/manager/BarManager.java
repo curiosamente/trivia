@@ -61,6 +61,7 @@ public class BarManager {
         editor.putString(context.getResources().getString(R.string.pref_selected_bar_name_key), bar.getName());
         editor.putLong(context.getResources().getString(R.string.pref_selected_bar_timestamp_key), DateTime.now().getMillis());
         editor.apply();
+        ThreadManager.startCheckingStatus();
         ThreadManager.callCheckStatus(context);
     }
 

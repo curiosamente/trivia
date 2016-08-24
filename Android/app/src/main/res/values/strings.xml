@@ -1,7 +1,7 @@
 <resources>
 
     <!-- APP STRINGS-->
-    <string name="app_name">Curiosamente</string>
+    <string name="app_name">CuriosaMente</string>
     <string name="facebook_app_id">1186040004769066</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
@@ -41,7 +41,7 @@
     <!-- TRIVIA RESULTS STRINGS-->
     <string name="trivia_result_won_text">GANASTE!!!</string>
     <string name="trivia_result_won_button">Ir a Mis Premios</string>
-    <string name="trivia_result_lost_text">PERDISTE!!!</string>
+    <string name="trivia_result_lost_text">PERDISTE</string>
     <string name="trivia_result_lost_button">Volver a Intentar</string>
     <string name="trivia_result_facepalm_logo_prefix">facepalm_</string>
     <string name="trivia_result_thumbup_logo_prefix">thumbup_</string>

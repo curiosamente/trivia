@@ -31,13 +31,14 @@ public class BarService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(LOG_TAG, "Intent started");
+        Log.i(LOG_TAG, "BAR Intent started");
 
         ResponseEntity<Bar[]> responseEntityBars = null;
 
         int retry = 0;
         do {
             try {
+                Log.i(LOG_TAG, "BAR CALL");
                 responseEntityBars = getRestTemplate().getForEntity(getBaseContext().getResources().getString(R.string.url_bar), Bar[].class);
             } catch (Exception e) {
                 Log.e(LOG_TAG, "BAR CALL CATCH", e);
@@ -46,11 +47,14 @@ public class BarService extends IntentService {
         } while (responseEntityBars == null && retry < MAX_RETRY);
 
         if (responseEntityBars != null && responseEntityBars.getBody() != null) {
+            Log.i(LOG_TAG, "Bar List Received: " + responseEntityBars.getBody());
             LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(this);
             Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
             returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, responseEntityBars.getBody());
             returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.BAR_LIST);
             broadcaster.sendBroadcast(returnIntent);
+        } else {
+            Log.e(LOG_TAG, "Error getting Bar List, received null response");
         }
 
     }
