@@ -36,10 +36,11 @@ public class BarService extends IntentService {
         ResponseEntity<Bar[]> responseEntityBars = null;
 
         int retry = 0;
+        String barUrl = getBaseContext().getResources().getString(R.string.url_bar);
         do {
             try {
                 Log.i(LOG_TAG, "BAR CALL");
-                responseEntityBars = getRestTemplate().getForEntity(getBaseContext().getResources().getString(R.string.url_bar), Bar[].class);
+                responseEntityBars = getRestTemplate().getForEntity(barUrl, Bar[].class);
             } catch (Exception e) {
                 Log.e(LOG_TAG, "BAR CALL CATCH", e);
             }
@@ -55,6 +56,10 @@ public class BarService extends IntentService {
             broadcaster.sendBroadcast(returnIntent);
         } else {
             Log.e(LOG_TAG, "Error getting Bar List, received null response");
+            LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(this);
+            Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
+            returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.SHOWING_ERROR_MESSAGE);
+            broadcaster.sendBroadcast(returnIntent);
         }
 
     }

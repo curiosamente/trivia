@@ -34,6 +34,10 @@
     <string name="waiting_fragment_loading_bars_message">Cargando Bares...</string>
     <string name="waiting_fragment_connecting_server">Conectando...</string>
 
+    <!-- ERROR STRINGS -->
+    <string name="error_fragment_first_line_message">Error de Conexión</string>
+    <string name="error_fragment_second_line_message">Presioná para reintentar</string>
+
     <!--BAR STRINGS-->
     <string name="bar_fragment_title">¿En qué bar estás?</string>
     <string name="bar_icon_logo_prefix">beer_logo</string>
@@ -63,5 +67,15 @@
     <string name="pref_current_question_key" translatable="false">current_question</string>
     <string name="pref_winner_key" translatable="false">winner</string>
 
+    <string name="pref_google_logged_account_id_key" translatable="false">google_logged_account_key</string>
+    <string name="pref_google_logged_account_name" translatable="false">google_logged_account_name</string>
+    <string name="pref_google_logged_account_lastname" translatable="false">google_logged_account_lastname</string>
+    <string name="pref_google_logged_account_email" translatable="false">google_logged_account_email</string>
+    <string name="pref_google_logged_account_image_url" translatable="false">google_logged_account_image_url</string>
+
+
+    <!-- LOGIN ACTIVITY STRINGS-->
+    <string name="login_activity_login_with_facebook">Logueate usando tu Facebook</string>
+    <string name="login_activity_login_with_google">Logueate usando tu cuenta Google</string>
 
 </resources>

@@ -44,9 +44,9 @@ public class PushAnswerService extends IntentService {
         String idBar = BarManager.getBarId(this);
         Answer answer = new Answer();
         Player player = new Player();
-        player.setId(LogInManager.getCurrentUserID());
-        player.setName(LogInManager.getCurrentUserFirstName());
-        player.setLastName(LogInManager.getCurrentUserLastName());
+        player.setId(LogInManager.getCurrentUserID(getBaseContext()));
+        player.setName(LogInManager.getCurrentUserFirstName(getBaseContext()));
+        player.setLastName(LogInManager.getCurrentUserLastName(getBaseContext()));
         answer.setPlayer(player);
         answer.setIdQuestion((String) intent.getExtras().get(ID_QUESTION_ANSWER));
         answer.setAnswer((String) intent.getExtras().get(ANSWER));

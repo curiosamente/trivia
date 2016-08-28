@@ -14,6 +14,7 @@ import java.util.Arrays;
 
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Bar.BarFragment;
+import curiosamente.com.app.activities.main.Message.ErrorFragment;
 import curiosamente.com.app.activities.main.Message.WaitingFragment;
 import curiosamente.com.app.activities.main.Message.WaitingFragmentUtil;
 import curiosamente.com.app.activities.main.Options.QuestionFragment;
@@ -39,7 +40,7 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
             case BAR_LIST: {
                 Bar[] bars = (Bar[]) intent.getExtras().get(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT);
                 fragment = new BarFragment();
-                if(bars != null) {
+                if (bars != null) {
                     ((BarFragment) fragment).setBars(Arrays.asList(bars));
                 }
                 break;
@@ -87,7 +88,11 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
                     waitingFragment.setFragmentMessage(waitingFragmentMessage);
                     fragment = waitingFragment;
                 }
+                break;
+            }
 
+            case SHOWING_ERROR_MESSAGE: {
+                fragment = new ErrorFragment();
                 break;
             }
         }

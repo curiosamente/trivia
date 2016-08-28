@@ -121,12 +121,16 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
                                                }
         );
 
-        mDrawerTextView.setText(LogInManager.getCurrentUserName());
+        mDrawerTextView.setText(LogInManager.getCurrentUserCompleteName(this));
 
-        Uri imageUrl = LogInManager.getCurrentUserPhoto(300);
-        ImageUtility downloadImageUtility = new ImageUtility(this, this);
-        downloadImageUtility.execute(imageUrl.toString());
-
+        Uri imageUrl = LogInManager.getCurrentUserPhoto(this, 300);
+        if(imageUrl != null) {
+            ImageUtility downloadImageUtility = new ImageUtility(this, this);
+            downloadImageUtility.execute(imageUrl.toString());
+        } else {
+            //mDrawerImage.setImageResource(getResources().getDrawable(ImageUtility.getResourceID("yoda_anonymous", "drawable", this)));
+            mDrawerImage.setImageResource(R.drawable.yoda_anonymous);
+        }
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, null, R.string.drawer_open, R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);

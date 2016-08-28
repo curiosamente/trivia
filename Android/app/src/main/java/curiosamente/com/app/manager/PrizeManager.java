@@ -44,7 +44,7 @@ public class PrizeManager {
         Prize prize = new Prize();
         prize.setIdBar(BarManager.getBarId(context));
         prize.setName(BarManager.getBarName(context));
-        prize.setIdUser(LogInManager.getCurrentUserID());
+        prize.setIdUser(LogInManager.getCurrentUserID(context));
         prize.setDate(new Date());
         storePrize(prize, context);
     }
@@ -72,9 +72,7 @@ public class PrizeManager {
     public static ArrayList<Prize> getPrizesList(Context context) {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-        //TODO delete this
-        //provisoryAddPrizes(sqLiteDatabase, context);
-        String query = DbContract.PrizesEntry.QUERY_SELECT_ALL_ROWS + LogInManager.getCurrentUserID();
+        String query = DbContract.PrizesEntry.QUERY_SELECT_ALL_ROWS + "'" + LogInManager.getCurrentUserID(context) + "'";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         ArrayList<Prize> prizes = new ArrayList<>();

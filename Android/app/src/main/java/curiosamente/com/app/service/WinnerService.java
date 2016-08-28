@@ -53,7 +53,7 @@ public class WinnerService extends IntentService {
 
         if (playerResponseEntity != null) {
             winner = playerResponseEntity.getBody();
-            boolean isWinner = winner != null && LogInManager.getCurrentUserID().equals(winner.getId());
+            boolean isWinner = winner != null && LogInManager.getCurrentUserID(getBaseContext()).equals(winner.getId());
             if (isWinner) {
                 PrizeManager.createAndStorePrize(getBaseContext());
             }
