@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.joda.time.LocalDateTime;
@@ -26,6 +27,7 @@ import curiosamente.com.app.model.GameStatus;
 public class MainActivityBroadcastReceiver extends BroadcastReceiver {
 
     private MainActivity mainActivity;
+    private final String LOG_TAG = MainActivityBroadcastReceiver.class.getSimpleName();
 
     public MainActivityBroadcastReceiver(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -122,12 +124,16 @@ public class MainActivityBroadcastReceiver extends BroadcastReceiver {
     }
 
     public void replaceFragment(Fragment fragment) {
-        FragmentManager fm = mainActivity.getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_right);
-        fragmentTransaction.replace(R.id.main_layout, fragment, MainActivity.FRAGMENT_TAG);
-        fragmentTransaction.commit();
-        mainActivity.fragmentReplacementTimeStamp = LocalDateTime.now();
-        fm.popBackStack();
+        try {
+            FragmentManager fm = mainActivity.getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_right);
+            fragmentTransaction.replace(R.id.main_layout, fragment, MainActivity.FRAGMENT_TAG);
+            fragmentTransaction.commit();
+            mainActivity.fragmentReplacementTimeStamp = LocalDateTime.now();
+            fm.popBackStack();
+        } catch (IllegalStateException e) {
+            Log.e(LOG_TAG, "Error accessing an already destroyed Activity", e);
+        }
     }
 }

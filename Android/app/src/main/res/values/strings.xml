@@ -75,7 +75,7 @@
 
 
     <!-- LOGIN ACTIVITY STRINGS-->
-    <string name="login_activity_login_with_facebook">Logueate usando tu Facebook</string>
-    <string name="login_activity_login_with_google">Logueate usando tu cuenta Google</string>
+    <string name="login_activity_login_with_facebook">Ingresá usando Facebook</string>
+    <string name="login_activity_login_with_google">Ingresá usando Google</string>
 
 </resources>

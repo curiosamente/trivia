@@ -36,7 +36,7 @@ public class LogInManager {
 
     public static void logOut(Context context) {
         BarManager.leaveBar(context);
-        if (AccessToken.getCurrentAccessToken() != null) {
+        if (isConnectedToFacebook()) {
             LoginManager.getInstance().logOut();
         } else {
             if (googleApiClient.isConnected()) {
@@ -60,7 +60,7 @@ public class LogInManager {
     }
 
     public static boolean isConnectedToFacebook() {
-        return Profile.getCurrentProfile() != null;
+        return Profile.getCurrentProfile() != null || Profile.getCurrentProfile() != null;
     }
 
     public static String getCurrentUserID(Context context) {

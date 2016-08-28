@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 initTrackers();
                 facebookLoginButton.setVisibility(View.INVISIBLE);
                 googleSignInButton.setVisibility(View.INVISIBLE);
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.main_activity_loading), Toast.LENGTH_SHORT).show();
+                nextActivity();
             }
 
             @Override

@@ -25,7 +25,7 @@
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:layout_gravity="center"
@@ -37,6 +37,8 @@
         android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="@string/login_activity_login_with_google"/>
 
 </LinearLayout>
