@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    android:background="@color/primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:gravity="center"
     android:weightSum="10">
@@ -22,23 +21,7 @@
             android:src="@drawable/login_logo"/>
     </LinearLayout>
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:layout_gravity="center"
-        android:layout_weight="2"
-        android:layout_marginBottom="10dp"
-        facebook:com_facebook_login_text="@string/login_activity_login_with_facebook"/>
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="@string/login_activity_login_with_google"/>
+    <include layout="@layout/login_fragment_facebook_button" />
+    <include layout="@layout/login_fragment_google_button" />
 
 </LinearLayout>

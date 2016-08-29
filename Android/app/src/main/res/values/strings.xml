@@ -57,7 +57,7 @@
     <string name="prize_collect_message">Antes de cobrar el premio, anda a la barra! Estas en la barra?</string>
     <string name="prize_collect_error">Error al intentar cobrar premio... Reintentar</string>
     <string name="prize_icon_logo_prefix">prize_logo</string>
-    <string name="prize_list_empty_text">Todavia no tenes premios</string>
+    <string name="prize_list_empty_text">Todavía no tenes premios</string>
 
     <!-- SHARED PREFERENCES STRINGS-->
     <string name="pref_selected_bar_id_key" translatable="false">"selected_bar_id"</string>

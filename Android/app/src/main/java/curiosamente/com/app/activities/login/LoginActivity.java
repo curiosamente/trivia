@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -22,6 +25,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.Arrays;
 
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.MainActivity;
@@ -37,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean newActivityAlreadyCreated = false;
 
-    private LoginButton facebookLoginButton;
-    private SignInButton googleSignInButton;
+    private LinearLayout facebookLoginButton;
+    private LinearLayout googleSignInButton;
     private FacebookCallback<LoginResult> callback;
     private GoogleApiClient mGoogleApiClient;
 
@@ -53,13 +58,22 @@ public class LoginActivity extends AppCompatActivity {
         initTrackers();
 
         callback = createCallBack();
-        facebookLoginButton = (LoginButton) findViewById(R.id.login_button);
-        facebookLoginButton.registerCallback(callbackManager, callback);
-        facebookLoginButton.setReadPermissions("user_friends");
+        //facebookLoginButton = (LoginButton) findViewById(R.id.login_button);
+
+        LoginManager.getInstance().registerCallback(callbackManager, callback);
+        facebookLoginButton = (LinearLayout) findViewById(R.id.login_fragment_facebook_button);
+        facebookLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("user_friends"));
+            }
+        });
+
+//        facebookLoginButton.registerCallback(callbackManager, callback);
+//        facebookLoginButton.setReadPermissions("user_friends");
 
         mGoogleApiClient = LogInManager.getGoogleApiClient(this);
-        googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        setGooglePlusButtonText(googleSignInButton, getResources().getString(R.string.login_activity_login_with_google));
+        googleSignInButton = (LinearLayout) findViewById(R.id.login_fragment_google_button);
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,19 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
-        // Find the TextView that is inside of the SignInButton and set its text
-        for (int i = 0; i < signInButton.getChildCount(); i++) {
-            View v = signInButton.getChildAt(i);
-
-            if (v instanceof TextView) {
-                TextView tv = (TextView) v;
-                tv.setText(buttonText);
-                return;
-            }
-        }
-    }
 
     public FacebookCallback<LoginResult> createCallBack() {
         return new FacebookCallback<LoginResult>() {
