@@ -22,6 +22,7 @@
 
         return service;
 
+
         function SetCurrentQuestion(question) {
             return $http.put(url + '/game/currentQuestion?idBar=' + idBar, question).then(handleSuccess, handleError('Error setting question'));
         }

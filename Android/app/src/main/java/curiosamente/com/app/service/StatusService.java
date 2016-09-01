@@ -49,7 +49,7 @@ public class StatusService extends IntentService {
         GameStatus gameStatus;
 
         if (gameStatusResponseEntity == null || gameStatusResponseEntity.getBody() == null) {
-            Log.i(LOG_TAG, "STATUS NOT RECEIVED, SETTED WAITING_TRIVIA STATUS");
+            Log.i(LOG_TAG, "STATUS NOT RECEIVED, SET WAITING_TRIVIA STATUS");
             gameStatus = GameStatus.WAITING_TRIVIA;
         } else {
             gameStatus = gameStatusResponseEntity.getBody();

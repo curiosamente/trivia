@@ -161,7 +161,7 @@ public class LogInManager {
     public static Uri getGoogleImageURL(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPref", context.MODE_PRIVATE);
         String uri = sharedPreferences.getString(context.getResources().getString(R.string.pref_google_logged_account_image_url), null);
-        if (uri.equals("null")) {
+        if ("null".equals(uri)) {
             return null;
         } else {
             return Uri.parse(uri);

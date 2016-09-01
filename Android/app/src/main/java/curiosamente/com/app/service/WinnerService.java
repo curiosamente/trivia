@@ -37,14 +37,18 @@ public class WinnerService extends IntentService {
         Log.i(LOG_TAG, "Winner Intent started");
 
         ResponseEntity<Player> playerResponseEntity = null;
-        Player winner;
+
         int retry = 0;
         String idBar = BarManager.getBarId(this);
 
         do {
             try {
+                Player playerRequest = new Player();
+                playerRequest.setId(LogInManager.getCurrentUserID(getBaseContext()));
+                playerRequest.setName(LogInManager.getCurrentUserFirstName(getBaseContext()));
+                playerRequest.setLastName(LogInManager.getCurrentUserLastName(getBaseContext()));
                 Log.i(LOG_TAG, "WINNER");
-                playerResponseEntity = getRestTemplate().getForEntity(getBaseContext().getResources().getString(R.string.url_game_winner), Player.class, idBar);
+                playerResponseEntity = getRestTemplate().postForEntity(getBaseContext().getResources().getString(R.string.url_game_winner), playerRequest, Player.class, idBar);
             } catch (Exception e) {
                 Log.e(LOG_TAG, "WINNER CALL CATCH", e);
             }
@@ -52,14 +56,14 @@ public class WinnerService extends IntentService {
         } while (playerResponseEntity == null && retry < MAX_RETRY);
 
         if (playerResponseEntity != null) {
-            winner = playerResponseEntity.getBody();
-            boolean isWinner = winner != null && LogInManager.getCurrentUserID(getBaseContext()).equals(winner.getId());
-            if (isWinner) {
+            Player playerResponse = playerResponseEntity.getBody();
+
+            if (playerResponse.isWinner() && playerResponse.isPrizeClaimed()) {
                 PrizeManager.createAndStorePrize(getBaseContext());
             }
             LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
             Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-            returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, isWinner);
+            returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, playerResponse.isWinner());
             returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.TRIVIA_RESULT);
             broadcaster.sendBroadcast(returnIntent);
         }

@@ -5,8 +5,8 @@
         .module('app')
         .controller('TriviaController', TriviaController);
 
-    TriviaController.$inject = ['GameManagerService', '$interval', '$scope'];
-    function TriviaController(GameManagerService, $interval, $scope) {
+    TriviaController.$inject = ['GameManagerService', '$interval', '$scope', '$timeout'];
+    function TriviaController(GameManagerService, $interval, $scope, $timeout) {
 
         var vm = this;
         var elapsedTimeInterval = null;
@@ -103,7 +103,7 @@
                 if (vm.elapsedTime > 0) {
                     vm.elapsedTimeToShow = vm.elapsedTime;
                     vm.elapsedTime = vm.elapsedTime - 1;
-                    vm.progressBarValue = (vm.elapsedTime/MAX_ELAPSED_TIME)*100;
+                    vm.progressBarValue = (vm.elapsedTime / MAX_ELAPSED_TIME) * 100;
 
                 } else {
                     vm.elapsedTimeToShow = 0;
@@ -111,7 +111,7 @@
                 }
             }, 1000);
 
-            actualTimeOut = setTimeout(waitingCorrectAnswer, MAX_ELAPSED_TIME*1000 + 1000);
+            actualTimeOut = setTimeout(waitingCorrectAnswer, MAX_ELAPSED_TIME * 1000 + 1000);
         }
 
         function waitingCorrectAnswer() {
@@ -189,11 +189,11 @@
             actualTimeOut = setTimeout(endDelay, 3000);
         }
 
-        function endDelay(){
+        function endDelay() {
 
         }
 
-        function clearData(){
+        function clearData() {
 
             vm.correctAnswer = null;
 
@@ -221,10 +221,10 @@
                 if (vm.trivia == null) {
                     vm.statusTrivia = 'WAITING_TRIVIA';
                     triviaStarted = false;
-                    if(actualTimeOut){
+                    if (actualTimeOut) {
                         $timeout.cancel(actualTimeOut);
                     }
-                } else if(!triviaStarted){
+                } else if (!triviaStarted) {
                     triviaStart();
                 }
             }, 1000);

@@ -10,6 +10,16 @@ public class Player {
     private String id;
     private String name;
     private String lastName;
+    private boolean isPrizeClaimed;
+    private boolean isWinner;
+
+    public boolean isWinner() {
+        return isWinner;
+    }
+
+    public void setWinner(boolean winner) {
+        isWinner = winner;
+    }
 
     public String getId() {
         return id;
@@ -33,6 +43,14 @@ public class Player {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public boolean isPrizeClaimed() {
+        return isPrizeClaimed;
+    }
+
+    public void setPrizeClaimed(boolean prizeClaimed) {
+        isPrizeClaimed = prizeClaimed;
     }
 
     @Override
