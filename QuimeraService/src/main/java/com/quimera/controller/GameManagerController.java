@@ -114,25 +114,10 @@ public class GameManagerController {
     @RequestMapping(value = "winner", method = RequestMethod.POST)
     public ResponseEntity<Player> isWinner(@RequestParam String idBar, @RequestBody Player player) {
 
-        List<Score> scores = gameManagerService.getScores(idBar);
-        Score winner = null;
-        Player playerWinner = null;
+        Player player1 = this.gameManagerService.isWinner(idBar, player);
 
-        if (scores != null && !scores.isEmpty()) {
-            winner = scores.get(0);
-            playerWinner = winner.getPlayer();
-        }
-        if (playerWinner != null) {
+        return new ResponseEntity<>(player1, HttpStatus.OK);
 
-            if(playerWinner.equals(player)){
-                playerWinner.setWinner(true);
-            }
-            winner.getPlayer().setPrizeClaimed(true);
-
-            return new ResponseEntity<>(winner.getPlayer(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
     }
 
     @RequestMapping(value = "pushAnswer", method = RequestMethod.POST)

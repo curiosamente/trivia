@@ -91,7 +91,7 @@ public class GameManagerService {
         Game game = gameMap.get(idBar);
         if (game != null) {
             GameStatus gameStatus = GameStatus.valueOf(status);
-            if(gameStatus.equals(GameStatus.STARTING_TRIVIA)){
+            if (gameStatus.equals(GameStatus.STARTING_TRIVIA)) {
                 game.resetScore();
             }
             gameMap.get(idBar).setGameStatus(gameStatus);
@@ -139,6 +139,8 @@ public class GameManagerService {
         return question.getCorrectAnswer().equals(answer.getAnswer());
     }
 
+
+
     public List<Score> getScores(String idBar) {
 
         List<Score> scores = null;
@@ -148,6 +150,7 @@ public class GameManagerService {
             scores = new LinkedList<>(game.getScoreMap().values());
             Collections.sort(scores);
         }
+
         return scores;
     }
 
@@ -196,6 +199,38 @@ public class GameManagerService {
         long minutes = triviaLocalDateTime.until(now.plusMinutes(5), ChronoUnit.MINUTES);
 
         return minutes >= 0 && minutes <= 5;
+    }
+
+    private Player getWinner(String idBar) {
+        List<Score> scores = this.getScores(idBar);
+
+        Player playerWinner = null;
+
+        if (scores != null && !scores.isEmpty()) {
+            Score winner = scores.get(0);
+            playerWinner = winner.getPlayer();
+        }
+
+        return playerWinner;
+    }
+
+    public synchronized Player isWinner(String idBar, Player player) {
+
+        Player winner = getWinner(idBar);
+
+        if (winner != null) {
+            if (winner.equals(player)) {
+
+                player.setWinner(true);
+                player.setPrizeClaimed(winner.isPrizeClaimed());
+
+                if(!winner.isPrizeClaimed()) {
+                    winner.setPrizeClaimed(true);
+                }
+            }
+
+        }
+        return player;
     }
 
 }

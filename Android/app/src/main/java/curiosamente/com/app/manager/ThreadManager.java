@@ -1,14 +1,10 @@
 package curiosamente.com.app.manager;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.util.Log;
 
 import curiosamente.com.app.model.GameStatus;
-import curiosamente.com.app.service.AlarmReceiver;
 import curiosamente.com.app.service.QuestionService;
 import curiosamente.com.app.service.StatusService;
 import curiosamente.com.app.service.WinnerService;

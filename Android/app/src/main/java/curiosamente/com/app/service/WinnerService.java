@@ -58,7 +58,7 @@ public class WinnerService extends IntentService {
         if (playerResponseEntity != null) {
             Player playerResponse = playerResponseEntity.getBody();
 
-            if (playerResponse.isWinner() && playerResponse.isPrizeClaimed()) {
+            if (playerResponse.isWinner() && !playerResponse.isPrizeClaimed()) {
                 PrizeManager.createAndStorePrize(getBaseContext());
             }
             LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
