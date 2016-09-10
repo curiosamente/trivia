@@ -55,7 +55,7 @@
                 android:id="@+id/facebook_logout_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/primary"
+                android:background="@color/accent"
                 android:text="@string/drawer_logout_button"
                 android:textColor="@android:color/white" />
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:id="@+id/prize_list_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/primary"
+                android:background="@color/accent"
                 android:text="@string/drawer_prize_button_text"
                 android:textColor="@color/icons" />
 

@@ -58,7 +58,7 @@
             android:id="@+id/prize_detail_collect_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/green"
+            android:background="@color/accent"
             android:text="@string/prize_collect"
             android:textColor="@color/icons" />
     </LinearLayout>

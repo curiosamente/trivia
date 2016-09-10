@@ -41,8 +41,7 @@
             android:id="@+id/trivia_result_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/green"
-            android:text="@string/prize_collect"
+            android:background="@color/accent"
             android:textColor="@color/icons" />
     </LinearLayout>
 
