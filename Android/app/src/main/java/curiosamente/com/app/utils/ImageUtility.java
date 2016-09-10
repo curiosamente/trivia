@@ -46,20 +46,22 @@ public class ImageUtility extends AsyncTask<String, String, Bitmap> {
     }
 
     public String saveToInternalStorage(Bitmap bitmapImage, Activity activity) throws IOException {
-
-        ContextWrapper cw = new ContextWrapper(activity.getApplicationContext());
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        File mypath = new File(directory, "profile.jpg");
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            fos.close();
+        if (bitmapImage != null) {
+            ContextWrapper cw = new ContextWrapper(activity.getApplicationContext());
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            File mypath = new File(directory, "profile.jpg");
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(mypath);
+                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                fos.close();
+            }
+            return mypath.getAbsolutePath();
         }
-        return mypath.getAbsolutePath();
+        return null;
     }
 
     public static int getResourceID(final String resName, final String resType, final Context ctx) {

@@ -35,8 +35,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.joda.time.LocalDateTime;
+
 import java.io.File;
+
 import curiosamente.com.app.R;
 import curiosamente.com.app.activities.main.Message.WaitingFragment;
 import curiosamente.com.app.activities.prize.prizeslist.PrizesListActivity;
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         mDrawerTextView.setText(LogInManager.getCurrentUserCompleteName(this));
 
         Uri imageUrl = LogInManager.getCurrentUserPhoto(this, 300);
-        if(imageUrl != null) {
+        if (imageUrl != null) {
             ImageUtility downloadImageUtility = new ImageUtility(this, this);
             downloadImageUtility.execute(imageUrl.toString());
         } else {
@@ -182,11 +185,15 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
     @Override
     public void processFinish(String output) {
-        File imgFile = new File(output);
-        if (imgFile.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            mDrawerImage.setImageBitmap(myBitmap);
+        if (output != null) {
+            File imgFile = new File(output);
+            if (imgFile.exists()) {
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                mDrawerImage.setImageBitmap(myBitmap);
+                return;
+            }
         }
+        mDrawerImage.setImageResource(R.drawable.yoda_anonymous);
     }
 
     @Override
