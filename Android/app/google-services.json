@@ -1,19 +1,19 @@
 {
   "project_info": {
-    "project_number": "409504569140",
-    "project_id": "firebase-matitest"
+    "project_number": "217177895210",
+    "project_id": "curiosamente-143115"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:409504569140:android:ba2bf334a19c5072",
+        "mobilesdk_app_id": "1:217177895210:android:ba2bf334a19c5072",
         "android_client_info": {
           "package_name": "curiosamente.com.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "409504569140-b53jjogrluoqjpo7icbkv63hinjqagba.apps.googleusercontent.com",
+          "client_id": "217177895210-fn1iaonm8qici5a8tl2v15m4t8kofd4l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "curiosamente.com.app",
@@ -21,17 +21,25 @@
           }
         },
         {
-          "client_id": "409504569140-3avkstfvo1iud04ig5f1eaqnu2a55vim.apps.googleusercontent.com",
+          "client_id": "217177895210-kb1q65rjpss1lf1080c7kpd3o3o2iabj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "curiosamente.com.app",
+            "certificate_hash": "D4642EC1933C02E7784B9C98F8D8C2B7F6E0141B"
+          }
+        },
+        {
+          "client_id": "217177895210-d3kk79j2pveqp8k42h9601154pmsag1d.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "409504569140-eq6suamh8gpin55ll5thtbar995no6o6.apps.googleusercontent.com",
+          "client_id": "217177895210-fn1iaonm8qici5a8tl2v15m4t8kofd4l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC5L2LrDzQxlJdMfjzDkZHs0kHMyMuYoWQ"
+          "current_key": "AIzaSyB68tj2exzyCjEZU9lBkbk1F6J5g2vwXAs"
         }
       ],
       "services": {

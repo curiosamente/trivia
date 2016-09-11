@@ -140,7 +140,6 @@ public class GameManagerService {
     }
 
 
-
     public List<Score> getScores(String idBar) {
 
         List<Score> scores = null;
@@ -208,7 +207,10 @@ public class GameManagerService {
 
         if (scores != null && !scores.isEmpty()) {
             Score winner = scores.get(0);
-            playerWinner = winner.getPlayer();
+
+            if (winner.getScore() > 0) {
+                playerWinner = winner.getPlayer();
+            }
         }
 
         return playerWinner;
@@ -224,7 +226,7 @@ public class GameManagerService {
                 player.setWinner(true);
                 player.setPrizeClaimed(winner.isPrizeClaimed());
 
-                if(!winner.isPrizeClaimed()) {
+                if (!winner.isPrizeClaimed()) {
                     winner.setPrizeClaimed(true);
                 }
             }
