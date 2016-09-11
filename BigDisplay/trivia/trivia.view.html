@@ -209,9 +209,9 @@
     }
 
     tbody tr:first-child td {
-        background-color: #161480;
+        background-color: #16146e;
         font-weight: bolder;
-        font-size: 1.3em;
+        font-size: 1.4em;
     }
 
     #imageBanner {
@@ -222,6 +222,11 @@
         z-index: 9999;
     }
 
+    #imgFirstPosition {
+        width: 50px;
+        height: 50px;
+    }
+
 </style>
 
 <div id="waitingTrivia" ng-show="vm.statusTrivia == 'WAITING_TRIVIA'">
@@ -230,20 +235,24 @@
 
 </div>
 
-<div id="top" ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS' || vm.statusTrivia == 'WAITING_TRIVIA'">
+<div id="top"
+     ng-hide="vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS' || vm.statusTrivia == 'WAITING_TRIVIA'">
     <span class="questionNumber"
           ng-show="vm.statusTrivia == 'SHOWING_QUESTION' || vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_DESCRIPTION' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER' "
           ng-hide="vm.statusTrivia == 'WAITING_TRIVIA' || vm.questionPosition==0">Pregunta {{vm.questionPosition}}</span>
 </div>
-<div id="header" ng-hide="vm.statusTrivia == 'WAITING_TRIVIA' || vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
+<div id="header"
+     ng-hide="vm.statusTrivia == 'WAITING_TRIVIA' || vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
     <span class="questionlabel"
           ng-show="vm.statusTrivia == 'SHOWING_QUESTION' || vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_DESCRIPTION'"
 
           ng-bind="vm.currentQuestion.question"></span>
 </div>
 
-<div id="middle" ng-hide="vm.statusTrivia == 'WAITING_TRIVIA' || vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
-    <div id="list" ng-show="vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER'">
+<div id="middle"
+     ng-hide="vm.statusTrivia == 'WAITING_TRIVIA' || vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
+    <div id="list"
+         ng-show="vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER' || vm.statusTrivia == 'SHOWING_CORRECT_ANSWER'">
         <ul class="optionsli">
             <li ng-repeat="option in vm.options">
                 {{option}}
@@ -255,7 +264,8 @@
     </div>
 
 </div>
-<div id="bottom" ng-hide="vm.statusTrivia == 'WAITING_TRIVIA' || vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
+<div id="bottom"
+     ng-hide="vm.statusTrivia == 'WAITING_TRIVIA' || vm.statusTrivia == 'SHOWING_PARTIAL_WINNERS' || vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">
     <div class="progress" ng-show="vm.statusTrivia == 'SHOWING_OPTIONS' || vm.statusTrivia == 'WAITING_CORRECT_ANSWER'">
         <div class="progress-bar progress-bar-striped progress-bar-info active animate" role="progressbar"
              aria-valuemin="0" aria-valuemax="100" ng-style="{width: vm.progressBarValue + '%'}">
@@ -281,7 +291,8 @@
             </thead>
             <tbody>
             <tr ng-repeat="score in vm.scores">
-                <td>{{$index + 1}}</td>
+                <td><img id="imgFirstPosition" ng-show="{{$index}} == 0 && vm.statusTrivia == 'SHOWING_FINAL_WINNERS'" src="img/first_position.png"><div ng-hide="{{$index}}==0 && vm.statusTrivia == 'SHOWING_FINAL_WINNERS'">{{$index + 1}}</div>
+                </td>
                 <td>{{score.player.name}} {{score.player.lastName}}</td>
                 <td>{{score.score}}</td>
             </tr>

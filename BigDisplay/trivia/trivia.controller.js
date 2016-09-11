@@ -19,7 +19,7 @@
 
         var triviaStarted = false;
 
-        var MAX_ELAPSED_TIME = 5;
+        var MAX_ELAPSED_TIME = 15;
 
         vm.elapsedTime = MAX_ELAPSED_TIME;
 
@@ -39,6 +39,19 @@
         vm.description = null;
 
         vm.elapsedTimeToShow = MAX_ELAPSED_TIME;
+
+        var startingTriviaTime = 1000;
+
+        var showingQuestionTime = 5000;
+        var showingOptionTime = 1000;
+
+        var waitingCorrectAnswerTime = 2000;
+        var showingCorrectAnswerTime = 5000;
+
+        var showingDescriptionTime = 10000;
+        var showingPartialWinnerTime = 10000;
+        var showingBannerTime = 15000;
+        var showingFinalWinnerTime = 30000;
 
         function getTrivia() {
             GameManagerService.GetCurrentTrivia()
@@ -60,7 +73,7 @@
 
             vm.statusTrivia = 'STARTING_TRIVIA';
             GameManagerService.SetStatus(vm.statusTrivia);
-            actualTimeOut = setTimeout(nextQuestion, 1000);
+            actualTimeOut = setTimeout(nextQuestion, startingTriviaTime);
         }
 
         function getScores() {
@@ -85,7 +98,7 @@
             GameManagerService.SetCurrentQuestion(vm.currentQuestion);
             GameManagerService.SetStatus(vm.statusTrivia);
             vm.elapsedTimeToShow = MAX_ELAPSED_TIME;
-            actualTimeOut = setTimeout(showingOptions, 5000);
+            actualTimeOut = setTimeout(showingOptions, showingQuestionTime);
         }
 
         function showingOptions() {
@@ -95,7 +108,7 @@
 
             vm.options = vm.currentQuestion.options;
 
-            actualTimeOut = setTimeout(countdown, 1000);
+            actualTimeOut = setTimeout(countdown, showingOptionTime);
         }
 
         function countdown() {
@@ -117,7 +130,7 @@
         function waitingCorrectAnswer() {
             vm.statusTrivia = 'WAITING_CORRECT_ANSWER';
             GameManagerService.SetStatus(vm.statusTrivia);
-            actualTimeOut = setTimeout(showingCorrectAnswer, 2000);
+            actualTimeOut = setTimeout(showingCorrectAnswer, waitingCorrectAnswerTime);
 
         }
 
@@ -129,13 +142,13 @@
             vm.options = [];
             vm.options.push(vm.currentQuestion.correctAnswer);
             getScores();
-            actualTimeOut = setTimeout(showingDescription, 5000);
+            actualTimeOut = setTimeout(showingDescription, showingCorrectAnswerTime);
         }
 
         function showingDescription() {
             vm.statusTrivia = 'SHOWING_DESCRIPTION';
             GameManagerService.SetStatus(vm.statusTrivia);
-            actualTimeOut = setTimeout(showingPartialWinners, 5000);
+            actualTimeOut = setTimeout(showingPartialWinners, showingDescriptionTime);
         }
 
         function showingPartialWinners() {
@@ -144,9 +157,9 @@
             GameManagerService.SetStatus(vm.statusTrivia);
 
             if (vm.questionPosition == 5 || vm.questionPosition == 10 || vm.questionPosition == 15) {
-                actualTimeOut = setTimeout(showingBanners, 5000);
+                actualTimeOut = setTimeout(showingBanners, showingPartialWinnerTime);
             } else {
-                actualTimeOut = setTimeout(nextQuestion, 5000);
+                actualTimeOut = setTimeout(nextQuestion, showingPartialWinnerTime);
             }
         }
 
@@ -156,15 +169,15 @@
             if (vm.questionPosition == 5) {
                 vm.urlBanner = vm.trivia.bar.banners[0].url;
                 vm.statusTrivia = 'SHOWING_BANNER';
-                actualTimeOut = setTimeout(nextQuestion, 5000);
+                actualTimeOut = setTimeout(nextQuestion, showingBannerTime);
             } else if (vm.questionPosition == 10) {
                 vm.urlBanner = vm.trivia.bar.banners[1].url;
                 vm.statusTrivia = 'SHOWING_BANNER';
-                actualTimeOut = setTimeout(nextQuestion, 5000);
+                actualTimeOut = setTimeout(nextQuestion, showingBannerTime);
             } else if (vm.questionPosition == 15) {
                 vm.urlBanner = vm.trivia.bar.banners[2].url;
                 vm.statusTrivia = 'SHOWING_BANNER';
-                actualTimeOut = setTimeout(showingFinalWinners, 5000);
+                actualTimeOut = setTimeout(showingFinalWinners, showingBannerTime);
             }
             GameManagerService.SetStatus(vm.statusTrivia);
         }
@@ -175,7 +188,7 @@
             // document.getElementById("score").firstElementChild.style.fontSize = "xx-large";
             GameManagerService.SetStatus(vm.statusTrivia);
 
-            actualTimeOut = setTimeout(finishTrivia, 10000);
+            actualTimeOut = setTimeout(finishTrivia, showingFinalWinnerTime);
         }
 
         function finishTrivia() {
