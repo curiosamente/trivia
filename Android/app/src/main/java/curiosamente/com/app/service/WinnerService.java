@@ -63,7 +63,7 @@ public class WinnerService extends IntentService {
             }
             LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(getBaseContext());
             Intent returnIntent = new Intent(BroadcastReceiverConstant.BROADCAST_RECEIVER_MAINACTIVITY);
-            returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, playerResponse.isWinner());
+            returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_RETURN_OBJECT, playerResponse.isWinner() && !playerResponse.isPrizeClaimed());
             returnIntent.putExtra(BroadcastReceiverConstant.BROADCAST_RECEIVER_TYPE, BroadcastReceiverType.TRIVIA_RESULT);
             broadcaster.sendBroadcast(returnIntent);
         }
