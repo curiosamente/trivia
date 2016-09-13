@@ -38,7 +38,8 @@ public class StatusService extends IntentService {
             try {
                 String idBar = BarManager.getBarId(this);
                 Log.i(LOG_TAG, "STATUS CALL");
-                gameStatusResponseEntity = getRestTemplate().getForEntity(getBaseContext().getResources().getString(R.string.url_game_status), GameStatus.class, idBar);
+                String url = getBaseContext().getResources().getString(R.string.endpoint_admin_server) + getBaseContext().getResources().getString(R.string.url_game_status);
+                gameStatusResponseEntity = getRestTemplate().getForEntity(url, GameStatus.class, idBar);
             } catch (Exception e) {
                 Log.i(LOG_TAG, "STATUS CALL CATCH");
             }

@@ -39,7 +39,10 @@ public class QuestionService extends IntentService {
         do {
             try {
                 Log.i(LOG_TAG, "QUESTION CALL");
-                questionResponseEntity = getRestTemplate().getForEntity(getBaseContext().getResources().getString(R.string.url_game_current_question), Question.class, idBar);
+
+
+                String url = getBaseContext().getResources().getString(R.string.endpoint_admin_server) + getBaseContext().getResources().getString(R.string.url_game_current_question);
+                questionResponseEntity = getRestTemplate().getForEntity(url, Question.class, idBar);
             } catch (Exception e) {
                 Log.e(LOG_TAG, "QUESTION CALL CATCH", e);
             }

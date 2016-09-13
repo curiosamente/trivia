@@ -53,7 +53,8 @@ public class PushAnswerService extends IntentService {
         do {
             try {
                 Log.i(LOG_TAG, "CALL PUSH ANSWER. Player: " + player.getId() + ". Question: " + answer.getIdQuestion());
-                responseEntityPushAnswer = getRestTemplate().postForEntity(getBaseContext().getResources().getString(R.string.url_game_push_answer), answer, Void.class, idBar);
+                String url = getBaseContext().getResources().getString(R.string.endpoint_admin_server) + getBaseContext().getResources().getString(R.string.url_game_push_answer);
+                responseEntityPushAnswer = getRestTemplate().postForEntity(url, answer, Void.class, idBar);
             } catch (Exception e) {
                 Log.e(LOG_TAG, "PUSH ANSWER CALL CATCH. Player: " + player.getId() + ". Question: " + answer.getIdQuestion(), e);
             }

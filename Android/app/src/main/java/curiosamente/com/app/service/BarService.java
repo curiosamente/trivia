@@ -36,7 +36,7 @@ public class BarService extends IntentService {
         ResponseEntity<Bar[]> responseEntityBars = null;
 
         int retry = 0;
-        String barUrl = getBaseContext().getResources().getString(R.string.url_bar);
+        String barUrl = getBaseContext().getResources().getString(R.string.endpoint_admin_server) + getBaseContext().getResources().getString(R.string.url_bar);
         do {
             try {
                 Log.i(LOG_TAG, "BAR CALL");

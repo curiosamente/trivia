@@ -48,7 +48,8 @@ public class WinnerService extends IntentService {
                 playerRequest.setName(LogInManager.getCurrentUserFirstName(getBaseContext()));
                 playerRequest.setLastName(LogInManager.getCurrentUserLastName(getBaseContext()));
                 Log.i(LOG_TAG, "WINNER");
-                playerResponseEntity = getRestTemplate().postForEntity(getBaseContext().getResources().getString(R.string.url_game_winner), playerRequest, Player.class, idBar);
+                String url = getBaseContext().getResources().getString(R.string.endpoint_admin_server) + getBaseContext().getResources().getString(R.string.url_game_winner);
+                playerResponseEntity = getRestTemplate().postForEntity(url, playerRequest, Player.class, idBar);
             } catch (Exception e) {
                 Log.e(LOG_TAG, "WINNER CALL CATCH", e);
             }
