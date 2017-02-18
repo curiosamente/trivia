@@ -106,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Bar"
+                android:text="Locación"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="@color/icons"
                 android:textStyle="bold" />

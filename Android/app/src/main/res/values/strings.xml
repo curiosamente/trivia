@@ -21,7 +21,7 @@
     <string name="drawer_open">Opening...</string>
     <string name="drawer_close">Closing...</string>
     <string name="drawer_logout_button">Log Out</string>
-    <string name="drawer_bar_button_text">Dejar Bar</string>
+    <string name="drawer_bar_button_text">Dejar Locación</string>
     <string name="drawer_prize_title">Premios</string>
     <string name="drawer_prize_button_text">Ver Premios</string>
 
@@ -32,7 +32,7 @@
     <string name="waiting_fragment_showing_question">Siguiente Pregunta!</string>
     <string name="waiting_fragment_waiting_game">Esperando juego...</string>
     <string name="waiting_fragment_waiting_result">Esperando resultados...</string>
-    <string name="waiting_fragment_loading_bars_message">Cargando Bares...</string>
+    <string name="waiting_fragment_loading_bars_message">Cargando locaciones...</string>
     <string name="waiting_fragment_connecting_server">Conectando...</string>
 
     <!-- ERROR STRINGS -->
@@ -40,7 +40,7 @@
     <string name="error_fragment_second_line_message">Presioná para reintentar</string>
 
     <!--BAR STRINGS-->
-    <string name="bar_fragment_title">¿En qué bar estás?</string>
+    <string name="bar_fragment_title">¿En qué locación estás?</string>
     <string name="bar_icon_logo_prefix">beer_logo</string>
 
     <!-- TRIVIA RESULTS STRINGS-->
